@@ -79,20 +79,20 @@
 				<li class="menu-title"><span>HRM</span></li>
 				<li>
 					<ul>
-						<li class="submenu">
-							<a href="javascript:void(0);">
-								<i class="ti ti-users"></i><span>Employees</span>
-								<span class="menu-arrow"></span>
+						<li>
+							<a href="{{ url('/employees') }}">
+								<i class="ti ti-users"></i><span>Employee</span>
 							</a>
-							<ul>
-								<li><a href="{{ url('/employees') }}">Employee Lists</a></li>
-								<li><a href="{{ url('/employees/grid') }}">Employee Grid</a></li>
-								<li><a href="{{ url('/employees/details') }}">Employee Details</a></li>
-								<li><a href="{{ url('/employees/directory') }}">Employee Directory</a></li>
-								<li><a href="{{ url('/departments') }}">Departments</a></li>
-								<li><a href="{{ url('/designations') }}">Designations</a></li>
-								<li><a href="{{ url('/policies') }}">Policies</a></li>
-							</ul>
+						</li>
+						<li>
+							<a href="{{ url('/departments') }}">
+								<i class="ti ti-building"></i><span>Departments</span>
+							</a>
+						</li>
+						<li>
+							<a href="{{ url('/designations') }}">
+								<i class="ti ti-briefcase"></i><span>Designations</span>
+							</a>
 						</li>
 						<li class="submenu">
 							<a href="javascript:void(0);">
@@ -386,6 +386,7 @@
 										<li><a href="{{ url('/settings/invoice') }}">Invoice Settings</a></li>
 										<li><a href="{{ url('/settings/leave-type') }}">Leave Type</a></li>
 										<li><a href="{{ url('/settings/custom-fields') }}">Custom Fields</a></li>
+										<li><a href="{{ url('/policies') }}">Policies</a></li>
 									</ul>
 								</li>
 								<li class="submenu submenu-two">

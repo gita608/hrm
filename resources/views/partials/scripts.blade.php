@@ -34,6 +34,10 @@
 <!-- Select2 JS -->
 <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
 
+<!-- Datatable JS -->
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
 <!-- Color Picker JS -->
 <script src="{{ asset('assets/plugins/@simonwep/pickr/pickr.es5.min.js') }}"></script>
 
