@@ -289,9 +289,12 @@
 									</a>
 								</div>
 								<div class="card-footer">
-									<a class="dropdown-item d-inline-flex align-items-center p-0 py-2" href="{{ url('/logout') }}">
-										<i class="ti ti-login me-2"></i>Logout
-									</a>
+									<form method="POST" action="{{ route('logout') }}">
+										@csrf
+										<button type="submit" class="dropdown-item d-inline-flex align-items-center p-0 py-2 w-100 border-0 bg-transparent text-start">
+											<i class="ti ti-login me-2"></i>Logout
+										</button>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -306,7 +309,10 @@
 			<div class="dropdown-menu dropdown-menu-end">
 				<a class="dropdown-item" href="{{ url('/profile') }}">My Profile</a>
 				<a class="dropdown-item" href="{{ url('/settings') }}">Settings</a>
-				<a class="dropdown-item" href="{{ url('/logout') }}">Logout</a>
+				<form method="POST" action="{{ route('logout') }}">
+					@csrf
+					<button type="submit" class="dropdown-item w-100 border-0 bg-transparent text-start">Logout</button>
+				</form>
 			</div>
 		</div>
 		<!-- /Mobile Menu -->
