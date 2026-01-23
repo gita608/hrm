@@ -8,7 +8,6 @@ document.querySelector("html").setAttribute('data-topbarcolor', localStorage.get
 document.querySelector("html").setAttribute('data-card', localStorage.getItem('card') || 'bordered');
 document.querySelector("html").setAttribute('data-size', localStorage.getItem('size') || 'default');
 document.querySelector("html").setAttribute('data-width', localStorage.getItem('width') || 'fluid');
-document.querySelector("html").setAttribute('data-loader', localStorage.getItem('loader') || 'enable');
 
 let themesettings = `
 <div class="sidebar-contact ">
@@ -368,251 +367,11 @@ let themesettings = `
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button text-dark fs-16" type="button" data-bs-toggle="collapse" data-bs-target="#colorsetting" aria-expanded="true">
-                        Top Bar Color
-                    </button>
-                </h2>
-                <div id="colorsetting" class="accordion-collapse collapse show"	>
-                    <div class="accordion-body pb-1">
-                       <div class="d-flex align-items-center flex-wrap">
-                            <div class="theme-colorselect mb-3 me-3">
-                                <input type="radio" name="topbar" id="whiteTopbar" value="white" checked>
-                                <label for="whiteTopbar" class="white-topbar"></label>
-                            </div>
-                            <div class="theme-colorselect mb-3 me-3">
-                                <input type="radio" name="topbar" id="darkaquaTopbar" value="darkaqua">
-                                <label for="darkaquaTopbar" class="darkaqua-topbar"></label>
-                            </div>
-                            <div class="theme-colorselect mb-3 me-3">
-                                <input type="radio" name="topbar" id="whiterockTopbar" value="whiterock">
-                                <label for="whiterockTopbar" class="whiterock-topbar"></label>
-                            </div>
-                            <div class="theme-colorselect mb-3 me-3">
-                                <input type="radio" name="topbar" id="rockblueTopbar" value="rockblue">
-                                <label for="rockblueTopbar" class="rockblue-topbar"></label>
-                            </div>
-                            <div class="theme-colorselect mb-3 me-3">
-                                <input type="radio" name="topbar" id="bluehazeTopbar" value="bluehaze">
-                                <label for="bluehazeTopbar" class="bluehaze-topbar"></label>
-                            </div>                   
-                            <div class="theme-colorselect mb-3 me-3">
-                                <input type="radio" name="topbar" id="orangeGradientTopbar" value="orangegradient">
-                                <label for="orangeGradientTopbar" class="orange-gradient-topbar"></label>
-                            </div>                   
-                            <div class="theme-colorselect mb-3 me-3">
-                                <input type="radio" name="topbar" id="purpleGradientTopbar" value="purplegradient">
-                                <label for="purpleGradientTopbar" class="purple-gradient-topbar"></label>
-                            </div>                   
-                            <div class="theme-colorselect mb-3 me-3">
-                                <input type="radio" name="topbar" id="blueGradientTopbar" value="bluegradient">
-                                <label for="blueGradientTopbar" class="blue-gradient-topbar"></label>
-                            </div>                   
-                            <div class="theme-colorselect mb-3 me-3">
-                                <input type="radio" name="topbar" id="maroonGradientTopbar" value="maroongradient">
-                                <label for="maroonGradientTopbar" class="maroon-gradient-topbar"></label>
-                            </div>                   
-                            <div class="theme-colorselect mb-3 mt-0">
-                                <div class="theme-topbar"></div>
-                                <div class="pickr-topbar"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> 
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button text-dark fs-16" type="button" data-bs-toggle="collapse" data-bs-target="#topcolorsetting" aria-expanded="true">
-                        Overlay Layout Top Bar Background
-                    </button>
-                </h2>
-                <div id="topcolorsetting" class="accordion-collapse collapse show"	>
-                    <div class="accordion-body">
-                        <h6 class="mb-1 fw-medium">Pattern</h6>
-                         <div class="d-flex align-items-center">
-                            <div class="theme-topbarbg me-3 mb-2">
-                                <input type="radio" name="topbarbg" id="pattern1" value="pattern1" checked>
-                                <label for="pattern1" class="d-block rounded">
-                                    <img src="assets/img/theme/pattern-01.svg" alt="img" class="rounded">
-                                </label>
-                            </div>
-                            <div class="theme-topbarbg me-3 mb-2">
-                                <input type="radio" name="topbarbg" id="pattern2" value="pattern2">
-                                <label for="pattern2" class="d-block rounded">
-                                    <img src="assets/img/theme/pattern-02.svg" alt="img" class="rounded">
-                                </label>
-                            </div>
-                            <div class="theme-topbarbg me-3 mb-2">
-                                <input type="radio" name="topbarbg" id="pattern3" value="pattern3">
-                                <label for="pattern3" class="d-block rounded">
-                                    <img src="assets/img/theme/pattern-03.svg" alt="img" class="rounded">
-                                </label>
-                            </div>
-                        </div>
-                        <h6 class="mb-1 fw-medium">Colors</h6>
-                         <div class="d-flex align-items-center">
-                            <div class="theme-colorselect m-1 me-3">
-                                <input type="radio" name="topbarcolor" id="whiteTopbarcolor" value="white" checked>
-                                <label for="whiteTopbarcolor" class="white-topbar"></label>
-                            </div>
-                            <div class="theme-colorselect m-1 me-3">
-                                <input type="radio" name="topbarcolor" id="primaryTopbarcolor" value="primary">
-                                <label for="primaryTopbarcolor" class="primary-topbar"></label>
-                            </div>
-                            <div class="theme-colorselect m-1 me-3">
-                                <input type="radio" name="topbarcolor" id="blackpearlTopbarcolor" value="blackpearl">
-                                <label for="blackpearlTopbarcolor" class="blackpearl-topbar"></label>
-                            </div>
-                            <div class="theme-colorselect m-1 me-3">
-                                <input type="radio" name="topbarcolor" id="maroonTopbarcolor" value="maroon">
-                                <label for="maroonTopbarcolor" class="maroon-topbar"></label>
-                            </div>
-                            <div class="theme-colorselect m-1 me-3">
-                                <input type="radio" name="topbarcolor" id="bluegemTopbarcolor" value="bluegem">
-                                <label for="bluegemTopbarcolor" class="bluegem-topbar"></label>
-                            </div>
-                            <div class="theme-colorselect m-1 me-3">
-                                <input type="radio" name="topbarcolor" id="fireflyTopbarcolor" value="firefly">
-                                <label for="fireflyTopbarcolor" class="firefly-topbar"></label>
-                            </div>                                           
-                            <div class="theme-colorselect m-1 mt-0">
-                                <div class="theme-topbarcolor"></div>
-                                <div class="pickr-topbarcolor"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> 			    
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button text-dark fs-16" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarbgsetting" aria-expanded="true">
-                        Sidebar Background
-                    </button>
-                </h2>
-                <div id="sidebarbgsetting" class="accordion-collapse collapse show"	 >
-                    <div class="accordion-body pb-1">
-                       <div class="d-flex align-items-center flex-wrap">
-                            <div class="theme-sidebarbg me-3 mb-3">
-                                <input type="radio" name="sidebarbg" id="sidebarBg1" value="sidebarbg1">
-                                <label for="sidebarBg1" class="d-block rounded">
-                                    <img src="assets/img/theme/sidebar-bg-01.svg" alt="img" class="rounded">
-                                </label>
-                            </div>
-                            <div class="theme-sidebarbg me-3 mb-3">
-                                <input type="radio" name="sidebarbg" id="sidebarBg2" value="sidebarbg2">
-                                <label for="sidebarBg2" class="d-block rounded">
-                                    <img src="assets/img/theme/sidebar-bg-02.svg" alt="img" class="rounded">
-                                </label>
-                            </div>
-                            <div class="theme-sidebarbg me-3 mb-3">
-                                <input type="radio" name="sidebarbg" id="sidebarBg3" value="sidebarbg3">
-                                <label for="sidebarBg3" class="d-block rounded">
-                                    <img src="assets/img/theme/sidebar-bg-03.svg" alt="img" class="rounded">
-                                </label>
-                            </div>
-                            <div class="theme-sidebarbg me-3 mb-3">
-                                <input type="radio" name="sidebarbg" id="sidebarBg4" value="sidebarbg4">
-                                <label for="sidebarBg4" class="d-block rounded">
-                                    <img src="assets/img/theme/sidebar-bg-04.svg" alt="img" class="rounded">
-                                </label>
-                            </div>
-                            <div class="theme-sidebarbg me-3 mb-3">
-                                <input type="radio" name="sidebarbg" id="sidebarBg5" value="sidebarbg5">
-                                <label for="sidebarBg5" class="d-block rounded">
-                                    <img src="assets/img/theme/sidebar-bg-05.svg" alt="img" class="rounded">
-                                </label>
-                            </div>
-                            <div class="theme-sidebarbg me-3 mb-3">
-                                <input type="radio" name="sidebarbg" id="sidebarBg6" value="sidebarbg6">
-                                <label for="sidebarBg6" class="d-block rounded">
-                                    <img src="assets/img/theme/sidebar-bg-06.svg" alt="img" class="rounded">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>    
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button text-dark fs-16" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarcolor" aria-expanded="true">
-                        Theme Colors
-                    </button>
-                </h2>
-                <div id="sidebarcolor" class="accordion-collapse collapse show"	 >
-                    <div class="accordion-body pb-2">
-                       <div class="d-flex align-items-center flex-wrap">
-                            <div class="theme-colorsset me-2 mb-2">
-                                <input type="radio" name="color" id="primaryColor" value="primary" checked>
-                                <label for="primaryColor" class="primary-clr"></label>
-                            </div>
-                            <div class="theme-colorsset me-2 mb-2">
-                                <input type="radio" name="color" id="brightblueColor" value="brightblue" >
-                                <label for="brightblueColor" class="brightblue-clr"></label>
-                            </div>
-                            <div class="theme-colorsset me-2 mb-2">
-                                <input type="radio" name="color" id="lunargreenColor" value="lunargreen" >
-                                <label for="lunargreenColor" class="lunargreen-clr"></label>
-                            </div>
-                            <div class="theme-colorsset me-2 mb-2">
-                                <input type="radio" name="color" id="lavendarColor" value="lavendar">
-                                <label for="lavendarColor" class="lavendar-clr"></label>
-                            </div>
-                            <div class="theme-colorsset me-2 mb-2">
-                                <input type="radio" name="color" id="magentaColor" value="magenta">
-                                <label for="magentaColor" class="magenta-clr"></label>
-                            </div>
-                            <div class="theme-colorsset me-2 mb-2">
-                                <input type="radio" name="color" id="chromeyellowColor" value="chromeyellow">
-                                <label for="chromeyellowColor" class="chromeyellow-clr"></label>
-                            </div>  
-                            <div class="theme-colorsset me-2 mb-2">
-                                <input type="radio" name="color" id="lavaredColor" value="lavared">
-                                <label for="lavaredColor" class="lavared-clr"></label>
-                            </div>  
-                           <div class="theme-colorsset mb-2">                                
-                                <div class="pickr-container-primary"  onchange="updateChartColor(this.value)"></div>
-                                <div class="theme-container-primary"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> 
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button text-dark fs-16" type="button" data-bs-toggle="collapse" data-bs-target="#loadersetting" aria-expanded="true">
-                        Preloader
-                    </button>
-                </h2>
-                <div id="loadersetting" class="accordion-collapse collapse show">
-                    <div class="accordion-body">
-                        <div class="d-flex align-items-center">
-                            <div class="theme-width me-2">
-                                <input type="radio" name="loader" id="enableLoader" value="enable" checked>
-                                <label for="enableLoader" class="d-block rounded fs-12">With Preloader
-                                </label>
-                            </div>
-                            <div class="theme-width">
-                                <input type="radio" name="loader" id="disableLoader" value="disable">
-                                <label for="disableLoader" class="d-block rounded fs-12">Without Preloader
-                                </label>
-                            </div>
-                        </div>  
-                    </div>
-                </div>
             </div> 
         </div> 
     </div>
         <div class="p-3 pt-0">
-            <div class="row gx-3">
-                <div class="col-6">
-                    <a href="#" id="resetbutton" class="btn btn-light close-theme w-100"><i class="ti ti-restore me-1"></i>Reset</a>
-                </div>
-                <div class="col-6">
-                    <a href="#" class="btn btn-primary w-100" data-bs-dismiss="offcanvas"><i class="ti ti-shopping-cart-plus me-1"></i>Buy Product</a>
-                </div>
-            </div>
+            <a href="#" id="resetbutton" class="btn btn-light close-theme w-100"><i class="ti ti-restore me-1"></i>Reset</a>
         </div>    
     </div>
             `
@@ -656,21 +415,15 @@ let themesettings = `
 
         const themeRadios = document.querySelectorAll('input[name="theme"]');
         const sidebarRadios = document.querySelectorAll('input[name="sidebar"]');
-        const colorRadios = document.querySelectorAll('input[name="color"]');
         const layoutRadios = document.querySelectorAll('input[name="LayoutTheme"]');
-        const topbarRadios = document.querySelectorAll('input[name="topbar"]');
-        const sidebarBgRadios = document.querySelectorAll('input[name="sidebarbg"]');
-        const topbarcolorRadios = document.querySelectorAll('input[name="topbarcolor"]');
         const cardRadios = document.querySelectorAll('input[name="card"]');
         const sizeRadios = document.querySelectorAll('input[name="size"]');
         const widthRadios = document.querySelectorAll('input[name="width"]');
-        const loaderRadios = document.querySelectorAll('input[name="loader"]');
-        const topbarbgRadios = document.querySelectorAll('input[name="topbarbg"]');
         const resetButton = document.getElementById('resetbutton');
         const sidebarBgContainer = document.getElementById('sidebarbgContainer');
         const sidebarElement = document.querySelector('.sidebar'); // Adjust this selector to match your sidebar element
     
-        function setThemeAndSidebarTheme(theme, sidebarTheme, color, layout, topbar, topbarcolor, card, size, width, loader) {
+        function setThemeAndSidebarTheme(theme, sidebarTheme, color, layout, topbar, topbarcolor, card, size, width) {
             // Check if the sidebar element exists
     
             // Setting data attributes and classes
@@ -683,7 +436,6 @@ let themesettings = `
             document.documentElement.setAttribute('data-card', card);
             document.documentElement.setAttribute('data-size', size);
             document.documentElement.setAttribute('data-width', width);
-            document.documentElement.setAttribute('data-loader', loader);
     
             //track mini-layout set or not
             layout_mini = 0;
@@ -746,7 +498,6 @@ let themesettings = `
             localStorage.setItem('card', card);
             localStorage.setItem('size', size);
             localStorage.setItem('width', width);
-            localStorage.setItem('loader', loader);
             //localStorage.removeItem('primaryRGB');
     
             // Show/hide sidebar background options based on layout selection
@@ -757,174 +508,66 @@ let themesettings = `
             }
         }
     
-        function handleSidebarBgChange() {
-            const sidebarBg = document.querySelector('input[name="sidebarbg"]:checked') ? document.querySelector('input[name="sidebarbg"]:checked').value : null;
-    
-            if (sidebarBg) {
-                document.body.setAttribute('data-sidebarbg', sidebarBg);
-                localStorage.setItem('sidebarBg', sidebarBg);
-            } else {
-                document.body.removeAttribute('data-sidebarbg');
-                localStorage.removeItem('sidebarBg');
-            }
-        }
-
-        function handleTopbarBgChange() {
-            const topbarbg = document.querySelector('input[name="topbarbg"]:checked') ? document.querySelector('input[name="topbarbg"]:checked').value : null;
-    
-            if (topbarbg) {
-                document.body.setAttribute('data-topbarbg', topbarbg);
-                localStorage.setItem('topbarbg', topbarbg);
-            } else {
-                document.body.removeAttribute('data-topbarbg');
-                localStorage.removeItem('topbarbg');
-            }
-        }
-    
         function handleInputChange() {
             const theme = document.querySelector('input[name="theme"]:checked').value;
             const layout = document.querySelector('input[name="LayoutTheme"]:checked').value;
             const card = document.querySelector('input[name="card"]:checked').value;
             const size = document.querySelector('input[name="size"]:checked').value;
             const width = document.querySelector('input[name="width"]:checked').value;
-            const loader = document.querySelector('input[name="loader"]:checked').value;
 
+            // Use default values for removed sections
+            const color = 'primary';
+            const topbar = 'white';
+            const topbarcolor = 'white';
             
-            color = localStorage.getItem('primaryRGB');
             sidebarTheme = localStorage.getItem('sidebarRGB');
-            topbar = localStorage.getItem('topbarRGB');
-            topbarcolor = localStorage.getItem('topbarcolorRGB');
-            
-            if(document.querySelector('input[name="color"]:checked') != null)
-            {
-                color = document.querySelector('input[name="color"]:checked').value;
-            }else{
-                color = 'all'
-            }
-
             if(document.querySelector('input[name="sidebar"]:checked') != null)
             {
                 sidebarTheme = document.querySelector('input[name="sidebar"]:checked').value;
             }else{
-                sidebarTheme = 'all'
-            }
-
-            if(document.querySelector('input[name="topbar"]:checked') != null)
-            {
-                topbar = document.querySelector('input[name="topbar"]:checked').value;
-            }else{
-                topbar = 'all'
-            }
-
-            if(document.querySelector('input[name="topbarcolor"]:checked') != null)
-            {
-                topbarcolor = document.querySelector('input[name="topbarcolor"]:checked').value;
-            }else{
-                topbarcolor = 'all'
+                sidebarTheme = sidebarTheme || 'light';
             }
     
-            setThemeAndSidebarTheme(theme, sidebarTheme, color, layout, topbar, topbarcolor, card, size, width, loader);
+            setThemeAndSidebarTheme(theme, sidebarTheme, color, layout, topbar, topbarcolor, card, size, width);
         }
     
         function resetThemeAndSidebarThemeAndColorAndBg() {
-            setThemeAndSidebarTheme('light', 'light', 'primary', 'default', 'white', 'white', 'bordered', 'default', 'fluid', 'enable');
+            setThemeAndSidebarTheme('light', 'light', 'primary', 'default', 'white', 'white', 'bordered', 'default', 'fluid');
             document.body.removeAttribute('data-sidebarbg');
             document.body.removeAttribute('data-topbarbg');
     
-            document.getElementById('lightTheme').checked = true;
-            document.getElementById('lightSidebar').checked = true;
-            document.getElementById('primaryColor').checked = true;
-            document.getElementById('defaultLayout').checked = true;
-            document.getElementById('whiteTopbar').checked = true;
-            document.getElementById('whiteTopbarcolor').checked = true;
-            document.getElementById('borderedCard').checked = true;
-            document.getElementById('defaultSize').checked = true;
-            document.getElementById('fluidWidth').checked = true;
-            document.getElementById('enableLoader').checked = true;
-    
-            const checkedSidebarBg = document.querySelector('input[name="sidebarbg"]:checked');
-            if (checkedSidebarBg) {
-                checkedSidebarBg.checked = false;
-            }
+            if (document.getElementById('lightTheme')) document.getElementById('lightTheme').checked = true;
+            if (document.getElementById('lightSidebar')) document.getElementById('lightSidebar').checked = true;
+            if (document.getElementById('defaultLayout')) document.getElementById('defaultLayout').checked = true;
+            if (document.getElementById('borderedCard')) document.getElementById('borderedCard').checked = true;
+            if (document.getElementById('defaultSize')) document.getElementById('defaultSize').checked = true;
+            if (document.getElementById('fluidWidth')) document.getElementById('fluidWidth').checked = true;
     
             localStorage.removeItem('sidebarBg');
-
-            const checkedTopbarBg = document.querySelector('input[name="topbarbg"]:checked');
-            if (checkedTopbarBg) {
-                checkedTopbarBg.checked = false;
-            }
-    
             localStorage.removeItem('topbarbg');
         }
     
         // Adding event listeners
         themeRadios.forEach(radio => radio.addEventListener('change', handleInputChange));
         sidebarRadios.forEach(radio => radio.addEventListener('change', handleInputChange));
-        colorRadios.forEach(radio => radio.addEventListener('change', handleInputChange));
         layoutRadios.forEach(radio => radio.addEventListener('change', handleInputChange));
-        topbarRadios.forEach(radio => radio.addEventListener('change', handleInputChange));
-        topbarcolorRadios.forEach(radio => radio.addEventListener('change', handleInputChange));
         cardRadios.forEach(radio => radio.addEventListener('change', handleInputChange));
         sizeRadios.forEach(radio => radio.addEventListener('change', handleInputChange));
         widthRadios.forEach(radio => radio.addEventListener('change', handleInputChange));
-        loaderRadios.forEach(radio => radio.addEventListener('change', handleInputChange));
-        sidebarBgRadios.forEach(radio => radio.addEventListener('change', handleSidebarBgChange));
-        topbarbgRadios.forEach(radio => radio.addEventListener('change', handleTopbarBgChange));
         resetButton.addEventListener('click', resetThemeAndSidebarThemeAndColorAndBg);
     
         // Initial setup from localStorage
         const savedTheme = localStorage.getItem('theme') || 'light';
         savedSidebarTheme = localStorage.getItem('sidebarTheme');
-        savedColor = localStorage.getItem('color');
+        const savedColor = 'primary'; // Default value for removed section
         const savedLayout = localStorage.getItem('layout') || 'default';
-        savedTopbar = localStorage.getItem('topbar');
-        savedTopbarcolor = localStorage.getItem('topbarcolor');
+        const savedTopbar = 'white'; // Default value for removed section
+        const savedTopbarcolor = 'white'; // Default value for removed section
         const savedCard = localStorage.getItem('card') || 'bordered';
         const savedSize = localStorage.getItem('size') || 'default';
         const savedWidth = localStorage.getItem('width') || 'fluid';
-        const savedLoader = localStorage.getItem('loader') || 'enable';
-        const savedSidebarBg = localStorage.getItem('sidebarBg') || null;
-        const savedTopbarBg = localStorage.getItem('topbarbg') || null;
 
-        // setup theme color all
-        const savedColorPickr = localStorage.getItem('primaryRGB') 
-        if((savedColor == null) && (savedColorPickr == null))
-        {
-            savedColor = 'primary';
-        }else if((savedColorPickr != null) && (savedColor == null))
-        {
-            savedColor = 'all';
-            let html = document.querySelector("html");
-            html.style.setProperty("--primary-rgb",  savedColorPickr);
-        }
-
-        // setup theme topbar all
-        const savedTopbarPickr = localStorage.getItem('topbarRGB') 
-        if((savedTopbar == null) && (savedTopbarPickr == null))
-        {
-            savedTopbar = 'white';
-        }else if((savedTopbarPickr != null) && (savedTopbar == null))
-        {
-            savedTopbar = 'all';
-            let html = document.querySelector("html");
-            html.style.setProperty("--topbar-rgb",  savedTopbarPickr);
-        }
-
-
-         // setup theme topbarcolor all
-         const savedTopbarcolorPickr = localStorage.getItem('topbarcolorRGB') 
-         if((savedTopbarcolor == null) && (savedTopbarcolorPickr == null))
-         {
-            savedTopbarcolor = 'white';
-         }else if((savedTopbarcolorPickr != null) && (savedTopbarcolor == null))
-         {
-            savedTopbarcolor = 'all';
-             let html = document.querySelector("html");
-             html.style.setProperty("--topbarcolor-rgb",  savedTopbarcolorPickr);
-         }
- 
-
-        // setup theme color all
+        // setup theme sidebar
         const savedSidebarPickr = localStorage.getItem('sidebarRGB') 
         if((savedSidebarTheme == null) && (savedSidebarPickr == null))
         {
@@ -937,19 +580,7 @@ let themesettings = `
         }
 
     
-        setThemeAndSidebarTheme(savedTheme, savedSidebarTheme, savedColor, savedLayout, savedTopbar, savedTopbarcolor, savedCard, savedSize, savedWidth, savedLoader);
-    
-        if (savedSidebarBg) {
-            document.body.setAttribute('data-sidebarbg', savedSidebarBg);
-        } else {
-            document.body.removeAttribute('data-sidebarbg');
-        }
-
-        if (savedTopbarBg) {
-            document.body.setAttribute('data-topbarbg', savedTopbarBg);
-        } else {
-            document.body.removeAttribute('data-topbarbg');
-        }
+        setThemeAndSidebarTheme(savedTheme, savedSidebarTheme, savedColor, savedLayout, savedTopbar, savedTopbarcolor, savedCard, savedSize, savedWidth);
     
         // Check and set radio buttons based on saved preferences
         if (document.getElementById(`${savedTheme}Theme`)) {
@@ -958,17 +589,8 @@ let themesettings = `
         if (document.getElementById(`${savedSidebarTheme}Sidebar`)) {
             document.getElementById(`${savedSidebarTheme}Sidebar`).checked = true;
         }
-        if (document.getElementById(`${savedColor}Color`)) {
-            document.getElementById(`${savedColor}Color`).checked = true;
-        }
         if (document.getElementById(`${savedLayout}Layout`)) {
             document.getElementById(`${savedLayout}Layout`).checked = true;
-        }
-        if (document.getElementById(`${savedTopbar}Topbar`)) {
-            document.getElementById(`${savedTopbar}Topbar`).checked = true;
-        }
-        if (document.getElementById(`${savedTopbarcolor}Topbarcolor`)) {
-            document.getElementById(`${savedTopbarcolor}Topbarcolor`).checked = true;
         }
         if (document.getElementById(`${savedCard}Card`)) {
             document.getElementById(`${savedCard}Card`).checked = true;
@@ -978,15 +600,6 @@ let themesettings = `
         }
         if (document.getElementById(`${savedWidth}Width`)) {
             document.getElementById(`${savedWidth}Width`).checked = true;
-        }
-        if (document.getElementById(`${savedLoader}Loader`)) {
-            document.getElementById(`${savedLoader}Loader`).checked = true;
-        }
-        if (savedSidebarBg && document.getElementById(`${savedSidebarBg}`)) {
-            document.getElementById(`${savedSidebarBg}`).checked = true;
-        }
-        if (savedTopbarBg && document.getElementById(`${savedTopbarBg}`)) {
-            document.getElementById(`${savedTopbarBg}`).checked = true;
         }
     
         // Initially hide sidebar background options based on layout
