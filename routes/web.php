@@ -16,6 +16,10 @@ use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\TrainingTypeController;
+use App\Http\Controllers\InterviewController;
+use App\Http\Controllers\InterviewFeedbackController;
+use App\Http\Controllers\JobPostingController;
+use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\Auth\LoginController;
 
 // Authentication Routes
@@ -101,4 +105,24 @@ Route::middleware('auth')->group(function () {
     // Training resource routes (must come after types routes)
     Route::resource('training', TrainingController::class);
     Route::resource('trainers', TrainerController::class);
+
+    // Interview Routes - Feedback routes must come first to avoid conflicts
+    Route::prefix('interviews')->name('interviews.')->group(function () {
+        Route::get('/feedback', [InterviewFeedbackController::class, 'index'])->name('feedback.index');
+        Route::get('/feedback/create', [InterviewFeedbackController::class, 'create'])->name('feedback.create');
+        Route::post('/feedback', [InterviewFeedbackController::class, 'store'])->name('feedback.store');
+        Route::get('/feedback/{id}', [InterviewFeedbackController::class, 'show'])->name('feedback.show');
+        Route::get('/feedback/{id}/edit', [InterviewFeedbackController::class, 'edit'])->name('feedback.edit');
+        Route::put('/feedback/{id}', [InterviewFeedbackController::class, 'update'])->name('feedback.update');
+        Route::delete('/feedback/{id}', [InterviewFeedbackController::class, 'destroy'])->name('feedback.destroy');
+    });
+    
+    // Interview resource routes (must come after feedback routes)
+    Route::resource('interviews', InterviewController::class);
+
+    // Job Posting Routes
+    Route::resource('jobs', JobPostingController::class);
+
+    // Candidate Routes
+    Route::resource('candidates', CandidateController::class);
 });
