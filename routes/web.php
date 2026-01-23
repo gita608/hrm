@@ -12,6 +12,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssetCategoryController;
+use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\TrainingController;
+use App\Http\Controllers\TrainerController;
+use App\Http\Controllers\TrainingTypeController;
 use App\Http\Controllers\Auth\LoginController;
 
 // Authentication Routes
@@ -79,4 +83,22 @@ Route::middleware('auth')->group(function () {
         Route::put('/{asset}', [AssetController::class, 'update'])->name('assets.update');
         Route::delete('/{asset}', [AssetController::class, 'destroy'])->name('assets.destroy');
     });
+
+    // Holiday Routes
+    Route::resource('holidays', HolidayController::class);
+
+    // Training Routes - Types routes must come first to avoid conflicts
+    Route::prefix('training')->name('training.')->group(function () {
+        Route::get('/types', [TrainingTypeController::class, 'index'])->name('types.index');
+        Route::get('/types/create', [TrainingTypeController::class, 'create'])->name('types.create');
+        Route::post('/types', [TrainingTypeController::class, 'store'])->name('types.store');
+        Route::get('/types/{trainingType}', [TrainingTypeController::class, 'show'])->name('types.show');
+        Route::get('/types/{trainingType}/edit', [TrainingTypeController::class, 'edit'])->name('types.edit');
+        Route::put('/types/{trainingType}', [TrainingTypeController::class, 'update'])->name('types.update');
+        Route::delete('/types/{trainingType}', [TrainingTypeController::class, 'destroy'])->name('types.destroy');
+    });
+    
+    // Training resource routes (must come after types routes)
+    Route::resource('training', TrainingController::class);
+    Route::resource('trainers', TrainerController::class);
 });
