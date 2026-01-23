@@ -12,7 +12,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::with('manager')->latest()->get();
+        $departments = Department::with('manager')->orderBy('created_at', 'desc')->get();
         return view('pages.departments.index', compact('departments'));
     }
 
@@ -47,7 +47,9 @@ class DepartmentController extends Controller
      */
     public function show(string $id)
     {
-        $department = Department::with(['manager', 'designations'])->findOrFail($id);
+        $department = Department::with(['manager', 'designations' => function($query) {
+            $query->orderBy('created_at', 'desc');
+        }])->findOrFail($id);
         return view('pages.departments.show', compact('department'));
     }
 

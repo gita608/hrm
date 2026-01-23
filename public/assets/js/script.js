@@ -64,7 +64,7 @@ Template Name: Smarthr - Bootstrap Admin Template
 	if($('.datatable').length > 0) {
 		$('.datatable').DataTable({
 			"bFilter": true, 
-			"ordering": true,
+			"ordering": false, // Disable sorting - backend controls the order
 			"info": true,
 			"language": {
 				search: ' ',

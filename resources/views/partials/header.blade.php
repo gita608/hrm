@@ -37,63 +37,7 @@
 						</span>
 					</div>
 					<!-- /Search -->
-					<div class="dropdown crm-dropdown">
-						<a href="#" class="btn btn-menubar me-1" data-bs-toggle="dropdown">
-							<i class="ti ti-layout-grid"></i>
-						</a>
-						<div class="dropdown-menu dropdown-lg dropdown-menu-start">
-							<div class="card mb-0 border-0 shadow-none">
-								<div class="card-header">
-									<h4>CRM</h4>
-								</div>
-								<div class="card-body pb-1">		
-									<div class="row">
-										<div class="col-sm-6">							
-											<a href="{{ url('/contacts') }}" class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
-												<span class="d-flex align-items-center me-3">
-													<i class="ti ti-user-shield text-default me-2"></i>Contacts
-												</span>
-												<i class="ti ti-arrow-right"></i>
-											</a>							
-											<a href="{{ url('/deals') }}" class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
-												<span class="d-flex align-items-center me-3">
-													<i class="ti ti-heart-handshake text-default me-2"></i>Deals
-												</span>
-												<i class="ti ti-arrow-right"></i>
-											</a>								
-											<a href="{{ url('/pipeline') }}" class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
-												<span class="d-flex align-items-center me-3">
-													<i class="ti ti-timeline-event-text text-default me-2"></i>Pipeline
-												</span>
-												<i class="ti ti-arrow-right"></i>
-											</a>		
-										</div>
-										<div class="col-sm-6">							
-											<a href="{{ url('/companies') }}" class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
-												<span class="d-flex align-items-center me-3">
-													<i class="ti ti-building text-default me-2"></i>Companies
-												</span>
-												<i class="ti ti-arrow-right"></i>
-											</a>								
-											<a href="{{ url('/leads') }}" class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
-												<span class="d-flex align-items-center me-3">
-													<i class="ti ti-user-check text-default me-2"></i>Leads
-												</span>
-												<i class="ti ti-arrow-right"></i>
-											</a>								
-											<a href="{{ url('/activity') }}" class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
-												<span class="d-flex align-items-center me-3">
-													<i class="ti ti-activity text-default me-2"></i>Activities
-												</span>
-												<i class="ti ti-arrow-right"></i>
-											</a>		
-										</div>
-									</div>		
-								</div>
-							</div>
-						</div>
-					</div>
-					<a href="{{ url('/settings') }}" class="btn btn-menubar">
+					<a href="{{ url('/settings') }}" class="btn btn-menubar me-1">
 						<i class="ti ti-settings-cog"></i>
 					</a>	
 				</div>
@@ -104,49 +48,6 @@
 					<div class="me-1">
 						<a href="#" class="btn btn-menubar btnFullscreen">
 							<i class="ti ti-maximize"></i>
-						</a>
-					</div>
-					<div class="dropdown me-1">
-						<a href="#" class="btn btn-menubar" data-bs-toggle="dropdown">
-							<i class="ti ti-layout-grid-remove"></i>
-						</a>
-						<div class="dropdown-menu dropdown-menu-end">
-							<div class="card mb-0 border-0 shadow-none">
-								<div class="card-header">
-									<h4>Applications</h4>
-								</div>
-								<div class="card-body">											
-									<a href="{{ url('/calendar') }}" class="d-block pb-2">
-										<span class="avatar avatar-md bg-transparent-dark me-2"><i class="ti ti-calendar text-gray-9"></i></span>Calendar
-									</a>										
-									<a href="{{ url('/todo') }}" class="d-block py-2">
-										<span class="avatar avatar-md bg-transparent-dark me-2"><i class="ti ti-subtask text-gray-9"></i></span>To Do
-									</a>										
-									<a href="{{ url('/notes') }}" class="d-block py-2">
-										<span class="avatar avatar-md bg-transparent-dark me-2"><i class="ti ti-notes text-gray-9"></i></span>Notes
-									</a>										
-									<a href="{{ url('/file-manager') }}" class="d-block py-2">
-										<span class="avatar avatar-md bg-transparent-dark me-2"><i class="ti ti-folder text-gray-9"></i></span>File Manager
-									</a>								
-									<a href="{{ url('/kanban') }}" class="d-block py-2">
-										<span class="avatar avatar-md bg-transparent-dark me-2"><i class="ti ti-layout-kanban text-gray-9"></i></span>Kanban
-									</a>								
-									<a href="{{ url('/invoices') }}" class="d-block py-2 pb-0">
-										<span class="avatar avatar-md bg-transparent-dark me-2"><i class="ti ti-file-invoice text-gray-9"></i></span>Invoices
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="me-1">
-						<a href="{{ url('/chat') }}" class="btn btn-menubar position-relative">
-							<i class="ti ti-brand-hipchat"></i>
-							<span class="badge bg-info rounded-pill d-flex align-items-center justify-content-center header-badge">5</span>
-						</a>
-					</div>
-					<div class="me-1">
-						<a href="{{ url('/email') }}" class="btn btn-menubar">
-							<i class="ti ti-mail"></i>
 						</a>
 					</div>
 					<div class="me-1 notification_item">

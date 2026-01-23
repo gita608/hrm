@@ -13,7 +13,7 @@ class DesignationController extends Controller
      */
     public function index()
     {
-        $designations = Designation::with('department')->latest()->get();
+        $designations = Designation::with('department')->orderBy('created_at', 'desc')->get();
         return view('pages.designations.index', compact('designations'));
     }
 
