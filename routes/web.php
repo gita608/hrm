@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\Auth\LoginController;
 
 // Authentication Routes
@@ -26,4 +28,10 @@ Route::middleware('auth')->group(function () {
         Route::put('/{id}', [EmployeeController::class, 'update'])->name('employees.update');
         Route::delete('/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
     });
+
+    // Department Routes
+    Route::resource('departments', DepartmentController::class);
+
+    // Designation Routes
+    Route::resource('designations', DesignationController::class);
 });
