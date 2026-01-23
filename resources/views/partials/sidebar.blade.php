@@ -88,9 +88,43 @@
 								<li><a href="{{ url('/employees') }}">Employee Lists</a></li>
 								<li><a href="{{ url('/employees/grid') }}">Employee Grid</a></li>
 								<li><a href="{{ url('/employees/details') }}">Employee Details</a></li>
+								<li><a href="{{ url('/employees/directory') }}">Employee Directory</a></li>
 								<li><a href="{{ url('/departments') }}">Departments</a></li>
 								<li><a href="{{ url('/designations') }}">Designations</a></li>
 								<li><a href="{{ url('/policies') }}">Policies</a></li>
+							</ul>
+						</li>
+						<li class="submenu">
+							<a href="javascript:void(0);">
+								<i class="ti ti-user-plus"></i><span>Onboarding</span>
+								<span class="menu-arrow"></span>
+							</a>
+							<ul>
+								<li><a href="{{ url('/onboarding') }}">Onboarding List</a></li>
+								<li><a href="{{ url('/onboarding/templates') }}">Onboarding Templates</a></li>
+								<li><a href="{{ url('/onboarding/checklist') }}">Onboarding Checklist</a></li>
+							</ul>
+						</li>
+						<li class="submenu">
+							<a href="javascript:void(0);">
+								<i class="ti ti-user-circle"></i><span>Employee Self-Service</span>
+								<span class="menu-arrow"></span>
+							</a>
+							<ul>
+								<li><a href="{{ url('/self-service/profile') }}">My Profile</a></li>
+								<li><a href="{{ url('/self-service/documents') }}">My Documents</a></li>
+								<li><a href="{{ url('/self-service/requests') }}">My Requests</a></li>
+							</ul>
+						</li>
+						<li class="submenu">
+							<a href="javascript:void(0);">
+								<i class="ti ti-file-text"></i><span>Documents</span>
+								<span class="menu-arrow"></span>
+							</a>
+							<ul>
+								<li><a href="{{ url('/documents') }}">Document Library</a></li>
+								<li><a href="{{ url('/documents/letters') }}">HR Letters</a></li>
+								<li><a href="{{ url('/documents/certificates') }}">Certificates</a></li>
 							</ul>
 						</li>
 						<li class="submenu">
@@ -168,6 +202,29 @@
 								<i class="ti ti-circle-x"></i><span>Termination</span>
 							</a>
 						</li>
+						<li class="submenu">
+							<a href="javascript:void(0);">
+								<i class="ti ti-heart-handshake"></i><span>Employee Engagement</span>
+								<span class="menu-arrow"></span>
+							</a>
+							<ul>
+								<li><a href="{{ url('/surveys') }}">Employee Surveys</a></li>
+								<li><a href="{{ url('/recognition') }}">Recognition & Rewards</a></li>
+								<li><a href="{{ url('/announcements') }}">Announcements</a></li>
+							</ul>
+						</li>
+						<li class="submenu">
+							<a href="javascript:void(0);">
+								<i class="ti ti-wallet"></i><span>Benefits & Compensation</span>
+								<span class="menu-arrow"></span>
+							</a>
+							<ul>
+								<li><a href="{{ url('/benefits') }}">Benefits Management</a></li>
+								<li><a href="{{ url('/loans') }}">Loan Management</a></li>
+								<li><a href="{{ url('/advances') }}">Advance Salary</a></li>
+								<li><a href="{{ url('/reimbursements') }}">Reimbursements</a></li>
+							</ul>
+						</li>
 					</ul>
 				</li>
 				<li class="menu-title"><span>RECRUITMENT</span></li>
@@ -183,6 +240,26 @@
 								<i class="ti ti-user-shield"></i><span>Candidates</span>
 							</a>
 						</li>
+						<li class="submenu">
+							<a href="javascript:void(0);">
+								<i class="ti ti-calendar-check"></i><span>Interview</span>
+								<span class="menu-arrow"></span>
+							</a>
+							<ul>
+								<li><a href="{{ url('/interviews') }}">Interview Schedule</a></li>
+								<li><a href="{{ url('/interviews/feedback') }}">Interview Feedback</a></li>
+							</ul>
+						</li>
+						<li class="submenu">
+							<a href="javascript:void(0);">
+								<i class="ti ti-file-check"></i><span>Offer Management</span>
+								<span class="menu-arrow"></span>
+							</a>
+							<ul>
+								<li><a href="{{ url('/offers') }}">Job Offers</a></li>
+								<li><a href="{{ url('/offers/templates') }}">Offer Templates</a></li>
+							</ul>
+						</li>
 						<li>
 							<a href="{{ url('/referrals') }}">
 								<i class="ti ti-ux-circle"></i><span>Referrals</span>
@@ -195,14 +272,13 @@
 					<ul>
 						<li class="submenu">
 							<a href="javascript:void(0);">
-								<i class="ti ti-shopping-cart-dollar"></i><span>Sales</span>
+								<i class="ti ti-cash"></i><span>Payroll</span>
 								<span class="menu-arrow"></span>
 							</a>
 							<ul>
-								<li><a href="{{ url('/estimates') }}">Estimates</a></li>
-								<li><a href="{{ url('/invoices') }}">Invoices</a></li>
-								<li><a href="{{ url('/payments') }}">Payments</a></li>
-								<li><a href="{{ url('/expenses') }}">Expenses</a></li>
+								<li><a href="{{ url('/payroll/salary') }}">Employee Salary</a></li>
+								<li><a href="{{ url('/payroll/payslip') }}">Payslip</a></li>
+								<li><a href="{{ url('/payroll/items') }}">Payroll Items</a></li>
 								<li><a href="{{ url('/provident-fund') }}">Provident Fund</a></li>
 								<li><a href="{{ url('/taxes') }}">Taxes</a></li>
 							</ul>
@@ -213,21 +289,11 @@
 								<span class="menu-arrow"></span>
 							</a>
 							<ul>
+								<li><a href="{{ url('/expenses') }}">Expenses</a></li>
 								<li><a href="{{ url('/categories') }}">Categories</a></li>
 								<li><a href="{{ url('/budgets') }}">Budgets</a></li>
 								<li><a href="{{ url('/budget-expenses') }}">Budget Expenses</a></li>
 								<li><a href="{{ url('/budget-revenues') }}">Budget Revenues</a></li>
-							</ul>
-						</li>
-						<li class="submenu">
-							<a href="javascript:void(0);">
-								<i class="ti ti-cash"></i><span>Payroll</span>
-								<span class="menu-arrow"></span>
-							</a>
-							<ul>
-								<li><a href="{{ url('/payroll/salary') }}">Employee Salary</a></li>
-								<li><a href="{{ url('/payroll/payslip') }}">Payslip</a></li>
-								<li><a href="{{ url('/payroll/items') }}">Payroll Items</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -237,7 +303,7 @@
 					<ul>
 						<li class="submenu">
 							<a href="javascript:void(0);">
-								<i class="ti ti-cash"></i><span>Assets</span>
+								<i class="ti ti-package"></i><span>Assets</span>
 								<span class="menu-arrow"></span>
 							</a>
 							<ul>
@@ -271,16 +337,15 @@
 								<span class="menu-arrow"></span>
 							</a>
 							<ul>
-								<li><a href="{{ url('/reports/expenses') }}">Expense Report</a></li>
-								<li><a href="{{ url('/reports/invoices') }}">Invoice Report</a></li>
-								<li><a href="{{ url('/reports/payments') }}">Payment Report</a></li>
-								<li><a href="{{ url('/reports/projects') }}">Project Report</a></li>
-								<li><a href="{{ url('/reports/tasks') }}">Task Report</a></li>
-								<li><a href="{{ url('/reports/users') }}">User Report</a></li>
 								<li><a href="{{ url('/reports/employees') }}">Employee Report</a></li>
-								<li><a href="{{ url('/reports/payslips') }}">Payslip Report</a></li>
 								<li><a href="{{ url('/reports/attendance') }}">Attendance Report</a></li>
 								<li><a href="{{ url('/reports/leaves') }}">Leave Report</a></li>
+								<li><a href="{{ url('/reports/payslips') }}">Payslip Report</a></li>
+								<li><a href="{{ url('/reports/expenses') }}">Expense Report</a></li>
+								<li><a href="{{ url('/reports/performance') }}">Performance Report</a></li>
+								<li><a href="{{ url('/reports/training') }}">Training Report</a></li>
+								<li><a href="{{ url('/reports/recruitment') }}">Recruitment Report</a></li>
+								<li><a href="{{ url('/reports/users') }}">User Report</a></li>
 								<li><a href="{{ url('/reports/daily') }}">Daily Report</a></li>
 							</ul>
 						</li>
