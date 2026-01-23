@@ -146,55 +146,39 @@
 
 		<div class="card">
 			<div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3">
-			<h5>Plan List</h5>
+			<h5>Employee List</h5>
 			<div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
-				<div class="me-3">
-					<div class="input-icon-end position-relative">
-						<input type="text" class="form-control date-range bookingrange" placeholder="dd/mm/yyyy - dd/mm/yyyy">
-						<span class="input-icon-addon">
-							<i class="ti ti-chevron-down"></i>
-						</span>
+				<form method="GET" action="{{ route('employees.index') }}" class="d-flex align-items-center gap-2 flex-wrap">
+					<div>
+						<select name="department_id" class="form-select form-select-sm">
+							<option value="">All Departments</option>
+							@foreach($departments as $dept)
+								<option value="{{ $dept->id }}" {{ request('department_id') == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
+							@endforeach
+						</select>
 					</div>
-				</div>
-				<div class="dropdown me-3">
-					<a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-						Designation
-					</a>
-					<ul class="dropdown-menu  dropdown-menu-end p-3">
-						<li>
-							<a href="javascript:void(0);" class="dropdown-item rounded-1">Finance</a>
-						</li>
-						<li>
-							<a href="javascript:void(0);" class="dropdown-item rounded-1">Developer</a>
-						</li>
-						<li>
-							<a href="javascript:void(0);" class="dropdown-item rounded-1">Executive</a>
-						</li>
-					</ul>
-				</div>
-				<div class="dropdown me-3">
-					<a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-						Select Status
-					</a>
-					<ul class="dropdown-menu  dropdown-menu-end p-3">
-						<li>
-							<a href="javascript:void(0);" class="dropdown-item rounded-1">Active</a>
-						</li>
-						<li>
-							<a href="javascript:void(0);" class="dropdown-item rounded-1">Inactive</a>
-						</li>
-					</ul>
-				</div>
-				<div class="dropdown">
-					<a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-						Sort By : Last 7 Days
-					</a>
-					<ul class="dropdown-menu  dropdown-menu-end p-3">
-						<li>
-							<a href="javascript:void(0);" class="dropdown-item rounded-1">Ascending</a>
-						</li>
-					</ul>
-				</div>
+					<div>
+						<select name="designation_id" class="form-select form-select-sm">
+							<option value="">All Designations</option>
+							@foreach($designations as $desig)
+								<option value="{{ $desig->id }}" {{ request('designation_id') == $desig->id ? 'selected' : '' }}>{{ $desig->name }}</option>
+							@endforeach
+						</select>
+					</div>
+					<div>
+						<select name="status" class="form-select form-select-sm">
+							<option value="">All Status</option>
+							<option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+							<option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+						</select>
+					</div>
+					<div>
+						<button type="submit" class="btn btn-sm btn-primary">Filter</button>
+						@if(request()->hasAny(['department_id', 'designation_id', 'status']))
+							<a href="{{ route('employees.index') }}" class="btn btn-sm btn-outline-light border">Clear</a>
+						@endif
+					</div>
+				</form>
 			</div>
 			</div>
 			<div class="card-body p-0">

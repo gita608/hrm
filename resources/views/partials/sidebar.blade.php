@@ -316,16 +316,6 @@
 								<li><a href="{{ url('/assets/categories') }}" class="{{ request()->is('assets/categories') ? 'active' : '' }}">Asset Categories</a></li>
 							</ul>
 						</li>
-						<li class="submenu {{ request()->is('knowledgebase*') || request()->is('activity*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('knowledgebase*') || request()->is('activity*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-headset"></i><span>Help & Supports</span>
-								<span class="menu-arrow"></span>
-							</a>
-							<ul style="{{ request()->is('knowledgebase*') || request()->is('activity*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/knowledgebase') }}" class="{{ request()->is('knowledgebase*') ? 'active' : '' }}">Knowledge Base</a></li>
-								<li><a href="{{ url('/activity') }}" class="{{ request()->is('activity*') ? 'active' : '' }}">Activities</a></li>
-							</ul>
-						</li>
 						<li class="submenu {{ request()->is('users*') || request()->is('roles*') ? 'active' : '' }}">
 							<a href="javascript:void(0);" class="{{ request()->is('users*') || request()->is('roles*') ? 'active subdrop' : '' }}">
 								<i class="ti ti-user-star"></i><span>User Management</span>

@@ -10,10 +10,28 @@ class DepartmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $departments = Department::with('manager')->orderBy('created_at', 'desc')->get();
-        return view('pages.departments.index', compact('departments'));
+        $query = Department::with('manager');
+
+        // Filter by status
+        if ($request->filled('status')) {
+            $query->where('is_active', $request->status == 'active');
+        }
+
+        // Filter by manager
+        if ($request->filled('manager_id')) {
+            $query->where('manager_id', $request->manager_id);
+        }
+
+        $departments = $query->orderBy('created_at', 'desc')->get();
+        
+        // Get managers for filter dropdown
+        $managers = \App\Models\User::whereHas('role', function($q) { 
+            $q->whereIn('slug', ['manager', 'hr-manager', 'admin']); 
+        })->get();
+
+        return view('pages.departments.index', compact('departments', 'managers'));
     }
 
     /**

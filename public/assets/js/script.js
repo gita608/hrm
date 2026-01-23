@@ -61,23 +61,71 @@ Template Name: Smarthr - Bootstrap Admin Template
 	}
 
 	// Datatable
-	if($('.datatable').length > 0) {
-		$('.datatable').DataTable({
-			"bFilter": true, 
-			"ordering": false, // Disable sorting - backend controls the order
-			"info": true,
-			"language": {
-				search: ' ',
-				sLengthMenu: 'Row Per Page _MENU_ Entries',
-				searchPlaceholder: "Search",
-				info: "Showing _START_ - _END_ of _TOTAL_ entries",
-				paginate: {
-					next: '<i class="ti ti-chevron-right"></i>',
-					previous: '<i class="ti ti-chevron-left"></i> '
-				},
-			 }
-		});
-	}	
+	$(document).ready(function() {
+		if($('.datatable').length > 0) {
+			$('.datatable').each(function() {
+				var $table = $(this);
+				
+				// Destroy existing DataTable instance if it exists
+				if($.fn.DataTable.isDataTable($table)) {
+					try {
+						$table.DataTable().destroy();
+					} catch(e) {
+						// Ignore destroy errors
+					}
+				}
+				
+				// Get column count from header
+				var columnCount = $table.find('thead tr th').length;
+				
+				// Skip if no columns
+				if(columnCount === 0) {
+					return;
+				}
+				
+				// Validate table structure - check if all data rows have correct column count
+				var $dataRows = $table.find('tbody tr').filter(function() {
+					var $row = $(this);
+					// Skip rows with colspan (empty state rows)
+					if($row.find('td[colspan]').length > 0) {
+						return false;
+					}
+					// Check if row has correct number of cells
+					return $row.find('td').length === columnCount;
+				});
+				
+				// Check if we have any rows with colspan (empty state)
+				var hasColspanRows = $table.find('tbody tr td[colspan]').length > 0;
+				
+				// Only initialize if we have valid data rows
+				// Don't initialize if we only have empty state rows with colspan
+				if($dataRows.length > 0) {
+					try {
+						var dtOptions = {
+							"bFilter": true, 
+							"ordering": false, // Disable sorting - backend controls the order
+							"info": true,
+							"paging": $dataRows.length > 10, // Only paginate if more than 10 rows
+							"language": {
+								search: ' ',
+								sLengthMenu: 'Row Per Page _MENU_ Entries',
+								searchPlaceholder: "Search",
+								info: "Showing _START_ - _END_ of _TOTAL_ entries",
+								paginate: {
+									next: '<i class="ti ti-chevron-right"></i>',
+									previous: '<i class="ti ti-chevron-left"></i> '
+								},
+							}
+						};
+						
+						$table.DataTable(dtOptions);
+					} catch(e) {
+						console.warn('DataTables initialization error for table:', e);
+					}
+				}
+			});
+		}
+	});	
 
 	// Loader
 	setTimeout(function () {

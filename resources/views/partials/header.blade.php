@@ -181,13 +181,6 @@
 									<a class="dropdown-item d-inline-flex align-items-center p-0 py-2" href="{{ url('/settings') }}">
 										<i class="ti ti-settings me-1"></i>Settings
 									</a>
-									
-									<a class="dropdown-item d-inline-flex align-items-center p-0 py-2" href="{{ url('/account') }}">
-										<i class="ti ti-circle-arrow-up me-1"></i>My Account
-									</a>
-									<a class="dropdown-item d-inline-flex align-items-center p-0 py-2" href="{{ url('/knowledgebase') }}">
-										<i class="ti ti-question-mark me-1"></i>Knowledge Base
-									</a>
 								</div>
 								<div class="card-footer">
 									<form method="POST" action="{{ route('logout') }}">

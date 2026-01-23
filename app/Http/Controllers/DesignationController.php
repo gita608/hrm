@@ -11,10 +11,26 @@ class DesignationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $designations = Designation::with('department')->orderBy('created_at', 'desc')->get();
-        return view('pages.designations.index', compact('designations'));
+        $query = Designation::with('department');
+
+        // Filter by status
+        if ($request->filled('status')) {
+            $query->where('is_active', $request->status == 'active');
+        }
+
+        // Filter by department
+        if ($request->filled('department_id')) {
+            $query->where('department_id', $request->department_id);
+        }
+
+        $designations = $query->orderBy('created_at', 'desc')->get();
+        
+        // Get departments for filter dropdown
+        $departments = Department::where('is_active', true)->orderBy('name')->get();
+
+        return view('pages.designations.index', compact('designations', 'departments'));
     }
 
     /**

@@ -88,6 +88,31 @@
 	<div class="card">
 		<div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3">
 			<h5>Department List</h5>
+			<div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+				<form method="GET" action="{{ route('departments.index') }}" class="d-flex align-items-center gap-2 flex-wrap">
+					<div>
+						<select name="status" class="form-select form-select-sm">
+							<option value="">All Status</option>
+							<option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+							<option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+						</select>
+					</div>
+					<div>
+						<select name="manager_id" class="form-select form-select-sm">
+							<option value="">All Managers</option>
+							@foreach($managers as $manager)
+								<option value="{{ $manager->id }}" {{ request('manager_id') == $manager->id ? 'selected' : '' }}>{{ $manager->name }}</option>
+							@endforeach
+						</select>
+					</div>
+					<div>
+						<button type="submit" class="btn btn-sm btn-primary">Filter</button>
+						@if(request()->hasAny(['status', 'manager_id']))
+							<a href="{{ route('departments.index') }}" class="btn btn-sm btn-outline-light border">Clear</a>
+						@endif
+					</div>
+				</form>
+			</div>
 		</div>
 		<div class="card-body p-0">
 			<div class="custom-datatable-filter table-responsive">

@@ -11,9 +11,13 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('pages.employees.index');
+        // Get departments and designations for filters
+        $departments = \App\Models\Department::where('is_active', true)->orderBy('name')->get();
+        $designations = \App\Models\Designation::where('is_active', true)->orderBy('name')->get();
+        
+        return view('pages.employees.index', compact('departments', 'designations'));
     }
 
     /**
