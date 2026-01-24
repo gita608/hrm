@@ -118,6 +118,7 @@
 				<table class="table datatable">
 					<thead class="thead-light">
 						<tr>
+							<th>#</th>
 							<th>Name</th>
 							<th>Slug</th>
 							<th>Description</th>
@@ -129,6 +130,7 @@
 					<tbody>
 						@forelse($roles as $role)
 							<tr>
+								<td>{{ $loop->iteration }}</td>
 								<td><strong>{{ $role->name }}</strong></td>
 								<td><code>{{ $role->slug }}</code></td>
 								<td>{{ Str::limit($role->description ?? 'N/A', 50) }}</td>
@@ -158,7 +160,7 @@
 							</tr>
 						@empty
 							<tr>
-								<td colspan="6" class="text-center">No roles found.</td>
+								<td colspan="7" class="text-center">No roles found.</td>
 							</tr>
 						@endforelse
 					</tbody>

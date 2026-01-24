@@ -118,6 +118,7 @@
 				<table class="table datatable">
 					<thead class="thead-light">
 						<tr>
+							<th>#</th>
 							<th>Name</th>
 							<th>Code</th>
 							<th>Description</th>
@@ -129,6 +130,7 @@
 					<tbody>
 						@forelse($categories as $category)
 							<tr>
+								<td>{{ $loop->iteration }}</td>
 								<td><strong>{{ $category->name }}</strong></td>
 								<td>{{ $category->code ?? 'N/A' }}</td>
 								<td>{{ Str::limit($category->description ?? 'N/A', 50) }}</td>
@@ -158,7 +160,7 @@
 							</tr>
 						@empty
 							<tr>
-								<td colspan="6" class="text-center">No categories found.</td>
+								<td colspan="7" class="text-center">No categories found.</td>
 							</tr>
 						@endforelse
 					</tbody>

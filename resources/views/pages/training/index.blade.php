@@ -43,6 +43,7 @@
 									<input class="form-check-input" type="checkbox" id="select-all">
 								</div>
 							</th>
+							<th>#</th>
 							<th>Training Type</th>
 							<th>Trainer</th>
 							<th>Time Duration</th>
@@ -60,6 +61,7 @@
 										<input class="form-check-input" type="checkbox" value="{{ $training->id }}">
 									</div>
 								</td>
+								<td>{{ $loop->iteration }}</td>
 								<td>
 									{{ $training->title }}
 									@if($training->trainingType)
@@ -116,7 +118,7 @@
 							</tr>
 						@empty
 							<tr>
-								<td colspan="8" class="text-center">No trainings found.</td>
+								<td colspan="9" class="text-center">No trainings found.</td>
 							</tr>
 						@endforelse
 					</tbody>

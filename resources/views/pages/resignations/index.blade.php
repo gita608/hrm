@@ -43,6 +43,7 @@
 									<input class="form-check-input" type="checkbox" id="select-all">
 								</div>
 							</th>
+							<th>#</th>
 							<th>Employee</th>
 							<th>Resignation Date</th>
 							<th>Notice Date</th>
@@ -59,6 +60,7 @@
 										<input class="form-check-input" type="checkbox" value="{{ $resignation->id }}">
 									</div>
 								</td>
+								<td>{{ $loop->iteration }}</td>
 								<td>
 									<h6 class="fw-medium"><a href="#">{{ $resignation->employee->name ?? 'N/A' }}</a></h6>
 								</td>
@@ -90,7 +92,7 @@
 							</tr>
 						@empty
 							<tr>
-								<td colspan="7" class="text-center">No resignations found.</td>
+								<td colspan="8" class="text-center">No resignations found.</td>
 							</tr>
 						@endforelse
 					</tbody>

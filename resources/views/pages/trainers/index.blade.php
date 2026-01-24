@@ -93,6 +93,7 @@
 				<table class="table datatable">
 					<thead class="thead-light">
 						<tr>
+							<th>#</th>
 							<th>Name</th>
 							<th>Email</th>
 							<th>Phone</th>
@@ -104,6 +105,7 @@
 					<tbody>
 						@forelse($trainers as $trainer)
 							<tr>
+								<td>{{ $loop->iteration }}</td>
 								<td><strong>{{ $trainer->name }}</strong></td>
 								<td>{{ $trainer->email }}</td>
 								<td>{{ $trainer->phone ?? 'N/A' }}</td>
@@ -133,7 +135,7 @@
 							</tr>
 						@empty
 							<tr>
-								<td colspan="6" class="text-center">No trainers found.</td>
+								<td colspan="7" class="text-center">No trainers found.</td>
 							</tr>
 						@endforelse
 					</tbody>

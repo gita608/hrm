@@ -126,6 +126,7 @@
 				<table class="table datatable">
 					<thead class="thead-light">
 						<tr>
+							<th>#</th>
 							<th>Name</th>
 							<th>Email</th>
 							<th>Role</th>
@@ -137,6 +138,7 @@
 					<tbody>
 						@forelse($users as $user)
 							<tr>
+								<td>{{ $loop->iteration }}</td>
 								<td>
 									<div class="d-flex align-items-center">
 										<span class="avatar avatar-sm me-2">
@@ -181,7 +183,7 @@
 							</tr>
 						@empty
 							<tr>
-								<td colspan="6" class="text-center">No users found.</td>
+								<td colspan="7" class="text-center">No users found.</td>
 							</tr>
 						@endforelse
 					</tbody>

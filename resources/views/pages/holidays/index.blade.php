@@ -43,6 +43,7 @@
 									<input class="form-check-input" type="checkbox" id="select-all">
 								</div>
 							</th>
+							<th>#</th>
 							<th>Title</th>
 							<th>Date</th>
 							<th>Description</th>
@@ -58,6 +59,7 @@
 										<input class="form-check-input" type="checkbox" value="{{ $holiday->id }}">
 									</div>
 								</td>
+								<td>{{ $loop->iteration }}</td>
 								<td>
 									<h6 class="fw-medium"><a href="#">{{ $holiday->name }}</a></h6>
 								</td>
@@ -88,7 +90,7 @@
 							</tr>
 						@empty
 							<tr>
-								<td colspan="6" class="text-center">No holidays found.</td>
+								<td colspan="7" class="text-center">No holidays found.</td>
 							</tr>
 						@endforelse
 					</tbody>

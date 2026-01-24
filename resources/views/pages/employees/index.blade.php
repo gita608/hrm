@@ -191,6 +191,7 @@
 									<input class="form-check-input" type="checkbox" id="select-all">
 								</div>
 							</th>
+							<th>#</th>
 							<th>Emp ID</th>
 							<th>Name</th>
 							<th>Email</th>
@@ -208,6 +209,7 @@
 									<input class="form-check-input" type="checkbox">
 								</div>
 							</td>
+							<td>1</td>
 							<td><a href="{{ url("/employees/details") }}">Emp-001</a></td>
                                         <td>
 								<div class="d-flex align-items-center">
@@ -256,6 +258,7 @@
 									<input class="form-check-input" type="checkbox">
 								</div>
 							</td>
+							<td>2</td>
 							<td><a href="{{ url("/employees/details") }}">Emp-002</a></td>						
                                         <td>
 								<div class="d-flex align-items-center">
@@ -304,6 +307,7 @@
 									<input class="form-check-input" type="checkbox">
 								</div>
 							</td>
+							<td>3</td>
 							<td><a href="{{ url("/employees/details") }}">Emp-003</a></td>									
                                         <td>
 								<div class="d-flex align-items-center">
@@ -352,6 +356,7 @@
 									<input class="form-check-input" type="checkbox">
 								</div>
 							</td>
+							<td>4</td>
 							<td><a href="{{ url("/employees/details") }}">Emp-004</a></td>									
                                         <td>
 								<div class="d-flex align-items-center">
@@ -400,6 +405,7 @@
 									<input class="form-check-input" type="checkbox">
 								</div>
 							</td>
+							<td>5</td>
 							<td><a href="{{ url("/employees/details") }}">Emp-005</a></td>							
                                         <td>
 								<div class="d-flex align-items-center">

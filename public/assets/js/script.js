@@ -124,11 +124,8 @@ Template Name: Smarthr - Bootstrap Admin Template
 						};
 						
 						$table.DataTable(dtOptions);
-					} else {
-						// If no data rows, restore colspan rows
-						if(colspanRowsHtml.length > 0) {
-							$table.find('tbody').append(colspanRowsHtml.join(''));
-						}
+					} catch(e) {
+						console.warn('DataTables initialization error for table:', e);
 					}
 				} else {
 					// If no data rows, restore colspan rows

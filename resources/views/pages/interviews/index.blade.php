@@ -67,6 +67,7 @@
 									<input class="form-check-input" type="checkbox" id="select-all">
 								</div>
 							</th>
+							<th>#</th>
 							<th>Candidate</th>
 							<th>Job Title</th>
 							<th>Interviewer</th>
@@ -84,6 +85,7 @@
 										<input class="form-check-input" type="checkbox" value="{{ $interview->id }}">
 									</div>
 								</td>
+								<td>{{ $loop->iteration }}</td>
 								<td>
 									@if($interview->candidate)
 										<h6 class="fw-medium"><a href="#">{{ $interview->candidate->name }}</a></h6>
@@ -139,7 +141,7 @@
 							</tr>
 						@empty
 							<tr>
-								<td colspan="8" class="text-center">No interviews found.</td>
+								<td colspan="9" class="text-center">No interviews found.</td>
 							</tr>
 						@endforelse
 					</tbody>

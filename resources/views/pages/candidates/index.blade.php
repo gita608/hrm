@@ -70,6 +70,7 @@
 									<input class="form-check-input" type="checkbox" id="select-all">
 								</div>
 							</th>
+							<th>#</th>
 							<th>Cand ID</th>
 							<th>Candidate</th>
 							<th>Applied Role</th>
@@ -87,6 +88,7 @@
 										<input class="form-check-input" type="checkbox" value="{{ $candidate->id }}">
 									</div>
 								</td>
+								<td>{{ $loop->iteration }}</td>
 								<td>{{ $candidate->candidate_code ?? 'Cand-' . str_pad($candidate->id, 3, '0', STR_PAD_LEFT) }}</td>
 								<td>
 									<div class="d-flex align-items-center file-name-icon">
@@ -136,7 +138,7 @@
 							</tr>
 						@empty
 							<tr>
-								<td colspan="8" class="text-center">No candidates found.</td>
+								<td colspan="9" class="text-center">No candidates found.</td>
 							</tr>
 						@endforelse
 					</tbody>

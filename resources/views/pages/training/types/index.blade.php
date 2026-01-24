@@ -100,6 +100,7 @@
 				<table class="table datatable">
 					<thead class="thead-light">
 						<tr>
+							<th>#</th>
 							<th>Name</th>
 							<th>Code</th>
 							<th>Description</th>
@@ -111,6 +112,7 @@
 					<tbody>
 						@forelse($trainingTypes as $type)
 							<tr>
+								<td>{{ $loop->iteration }}</td>
 								<td><strong>{{ $type->name }}</strong></td>
 								<td>{{ $type->code ?? 'N/A' }}</td>
 								<td>{{ Str::limit($type->description ?? 'N/A', 50) }}</td>
@@ -140,7 +142,7 @@
 							</tr>
 						@empty
 							<tr>
-								<td colspan="6" class="text-center">No training types found.</td>
+								<td colspan="7" class="text-center">No training types found.</td>
 							</tr>
 						@endforelse
 					</tbody>

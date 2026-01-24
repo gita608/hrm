@@ -67,6 +67,7 @@
 									<input class="form-check-input" type="checkbox" id="select-all">
 								</div>
 							</th>
+							<th>#</th>
 							<th>Job Code</th>
 							<th>Title</th>
 							<th>Department</th>
@@ -84,6 +85,7 @@
 										<input class="form-check-input" type="checkbox" value="{{ $job->id }}">
 									</div>
 								</td>
+								<td>{{ $loop->iteration }}</td>
 								<td>{{ $job->job_code ?? 'N/A' }}</td>
 								<td>
 									<h6 class="fw-medium"><a href="#">{{ $job->title }}</a></h6>
@@ -124,7 +126,7 @@
 							</tr>
 						@empty
 							<tr>
-								<td colspan="8" class="text-center">No jobs found.</td>
+								<td colspan="9" class="text-center">No jobs found.</td>
 							</tr>
 						@endforelse
 					</tbody>

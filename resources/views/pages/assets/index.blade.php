@@ -154,6 +154,7 @@
 				<table class="table datatable">
 					<thead class="thead-light">
 						<tr>
+							<th>#</th>
 							<th>Name</th>
 							<th>Asset Code</th>
 							<th>Category</th>
@@ -167,6 +168,7 @@
 					<tbody>
 						@forelse($assets as $asset)
 							<tr>
+								<td>{{ $loop->iteration }}</td>
 								<td><strong>{{ $asset->name }}</strong></td>
 								<td>{{ $asset->asset_code ?? 'N/A' }}</td>
 								<td>
@@ -224,7 +226,7 @@
 							</tr>
 						@empty
 							<tr>
-								<td colspan="8" class="text-center">No assets found.</td>
+								<td colspan="9" class="text-center">No assets found.</td>
 							</tr>
 						@endforelse
 					</tbody>

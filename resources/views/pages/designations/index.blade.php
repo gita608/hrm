@@ -119,6 +119,7 @@
 				<table class="table datatable">
 					<thead class="thead-light">
 						<tr>
+							<th>#</th>
 							<th>Name</th>
 							<th>Code</th>
 							<th>Department</th>
@@ -130,6 +131,7 @@
 					<tbody>
 						@forelse($designations as $designation)
 							<tr>
+								<td>{{ $loop->iteration }}</td>
 								<td><strong>{{ $designation->name }}</strong></td>
 								<td>{{ $designation->code ?? 'N/A' }}</td>
 								<td>{{ $designation->department ? $designation->department->name : 'N/A' }}</td>
@@ -158,7 +160,7 @@
 							</tr>
 						@empty
 							<tr>
-								<td colspan="6" class="text-center">No designations found.</td>
+								<td colspan="7" class="text-center">No designations found.</td>
 							</tr>
 						@endforelse
 					</tbody>
