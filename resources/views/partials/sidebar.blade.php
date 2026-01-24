@@ -193,17 +193,17 @@
 							</ul>
 						</li>
 						<li>
-							<a href="{{ url('/promotion') }}" class="{{ request()->is('promotion*') ? 'active' : '' }}">
+							<a href="{{ route('promotions.index') }}" class="{{ request()->routeIs('promotions.*') ? 'active' : '' }}">
 								<i class="ti ti-speakerphone"></i><span>Promotion</span>
 							</a>
 						</li>
 						<li>
-							<a href="{{ url('/resignation') }}" class="{{ request()->is('resignation*') ? 'active' : '' }}">
+							<a href="{{ route('resignations.index') }}" class="{{ request()->routeIs('resignations.*') ? 'active' : '' }}">
 								<i class="ti ti-external-link"></i><span>Resignation</span>
 							</a>
 						</li>
 						<li>
-							<a href="{{ url('/termination') }}" class="{{ request()->is('termination*') ? 'active' : '' }}">
+							<a href="{{ route('terminations.index') }}" class="{{ request()->routeIs('terminations.*') ? 'active' : '' }}">
 								<i class="ti ti-circle-x"></i><span>Termination</span>
 							</a>
 						</li>

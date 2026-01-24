@@ -20,6 +20,9 @@ use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\InterviewFeedbackController;
 use App\Http\Controllers\JobPostingController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\ResignationController;
+use App\Http\Controllers\TerminationController;
 use App\Http\Controllers\Auth\LoginController;
 
 // Authentication Routes
@@ -125,4 +128,13 @@ Route::middleware('auth')->group(function () {
 
     // Candidate Routes
     Route::resource('candidates', CandidateController::class);
+
+    // Promotion Routes
+    Route::resource('promotions', PromotionController::class);
+
+    // Resignation Routes
+    Route::resource('resignations', ResignationController::class);
+
+    // Termination Routes
+    Route::resource('terminations', TerminationController::class);
 });
