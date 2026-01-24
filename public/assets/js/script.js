@@ -83,22 +83,27 @@ Template Name: Smarthr - Bootstrap Admin Template
 					return;
 				}
 				
+				// Find and temporarily remove colspan rows (empty state rows)
+				var $colspanRows = $table.find('tbody tr').filter(function() {
+					return $(this).find('td[colspan]').length > 0;
+				});
+				
+				// Store colspan rows for later
+				var colspanRowsHtml = $colspanRows.map(function() {
+					return $(this)[0].outerHTML;
+				}).get();
+				
+				// Remove colspan rows before initialization
+				$colspanRows.remove();
+				
 				// Validate table structure - check if all data rows have correct column count
 				var $dataRows = $table.find('tbody tr').filter(function() {
 					var $row = $(this);
-					// Skip rows with colspan (empty state rows)
-					if($row.find('td[colspan]').length > 0) {
-						return false;
-					}
 					// Check if row has correct number of cells
 					return $row.find('td').length === columnCount;
 				});
 				
-				// Check if we have any rows with colspan (empty state)
-				var hasColspanRows = $table.find('tbody tr td[colspan]').length > 0;
-				
 				// Only initialize if we have valid data rows
-				// Don't initialize if we only have empty state rows with colspan
 				if($dataRows.length > 0) {
 					try {
 						var dtOptions = {
@@ -119,8 +124,16 @@ Template Name: Smarthr - Bootstrap Admin Template
 						};
 						
 						$table.DataTable(dtOptions);
-					} catch(e) {
-						console.warn('DataTables initialization error for table:', e);
+					} else {
+						// If no data rows, restore colspan rows
+						if(colspanRowsHtml.length > 0) {
+							$table.find('tbody').append(colspanRowsHtml.join(''));
+						}
+					}
+				} else {
+					// If no data rows, restore colspan rows
+					if(colspanRowsHtml.length > 0) {
+						$table.find('tbody').append(colspanRowsHtml.join(''));
 					}
 				}
 			});
