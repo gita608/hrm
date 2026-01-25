@@ -56,13 +56,12 @@
 						</div>
 						<div class="ms-2 overflow-hidden">
 							<p class="fs-12 fw-medium mb-1 text-truncate">Total Employee</p>
-							<h4>1007</h4>
+							<h4>{{ $totalEmployees ?? 0 }}</h4>
 						</div>
 					</div>
 					<div>                                    
 						<span class="badge badge-soft-purple badge-sm fw-normal">
-							<i class="ti ti-arrow-wave-right-down"></i>
-							+19.01%
+							<i class="ti ti-users"></i>
 						</span>
                                 </div>
 				</div>
@@ -80,13 +79,12 @@
 						</div>
 						<div class="ms-2 overflow-hidden">
 							<p class="fs-12 fw-medium mb-1 text-truncate">Active</p>
-							<h4>1007</h4>
+							<h4>{{ $activeEmployees ?? 0 }}</h4>
 						</div>
 					</div>
 					<div>                                    
 						<span class="badge badge-soft-primary badge-sm fw-normal">
-							<i class="ti ti-arrow-wave-right-down"></i>
-							+19.01%
+							<i class="ti ti-user-share"></i>
 						</span>
                                 </div>
 				</div>
@@ -104,13 +102,12 @@
 						</div>
 						<div class="ms-2 overflow-hidden">
 							<p class="fs-12 fw-medium mb-1 text-truncate">InActive</p>
-							<h4>1007</h4>
+							<h4>{{ $inactiveEmployees ?? 0 }}</h4>
 						</div>
 					</div>
 					<div>                                    
 						<span class="badge badge-soft-dark badge-sm fw-normal">
-							<i class="ti ti-arrow-wave-right-down"></i>
-							+19.01%
+							<i class="ti ti-user-pause"></i>
 						</span>
                                 </div>
 				</div>
@@ -128,13 +125,12 @@
 						</div>
 						<div class="ms-2 overflow-hidden">
 							<p class="fs-12 fw-medium mb-1 text-truncate">New Joiners</p>
-							<h4>67</h4>
+							<h4>{{ $newJoiners ?? 0 }}</h4>
 						</div>
 					</div>
 					<div>                                    
 						<span class="badge badge-soft-secondary badge-sm fw-normal">
-							<i class="ti ti-arrow-wave-right-down"></i>
-							+19.01%
+							<i class="ti ti-user-plus"></i>
 						</span>
                                 </div>
 				</div>
@@ -203,491 +199,69 @@
 						</tr>
 					</thead>
 					<tbody>
+						@forelse($employees ?? [] as $index => $employee)
 						<tr>
-                                        <td>
-								<div class="form-check form-check-md">
-									<input class="form-check-input" type="checkbox">
-								</div>
-							</td>
-							<td>1</td>
-							<td><a href="{{ url("/employees/details") }}">Emp-001</a></td>
-                                        <td>
-								<div class="d-flex align-items-center">
-                                                <a href="{{ url("/employees/details") }}" class="avatar avatar-md" data-bs-toggle="modal" data-bs-target="#view_details"><img
-                                                    src="{{ asset("assets/img/users/user-32.jpg") }}" class="img-fluid rounded-circle" alt="img"></a>
-                                                <div class="ms-2">
-										<p class="text-dark mb-0"><a href="{{ url("/employees/details") }}" data-bs-toggle="modal"
-											data-bs-target="#view_details">Anthony Lewis</a></p>
-										<span class="fs-12">Finance</span>
-									</div>
-                                            </div>
-							</td>
-                                        <td><a href="https://smarthr.co.in/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fe9f908a96919087be9b869f938e929bd09d9193">[email&#160;protected]</a></td>
-                                        <td>(123) 4567 890</td>
 							<td>
-								<div class="dropdown me-3">
-									<a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-										Finance
-									</a>
-									<ul class="dropdown-menu  dropdown-menu-end p-3">
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Developer</a>
-										</li>
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Executive</a>
-										</li>
-									</ul>
+								<div class="form-check form-check-md">
+									<input class="form-check-input" type="checkbox" value="{{ $employee->id }}">
 								</div>
 							</td>
-                                        <td>12 Sep 2024</td>
-                                        <td>
-								<span class="badge badge-success d-inline-flex align-items-center badge-xs">
-                                                <i class="ti ti-point-filled me-1"></i>Active
-								</span>
+							<td>{{ $index + 1 }}</td>
+							<td><a href="{{ route('employees.show', $employee->id) }}">EMP-{{ str_pad($employee->id, 3, '0', STR_PAD_LEFT) }}</a></td>
+							<td>
+								<div class="d-flex align-items-center">
+									<a href="{{ route('employees.show', $employee->id) }}" class="avatar avatar-md">
+										@if($employee->avatar)
+											<img src="{{ asset('storage/' . $employee->avatar) }}" class="img-fluid rounded-circle" alt="img">
+										@else
+											<div class="avatar-initial bg-primary text-white rounded-circle d-flex align-items-center justify-content-center">
+												{{ strtoupper(substr($employee->name, 0, 1)) }}
+											</div>
+										@endif
+									</a>
+									<div class="ms-2">
+										<p class="text-dark mb-0"><a href="{{ route('employees.show', $employee->id) }}">{{ $employee->name }}</a></p>
+										@if($employee->role)
+											<span class="fs-12">{{ $employee->role->name }}</span>
+										@endif
+									</div>
+								</div>
+							</td>
+							<td><a href="mailto:{{ $employee->email }}">{{ $employee->email }}</a></td>
+							<td>{{ $employee->phone ?? 'N/A' }}</td>
+							<td>
+								@if($employee->role)
+									<span class="badge badge-soft-primary">{{ $employee->role->name }}</span>
+								@else
+									<span class="text-muted">N/A</span>
+								@endif
+							</td>
+							<td>{{ $employee->created_at ? $employee->created_at->format('d M Y') : 'N/A' }}</td>
+							<td>
+								@if($employee->email_verified_at)
+									<span class="badge badge-success d-inline-flex align-items-center badge-xs">
+										<i class="ti ti-point-filled me-1"></i>Active
+									</span>
+								@else
+									<span class="badge badge-danger d-inline-flex align-items-center badge-xs">
+										<i class="ti ti-point-filled me-1"></i>Inactive
+									</span>
+								@endif
 							</td>
 							<td>
 								<div class="action-icon d-inline-flex">
-									<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
-									<a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
+									<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_employee" onclick="loadEmployeeData({{ $employee->id }})"><i class="ti ti-edit"></i></a>
+									<a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal" onclick="setDeleteEmployeeId({{ $employee->id }})"><i class="ti ti-trash"></i></a>
 								</div>
 							</td>
 						</tr>
-						<tr>	
-                                        <td>
-								<div class="form-check form-check-md">
-									<input class="form-check-input" type="checkbox">
-								</div>
-							</td>
-							<td>2</td>
-							<td><a href="{{ url("/employees/details") }}">Emp-002</a></td>						
-                                        <td>
-								<div class="d-flex align-items-center">
-                                                <a href="{{ url("/employees/details") }}" class="avatar avatar-md" data-bs-toggle="modal" data-bs-target="#view_details"><img
-                                                    src="{{ asset("assets/img/users/user-09.jpg") }}" class="img-fluid rounded-circle" alt="img"></a>
-                                                <div class="ms-2">
-										<p class="text-dark mb-0"><a href="{{ url("/employees/details") }}" data-bs-toggle="modal"
-											data-bs-target="#view_details">Brian Villalobos</a></p>
-										<span class="fs-12">Developer</span>
-									</div>
-                                            </div>
-							</td>
-                                        <td><a href="https://smarthr.co.in/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dab8a8b3bbb49abfa2bbb7aab6bff4b9b5b7">[email&#160;protected]</a></td>
-                                        <td>(179) 7382 829</td>
-							<td>
-								<div class="dropdown me-3">
-									<a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-										Developer
-									</a>
-									<ul class="dropdown-menu  dropdown-menu-end p-3">
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Finance</a>
-										</li>
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Executive</a>
-										</li>
-									</ul>
-								</div>
-							</td>
-                                        <td>24 Oct 2024</td>
-                                        <td>
-								<span class="badge badge-success d-inline-flex align-items-center badge-xs">
-                                                <i class="ti ti-point-filled me-1"></i>Active
-								</span>
-							</td>
-							<td>
-								<div class="action-icon d-inline-flex">
-									<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
-									<a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-								</div>
-							</td>
-						</tr>
+						@empty
 						<tr>
-                                        <td>
-								<div class="form-check form-check-md">
-									<input class="form-check-input" type="checkbox">
-								</div>
-							</td>
-							<td>3</td>
-							<td><a href="{{ url("/employees/details") }}">Emp-003</a></td>									
-                                        <td>
-								<div class="d-flex align-items-center">
-                                                <a href="{{ url("/employees/details") }}" class="avatar avatar-md" data-bs-toggle="modal" data-bs-target="#view_details"><img
-                                                    src="{{ asset("assets/img/users/user-01.jpg") }}" class="img-fluid rounded-circle" alt="img"></a>
-                                                <div class="ms-2">
-										<p class="text-dark mb-0"><a href="{{ url("/employees/details") }}" data-bs-toggle="modal"
-											data-bs-target="#view_details">Harvey Smith</a></p>
-										<span class="fs-12">Developer</span>
-									</div>
-                                            </div>
-							</td>
-                                        <td><a href="https://smarthr.co.in/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="83ebe2f1f5e6fac3e6fbe2eef3efe6ade0ecee">[email&#160;protected]</a></td>                                     
-                                        <td>(184) 2719 738</td>
-							<td>
-								<div class="dropdown me-3">
-									<a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-										Developer
-									</a>
-									<ul class="dropdown-menu  dropdown-menu-end p-3">
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Finance</a>
-										</li>
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Executive</a>
-										</li>
-									</ul>
-								</div>
-							</td>
-                                        <td>18 Feb 2024</td>
-                                        <td>
-								<span class="badge badge-success d-inline-flex align-items-center badge-xs">
-                                                <i class="ti ti-point-filled me-1"></i>Active
-								</span>
-							</td>
-							<td>
-								<div class="action-icon d-inline-flex">
-									<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
-									<a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-								</div>
+							<td colspan="9" class="text-center py-4">
+								<p class="text-muted mb-0">No employees found.</p>
 							</td>
 						</tr>
-						<tr>
-                                        <td>
-								<div class="form-check form-check-md">
-									<input class="form-check-input" type="checkbox">
-								</div>
-							</td>
-							<td>4</td>
-							<td><a href="{{ url("/employees/details") }}">Emp-004</a></td>									
-                                        <td>
-								<div class="d-flex align-items-center">
-                                                <a href="{{ url("/employees/details") }}" class="avatar avatar-md" data-bs-toggle="modal" data-bs-target="#view_details"><img
-                                                    src="{{ asset("assets/img/users/user-32.jpg") }}" class="img-fluid rounded-circle" alt="img"></a>
-                                                <div class="ms-2">
-										<p class="text-dark mb-0"><a href="{{ url("/employees/details") }}" data-bs-toggle="modal"
-											data-bs-target="#view_details">Stephan Peralt</a></p>
-										<span class="fs-12">Executive Officer</span>
-									</div>
-                                            </div>
-							</td>
-                                        <td><a href="https://smarthr.co.in/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="24544156454864415c45495448410a474b49">[email&#160;protected]</a></td>
-                                        <td>(193) 7839 748</td>
-							<td>
-								<div class="dropdown me-3">
-									<a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-										Executive
-									</a>
-									<ul class="dropdown-menu  dropdown-menu-end p-3">
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Finance</a>
-										</li>
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Developer</a>
-										</li>
-									</ul>
-								</div>
-							</td>
-                                        <td>17 Oct 2024</td>
-                                        <td>
-								<span class="badge badge-success d-inline-flex align-items-center badge-xs">
-                                                <i class="ti ti-point-filled me-1"></i>Active
-								</span>
-							</td>
-							<td>
-								<div class="action-icon d-inline-flex">
-									<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
-									<a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-								</div>
-							</td>
-						</tr>
-						<tr>
-                                        <td>
-								<div class="form-check form-check-md">
-									<input class="form-check-input" type="checkbox">
-								</div>
-							</td>
-							<td>5</td>
-							<td><a href="{{ url("/employees/details") }}">Emp-005</a></td>							
-                                        <td>
-								<div class="d-flex align-items-center">
-                                                <a href="{{ url("/employees/details") }}" class="avatar avatar-md" data-bs-toggle="modal" data-bs-target="#view_details"><img
-                                                    src="{{ asset("assets/img/users/user-32.jpg") }}" class="img-fluid rounded-circle" alt="img"></a>
-                                                <div class="ms-2">
-										<p class="text-dark mb-0"><a href="{{ url("/employees/details") }}" data-bs-toggle="modal"
-											data-bs-target="#view_details">Doglas Martini</a></p>
-										<span class="fs-12">Manager</span>
-									</div>
-                                            </div>
-							</td>
-                                        <td><a href="https://smarthr.co.in/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="761b170402181f010436130e171b061a135815191b">[email&#160;protected]</a></td>
-                                        <td>(183) 9302 890</td>
-							<td>
-								<div class="dropdown me-3">
-									<a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-										Manager
-									</a>
-									<ul class="dropdown-menu  dropdown-menu-end p-3">
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Finance</a>
-										</li>
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Developer</a>
-										</li>
-									</ul>
-								</div>
-							</td>
-                                        <td>20 Jul 2024</td>
-                                        <td>
-								<span class="badge badge-success d-inline-flex align-items-center badge-xs">
-                                                <i class="ti ti-point-filled me-1"></i>Active
-								</span>
-							</td>
-							<td>
-								<div class="action-icon d-inline-flex">
-									<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
-									<a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-								</div>
-							</td>
-						</tr>
-						<tr>
-                                        <td>
-								<div class="form-check form-check-md">
-									<input class="form-check-input" type="checkbox">
-								</div>
-							</td>
-							<td><a href="{{ url("/employees/details") }}">Emp-006</a></td>									
-                                        <td>
-								<div class="d-flex align-items-center">
-                                                <a href="{{ url("/employees/details") }}" class="avatar avatar-md" data-bs-toggle="modal" data-bs-target="#view_details"><img
-                                                    src="{{ asset("assets/img/users/user-01.jpg") }}" class="img-fluid rounded-circle" alt="img"></a>
-                                                <div class="ms-2">
-										<p class="text-dark mb-0"><a href="{{ url("/employees/details") }}" data-bs-toggle="modal"
-											data-bs-target="#view_details">Linda Ray</a></p>
-										<span class="fs-12">Finance</span>
-									</div>
-                                            </div>
-							</td>
-                                        <td><a href="https://smarthr.co.in/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c4b6a5bdf0f1f284a1bca5a9b4a8a1eaa7aba9">[email&#160;protected]</a></td>
-                                        <td>(120) 3728 039</td>
-							<td>
-								<div class="dropdown me-3">
-									<a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-										Finance
-									</a>
-									<ul class="dropdown-menu  dropdown-menu-end p-3">
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Executive</a>
-										</li>
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Developer</a>
-										</li>
-									</ul>
-								</div>
-							</td>
-                                        <td>10 Apr 2024</td>
-                                        <td>
-								<span class="badge badge-success d-inline-flex align-items-center badge-xs">
-                                                <i class="ti ti-point-filled me-1"></i>Active
-								</span>
-							</td>
-							<td>
-								<div class="action-icon d-inline-flex">
-									<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
-									<a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-								</div>
-							</td>
-						</tr>
-						<tr>
-                                        <td>
-								<div class="form-check form-check-md">
-									<input class="form-check-input" type="checkbox">
-								</div>
-							</td>
-							<td><a href="{{ url("/employees/details") }}">Emp-007</a></td>							
-                                        <td>
-								<div class="d-flex align-items-center">
-                                                <a href="{{ url("/employees/details") }}" class="avatar avatar-md" data-bs-toggle="modal" data-bs-target="#view_details"><img
-                                                    src="{{ asset("assets/img/users/user-34.jpg") }}" class="img-fluid rounded-circle" alt="img"></a>
-                                                <div class="ms-2">
-										<p class="text-dark mb-0"><a href="{{ url("/employees/details") }}" data-bs-toggle="modal"
-											data-bs-target="#view_details">Elliot Murray</a></p>
-										<span class="fs-12">Finance</span>
-									</div>
-                                            </div>
-							</td>
-                                        <td><a href="https://smarthr.co.in/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="462b333434273f06233e272b362a236825292b">[email&#160;protected]</a></td>
-                                        <td>(102) 8480 832</td>
-							<td>
-								<div class="dropdown me-3">
-									<a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-										Developer
-									</a>
-									<ul class="dropdown-menu  dropdown-menu-end p-3">
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Executive</a>
-										</li>
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Finance</a>
-										</li>
-									</ul>
-								</div>
-							</td>
-                                        <td>29 Aug 2024</td>
-                                        <td>
-								<span class="badge badge-success d-inline-flex align-items-center badge-xs">
-                                                <i class="ti ti-point-filled me-1"></i>Active
-								</span>
-							</td>
-							<td>
-								<div class="action-icon d-inline-flex">
-									<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
-									<a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-								</div>
-							</td>
-						</tr>
-						<tr>
-                                        <td>
-								<div class="form-check form-check-md">
-									<input class="form-check-input" type="checkbox">
-								</div>
-							</td>
-							<td><a href="{{ url("/employees/details") }}">Emp-008</a></td>							
-                                        <td>
-								<div class="d-flex align-items-center">
-                                                <a href="{{ url("/employees/details") }}" class="avatar avatar-md" data-bs-toggle="modal" data-bs-target="#view_details"><img
-                                                    src="{{ asset("assets/img/users/user-37.jpg") }}" class="img-fluid rounded-circle" alt="img"></a>
-                                                <div class="ms-2">
-										<p class="text-dark mb-0"><a href="{{ url("/employees/details") }}" data-bs-toggle="modal"
-											data-bs-target="#view_details">Rebecca Smtih</a></p>
-										<span class="fs-12">Executive</span>
-									</div>
-                                            </div>
-							</td>
-                                        <td><a href="https://smarthr.co.in/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a2d1cfd6cbcae2c7dac3cfd2cec78cc1cdcf">[email&#160;protected]</a></td>
-                                        <td>(162) 8920 713</td>
-							<td>
-								<div class="dropdown me-3">
-									<a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-										Executive
-									</a>
-									<ul class="dropdown-menu  dropdown-menu-end p-3">
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Finance</a>
-										</li>
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Developer</a>
-										</li>
-									</ul>
-								</div>
-							</td>
-                                        <td>22 Feb 2024</td>
-                                        <td>
-								<span class="badge badge-danger d-inline-flex align-items-center badge-sm">
-                                                <i class="ti ti-point-filled me-1"></i>Inactive
-								</span>
-							</td>
-							<td>
-								<div class="action-icon d-inline-flex">
-									<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
-									<a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-								</div>
-							</td>
-						</tr>
-						<tr>
-                                        <td>
-								<div class="form-check form-check-md">
-									<input class="form-check-input" type="checkbox">
-								</div>
-							</td>
-							<td><a href="{{ url("/employees/details") }}">Emp-009</a></td>							
-                                        <td>
-								<div class="d-flex align-items-center">
-                                                <a href="{{ url("/employees/details") }}" class="avatar avatar-md" data-bs-toggle="modal" data-bs-target="#view_details"><img
-                                                    src="{{ asset("assets/img/users/user-37.jpg") }}" class="img-fluid rounded-circle" alt="img"></a>
-                                                <div class="ms-2">
-										<p class="text-dark mb-0"><a href="{{ url("/employees/details") }}" data-bs-toggle="modal"
-											data-bs-target="#view_details">Connie Waters</a></p>
-										<span class="fs-12">Developer</span>
-									</div>
-                                            </div>
-							</td>
-                                        <td><a href="https://smarthr.co.in/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8eede1e0e0e7ebceebf6efe3fee2eba0ede1e3">[email&#160;protected]</a></td>
-                                        <td>(189) 0920 723</td>
-							<td>
-								<div class="dropdown me-3">
-									<a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-										Developer
-									</a>
-									<ul class="dropdown-menu  dropdown-menu-end p-3">
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Executive</a>
-										</li>
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Finance</a>
-										</li>
-									</ul>
-								</div>
-							</td>
-                                        <td>03 Nov 2024</td>
-                                        <td>
-								<span class="badge badge-success d-inline-flex align-items-center badge-xs">
-                                                <i class="ti ti-point-filled me-1"></i>Active
-								</span>
-							</td>
-							<td>
-								<div class="action-icon d-inline-flex">
-									<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
-									<a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-								</div>
-							</td>
-						</tr>
-						<tr>
-                                        <td>
-								<div class="form-check form-check-md">
-									<input class="form-check-input" type="checkbox">
-								</div>
-							</td>
-							<td><a href="{{ url("/employees/details") }}">Emp-010</a></td>									
-                                        <td>
-								<div class="d-flex align-items-center">
-                                                <a href="{{ url("/employees/details") }}" class="avatar avatar-md" data-bs-toggle="modal" data-bs-target="#view_details"><img
-                                                    src="{{ asset("assets/img/users/user-38.jpg") }}" class="img-fluid rounded-circle" alt="img"></a>
-                                                <div class="ms-2">
-										<p class="text-dark mb-0"><a href="{{ url("/employees/details") }}" data-bs-toggle="modal"
-											data-bs-target="#view_details">Lori Broaddus</a></p>
-										<span class="fs-12">Finance</span>
-									</div>
-                                            </div>
-							</td>
-                                        <td><a href="https://smarthr.co.in/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="284a5a47494c4c5d5b684d50494558444d064b4745">[email&#160;protected]</a></td>
-                                        <td>(168) 8392 823</td>
-							<td>
-								<div class="dropdown me-3">
-									<a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-										Finance
-									</a>
-									<ul class="dropdown-menu  dropdown-menu-end p-3">
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Executive</a>
-										</li>
-										<li>
-											<a href="javascript:void(0);" class="dropdown-item rounded-1">Developer</a>
-										</li>
-									</ul>
-								</div>
-							</td>
-                                        <td>17 Dec 2024</td>
-                                        <td>
-								<span class="badge badge-success d-inline-flex align-items-center badge-xs">
-                                                <i class="ti ti-point-filled me-1"></i>Active
-								</span>
-							</td>
-							<td>
-								<div class="action-icon d-inline-flex">
-									<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
-									<a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-								</div>
-							</td>
-						</tr>
+						@endforelse
 					</tbody>
 				</table>
 			</div>
@@ -703,7 +277,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 			<div class="d-flex align-items-center">
-				<h4 class="modal-title me-2">Add New Employee</h4><span>Employee  ID : EMP -0024</span>
+				<h4 class="modal-title me-2">Add New Employee</h4><span>Employee ID : EMP-{{ str_pad((($totalEmployees ?? 0) + 1), 4, '0', STR_PAD_LEFT) }}</span>
 			</div>
 			<button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
 				<i class="ti ti-x"></i>
@@ -714,6 +288,9 @@
 				<ul class="nav nav-underline" id="myTab" role="tablist">
 					<li class="nav-item" role="presentation">
 					  <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#basic-info" type="button" role="tab" aria-selected="true">Basic Information</button>
+					</li>
+					<li class="nav-item" role="presentation">
+					  <button class="nav-link" id="uae-tab" data-bs-toggle="tab" data-bs-target="#uae-info" type="button" role="tab" aria-selected="false">UAE Information</button>
 					</li>
 					<li class="nav-item" role="presentation">
 					  <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address" type="button" role="tab" aria-selected="false">Permissions</button>
@@ -849,8 +426,131 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-outline-light border me-2" data-bs-dismiss="modal">Cancel</button>
-							<button type="submit" class="btn btn-primary">Save </button>
+							<button type="button" class="btn btn-primary" data-bs-toggle="tab" data-bs-target="#uae-info" type="button">Next: UAE Information</button>
 						</div>
+				</div>
+				<div class="tab-pane fade" id="uae-info" role="tabpanel" aria-labelledby="uae-tab" tabindex="0">
+					<div class="modal-body pb-0">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Emirates ID</label>
+									<input type="text" class="form-control" name="emirates_id" placeholder="e.g., 784-1234-1234567-1">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Nationality</label>
+									<input type="text" class="form-control" name="nationality">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Passport Number</label>
+									<input type="text" class="form-control" name="passport_number">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Passport Expiry Date</label>
+									<input type="date" class="form-control" name="passport_expiry_date">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Visa Type</label>
+									<select class="form-select" name="visa_type">
+										<option value="">Select Visa Type</option>
+										<option value="employment">Employment</option>
+										<option value="dependent">Dependent</option>
+										<option value="investor">Investor</option>
+										<option value="student">Student</option>
+										<option value="tourist">Tourist</option>
+										<option value="other">Other</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Visa Number</label>
+									<input type="text" class="form-control" name="visa_number">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Visa Expiry Date</label>
+									<input type="date" class="form-control" name="visa_expiry_date">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Labor Card Number</label>
+									<input type="text" class="form-control" name="labor_card_number">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Labor Card Expiry Date</label>
+									<input type="date" class="form-control" name="labor_card_expiry_date">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">UAE Emirate</label>
+									<select class="form-select" name="uae_emirate">
+										<option value="">Select Emirate</option>
+										<option value="Abu Dhabi">Abu Dhabi</option>
+										<option value="Dubai">Dubai</option>
+										<option value="Sharjah">Sharjah</option>
+										<option value="Ajman">Ajman</option>
+										<option value="Umm Al Quwain">Umm Al Quwain</option>
+										<option value="Ras Al Khaimah">Ras Al Khaimah</option>
+										<option value="Fujairah">Fujairah</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">UAE City</label>
+									<input type="text" class="form-control" name="uae_city">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">UAE Area</label>
+									<input type="text" class="form-control" name="uae_area">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Bank Name</label>
+									<input type="text" class="form-control" name="bank_name" placeholder="e.g., Emirates NBD, ADCB">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">IBAN</label>
+									<input type="text" class="form-control" name="iban" placeholder="AE123456789012345678901">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Emergency Contact Name</label>
+									<input type="text" class="form-control" name="emergency_contact_name">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Emergency Contact Phone</label>
+									<input type="text" class="form-control" name="emergency_contact_phone">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-light border me-2" data-bs-toggle="tab" data-bs-target="#basic-info" type="button">Previous</button>
+						<button type="button" class="btn btn-primary" data-bs-toggle="tab" data-bs-target="#address" type="button">Next: Permissions</button>
+					</div>
 				</div>
 				<div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab" tabindex="0">
 					<div class="modal-body">	
@@ -1346,6 +1046,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-outline-light border me-2" data-bs-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" data-bs-toggle="tab" data-bs-target="#uae-info" type="button">Previous: UAE Information</button>
 						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#success_modal">Save </button>
 					</div>
 				</div>
@@ -1373,6 +1074,9 @@
 				<ul class="nav nav-underline" id="myTab2" role="tablist">
 					<li class="nav-item" role="presentation">
 					  <button class="nav-link active" id="info-tab2" data-bs-toggle="tab" data-bs-target="#basic-info2" type="button" role="tab" aria-selected="true">Basic Information</button>
+					</li>
+					<li class="nav-item" role="presentation">
+					  <button class="nav-link" id="uae-tab2" data-bs-toggle="tab" data-bs-target="#uae-info2" type="button" role="tab" aria-selected="false">UAE Information</button>
 					</li>
 					<li class="nav-item" role="presentation">
 					  <button class="nav-link" id="address-tab2" data-bs-toggle="tab" data-bs-target="#address2" type="button" role="tab" aria-selected="false">Permissions</button>
@@ -1508,8 +1212,131 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-outline-light border me-2" data-bs-dismiss="modal">Cancel</button>
-							<button type="submit" class="btn btn-primary">Save </button>
+							<button type="button" class="btn btn-primary" data-bs-toggle="tab" data-bs-target="#uae-info2" type="button">Next: UAE Information</button>
 						</div>
+				</div>
+				<div class="tab-pane fade" id="uae-info2" role="tabpanel" aria-labelledby="uae-tab2" tabindex="0">
+					<div class="modal-body pb-0">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Emirates ID</label>
+									<input type="text" class="form-control" name="emirates_id" value="" placeholder="e.g., 784-1234-1234567-1">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Nationality</label>
+									<input type="text" class="form-control" name="nationality" value="">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Passport Number</label>
+									<input type="text" class="form-control" name="passport_number" value="">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Passport Expiry Date</label>
+									<input type="date" class="form-control" name="passport_expiry_date" value="">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Visa Type</label>
+									<select class="form-select" name="visa_type">
+										<option value="">Select Visa Type</option>
+										<option value="employment">Employment</option>
+										<option value="dependent">Dependent</option>
+										<option value="investor">Investor</option>
+										<option value="student">Student</option>
+										<option value="tourist">Tourist</option>
+										<option value="other">Other</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Visa Number</label>
+									<input type="text" class="form-control" name="visa_number" value="">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Visa Expiry Date</label>
+									<input type="date" class="form-control" name="visa_expiry_date" value="">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Labor Card Number</label>
+									<input type="text" class="form-control" name="labor_card_number" value="">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Labor Card Expiry Date</label>
+									<input type="date" class="form-control" name="labor_card_expiry_date" value="">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">UAE Emirate</label>
+									<select class="form-select" name="uae_emirate">
+										<option value="">Select Emirate</option>
+										<option value="Abu Dhabi">Abu Dhabi</option>
+										<option value="Dubai">Dubai</option>
+										<option value="Sharjah">Sharjah</option>
+										<option value="Ajman">Ajman</option>
+										<option value="Umm Al Quwain">Umm Al Quwain</option>
+										<option value="Ras Al Khaimah">Ras Al Khaimah</option>
+										<option value="Fujairah">Fujairah</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">UAE City</label>
+									<input type="text" class="form-control" name="uae_city" value="">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">UAE Area</label>
+									<input type="text" class="form-control" name="uae_area" value="">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Bank Name</label>
+									<input type="text" class="form-control" name="bank_name" value="" placeholder="e.g., Emirates NBD, ADCB">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">IBAN</label>
+									<input type="text" class="form-control" name="iban" value="" placeholder="AE123456789012345678901">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Emergency Contact Name</label>
+									<input type="text" class="form-control" name="emergency_contact_name" value="">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label">Emergency Contact Phone</label>
+									<input type="text" class="form-control" name="emergency_contact_phone" value="">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-light border me-2" data-bs-toggle="tab" data-bs-target="#basic-info2" type="button">Previous</button>
+						<button type="button" class="btn btn-primary" data-bs-toggle="tab" data-bs-target="#address2" type="button">Next: Permissions</button>
+					</div>
 				</div>
 				<div class="tab-pane fade" id="address2" role="tabpanel" aria-labelledby="address-tab2" tabindex="0">
 					<div class="modal-body">	
@@ -2005,6 +1832,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-outline-light border me-2" data-bs-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" data-bs-toggle="tab" data-bs-target="#uae-info2" type="button">Previous: UAE Information</button>
 						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#success_modal">Save </button>
 					</div>
 				</div>
