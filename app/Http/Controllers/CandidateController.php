@@ -68,6 +68,13 @@ class CandidateController extends Controller
             'education' => 'nullable|string',
             'skills' => 'nullable|string',
             'is_active' => 'boolean',
+            // UAE-specific fields
+            'emirates_id' => 'nullable|string|max:255',
+            'passport_number' => 'nullable|string|max:255',
+            'nationality' => 'nullable|string|max:255',
+            'visa_status' => 'nullable|in:valid,expired,not_required,pending',
+            'current_location_emirate' => 'nullable|in:Abu Dhabi,Dubai,Sharjah,Ajman,Umm Al Quwain,Ras Al Khaimah,Fujairah,Outside UAE',
+            'current_location_city' => 'nullable|string|max:255',
         ]);
 
         Candidate::create($validated);
@@ -118,6 +125,13 @@ class CandidateController extends Controller
             'education' => 'nullable|string',
             'skills' => 'nullable|string',
             'is_active' => 'boolean',
+            // UAE-specific fields
+            'emirates_id' => 'nullable|string|max:255',
+            'passport_number' => 'nullable|string|max:255',
+            'nationality' => 'nullable|string|max:255',
+            'visa_status' => 'nullable|in:valid,expired,not_required,pending',
+            'current_location_emirate' => 'nullable|in:Abu Dhabi,Dubai,Sharjah,Ajman,Umm Al Quwain,Ras Al Khaimah,Fujairah,Outside UAE',
+            'current_location_city' => 'nullable|string|max:255',
         ]);
 
         $candidate->update($validated);

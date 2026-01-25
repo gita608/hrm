@@ -24,6 +24,23 @@ class User extends Authenticatable
         'role_id',
         'phone',
         'address',
+        // UAE-specific fields
+        'emirates_id',
+        'passport_number',
+        'passport_expiry_date',
+        'nationality',
+        'visa_type',
+        'visa_number',
+        'visa_expiry_date',
+        'labor_card_number',
+        'labor_card_expiry_date',
+        'bank_name',
+        'iban',
+        'uae_emirate',
+        'uae_city',
+        'uae_area',
+        'emergency_contact_name',
+        'emergency_contact_phone',
     ];
 
     /**
@@ -46,6 +63,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'passport_expiry_date' => 'date',
+            'visa_expiry_date' => 'date',
+            'labor_card_expiry_date' => 'date',
         ];
     }
 

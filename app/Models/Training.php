@@ -22,12 +22,15 @@ class Training extends Model
         'location',
         'max_participants',
         'is_active',
+        // UAE-specific fields
+        'uae_labor_law_compliance',
     ];
 
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
         'is_active' => 'boolean',
+        'uae_labor_law_compliance' => 'boolean',
     ];
 
     /**

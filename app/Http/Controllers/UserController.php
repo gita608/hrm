@@ -57,6 +57,23 @@ class UserController extends Controller
             'role_id' => 'required|exists:roles,id',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
+            // UAE-specific fields
+            'emirates_id' => 'nullable|string|max:255|unique:users,emirates_id',
+            'passport_number' => 'nullable|string|max:255',
+            'passport_expiry_date' => 'nullable|date',
+            'nationality' => 'nullable|string|max:255',
+            'visa_type' => 'nullable|in:employment,dependent,investor,student,tourist,other',
+            'visa_number' => 'nullable|string|max:255',
+            'visa_expiry_date' => 'nullable|date',
+            'labor_card_number' => 'nullable|string|max:255',
+            'labor_card_expiry_date' => 'nullable|date',
+            'bank_name' => 'nullable|string|max:255',
+            'iban' => 'nullable|string|max:34',
+            'uae_emirate' => 'nullable|in:Abu Dhabi,Dubai,Sharjah,Ajman,Umm Al Quwain,Ras Al Khaimah,Fujairah',
+            'uae_city' => 'nullable|string|max:255',
+            'uae_area' => 'nullable|string|max:255',
+            'emergency_contact_name' => 'nullable|string|max:255',
+            'emergency_contact_phone' => 'nullable|string|max:20',
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -100,6 +117,23 @@ class UserController extends Controller
             'role_id' => 'required|exists:roles,id',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
+            // UAE-specific fields
+            'emirates_id' => 'nullable|string|max:255|unique:users,emirates_id,' . $id,
+            'passport_number' => 'nullable|string|max:255',
+            'passport_expiry_date' => 'nullable|date',
+            'nationality' => 'nullable|string|max:255',
+            'visa_type' => 'nullable|in:employment,dependent,investor,student,tourist,other',
+            'visa_number' => 'nullable|string|max:255',
+            'visa_expiry_date' => 'nullable|date',
+            'labor_card_number' => 'nullable|string|max:255',
+            'labor_card_expiry_date' => 'nullable|date',
+            'bank_name' => 'nullable|string|max:255',
+            'iban' => 'nullable|string|max:34',
+            'uae_emirate' => 'nullable|in:Abu Dhabi,Dubai,Sharjah,Ajman,Umm Al Quwain,Ras Al Khaimah,Fujairah',
+            'uae_city' => 'nullable|string|max:255',
+            'uae_area' => 'nullable|string|max:255',
+            'emergency_contact_name' => 'nullable|string|max:255',
+            'emergency_contact_phone' => 'nullable|string|max:20',
         ]);
 
         if (!empty($validated['password'])) {

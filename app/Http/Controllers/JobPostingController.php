@@ -70,6 +70,11 @@ class JobPostingController extends Controller
             'benefits' => 'nullable|string',
             'status' => 'required|in:draft,open,closed,cancelled',
             'is_active' => 'boolean',
+            // UAE-specific fields
+            'uae_emirate' => 'nullable|in:Abu Dhabi,Dubai,Sharjah,Ajman,Umm Al Quwain,Ras Al Khaimah,Fujairah',
+            'uae_city' => 'nullable|string|max:255',
+            'visa_sponsorship' => 'boolean',
+            'work_permit_required' => 'boolean',
         ]);
 
         JobPosting::create($validated);
@@ -122,6 +127,11 @@ class JobPostingController extends Controller
             'benefits' => 'nullable|string',
             'status' => 'required|in:draft,open,closed,cancelled',
             'is_active' => 'boolean',
+            // UAE-specific fields
+            'uae_emirate' => 'nullable|in:Abu Dhabi,Dubai,Sharjah,Ajman,Umm Al Quwain,Ras Al Khaimah,Fujairah',
+            'uae_city' => 'nullable|string|max:255',
+            'visa_sponsorship' => 'boolean',
+            'work_permit_required' => 'boolean',
         ]);
 
         $jobPosting->update($validated);

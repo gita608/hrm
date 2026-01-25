@@ -52,6 +52,9 @@ class TerminationController extends Controller
             'reason' => 'nullable|string',
             'notes' => 'nullable|string',
             'is_active' => 'boolean',
+            // UAE-specific fields
+            'visa_cancellation_date' => 'nullable|date',
+            'labor_card_cancellation_date' => 'nullable|date',
         ]);
 
         Termination::create($validated);
@@ -84,6 +87,9 @@ class TerminationController extends Controller
             'reason' => 'nullable|string',
             'notes' => 'nullable|string',
             'is_active' => 'boolean',
+            // UAE-specific fields
+            'visa_cancellation_date' => 'nullable|date',
+            'labor_card_cancellation_date' => 'nullable|date',
         ]);
 
         $termination->update($validated);

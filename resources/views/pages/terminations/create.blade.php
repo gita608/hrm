@@ -102,6 +102,30 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- UAE-Specific Information Section -->
+				<hr class="my-4">
+				<h5 class="mb-3">UAE-Specific Information</h5>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Visa Cancellation Date</label>
+							<input type="date" class="form-control @error('visa_cancellation_date') is-invalid @enderror" name="visa_cancellation_date" value="{{ old('visa_cancellation_date') }}">
+							@error('visa_cancellation_date')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Labor Card Cancellation Date</label>
+							<input type="date" class="form-control @error('labor_card_cancellation_date') is-invalid @enderror" name="labor_card_cancellation_date" value="{{ old('labor_card_cancellation_date') }}">
+							@error('labor_card_cancellation_date')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+				</div>
 				<div class="d-flex justify-content-end gap-2">
 					<a href="{{ route('terminations.index') }}" class="btn btn-outline-light border">Cancel</a>
 					<button type="submit" class="btn btn-primary">Save Termination</button>

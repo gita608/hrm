@@ -119,6 +119,20 @@
 							@enderror
 						</div>
 					</div>
+					<div class="col-md-12">
+						<div class="mb-3">
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" name="uae_labor_law_compliance" value="1" id="uae_labor_law_compliance" {{ old('uae_labor_law_compliance') ? 'checked' : '' }}>
+								<label class="form-check-label" for="uae_labor_law_compliance">
+									<strong>UAE Labor Law Compliance Training</strong>
+								</label>
+							</div>
+							<small class="text-muted">Check this if this training covers UAE labor law compliance requirements</small>
+							@error('uae_labor_law_compliance')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
 				</div>
 				<div class="d-flex justify-content-end gap-2">
 					<a href="{{ route('training.index') }}" class="btn btn-outline-light border">Cancel</a>

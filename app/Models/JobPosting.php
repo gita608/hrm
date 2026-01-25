@@ -29,6 +29,11 @@ class JobPosting extends Model
         'benefits',
         'status',
         'is_active',
+        // UAE-specific fields
+        'uae_emirate',
+        'uae_city',
+        'visa_sponsorship',
+        'work_permit_required',
     ];
 
     protected $casts = [
@@ -37,6 +42,8 @@ class JobPosting extends Model
         'salary_from' => 'decimal:2',
         'salary_to' => 'decimal:2',
         'is_active' => 'boolean',
+        'visa_sponsorship' => 'boolean',
+        'work_permit_required' => 'boolean',
     ];
 
     /**

@@ -53,6 +53,9 @@ class ResignationController extends Controller
             'notes' => 'nullable|string',
             'status' => 'required|in:pending,accepted,rejected,withdrawn',
             'is_active' => 'boolean',
+            // UAE-specific fields
+            'visa_cancellation_date' => 'nullable|date',
+            'labor_card_cancellation_date' => 'nullable|date',
         ]);
 
         Resignation::create($validated);
@@ -86,6 +89,9 @@ class ResignationController extends Controller
             'notes' => 'nullable|string',
             'status' => 'required|in:pending,accepted,rejected,withdrawn',
             'is_active' => 'boolean',
+            // UAE-specific fields
+            'visa_cancellation_date' => 'nullable|date',
+            'labor_card_cancellation_date' => 'nullable|date',
         ]);
 
         $resignation->update($validated);

@@ -64,6 +64,32 @@
 						<div class="col-md-4"><strong>Location:</strong></div>
 						<div class="col-md-8">{{ $jobPosting->location ?? 'N/A' }}</div>
 					</div>
+					@if($jobPosting->uae_emirate)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>UAE Location:</strong></div>
+						<div class="col-md-8">{{ $jobPosting->uae_emirate }}{{ $jobPosting->uae_city ? ', ' . $jobPosting->uae_city : '' }}</div>
+					</div>
+					@endif
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Visa Sponsorship:</strong></div>
+						<div class="col-md-8">
+							@if($jobPosting->visa_sponsorship)
+								<span class="badge badge-success">Yes</span>
+							@else
+								<span class="badge badge-secondary">No</span>
+							@endif
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Work Permit Required:</strong></div>
+						<div class="col-md-8">
+							@if($jobPosting->work_permit_required)
+								<span class="badge badge-warning">Yes</span>
+							@else
+								<span class="badge badge-secondary">No</span>
+							@endif
+						</div>
+					</div>
 					@if($jobPosting->salary_from || $jobPosting->salary_to)
 					<div class="row mb-3">
 						<div class="col-md-4"><strong>Salary Range:</strong></div>

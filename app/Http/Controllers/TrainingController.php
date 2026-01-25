@@ -64,6 +64,8 @@ class TrainingController extends Controller
             'location' => 'nullable|string|max:255',
             'max_participants' => 'nullable|integer|min:1',
             'is_active' => 'boolean',
+            // UAE-specific fields
+            'uae_labor_law_compliance' => 'boolean',
         ]);
 
         Training::create($validated);
@@ -109,6 +111,8 @@ class TrainingController extends Controller
             'location' => 'nullable|string|max:255',
             'max_participants' => 'nullable|integer|min:1',
             'is_active' => 'boolean',
+            // UAE-specific fields
+            'uae_labor_law_compliance' => 'boolean',
         ]);
 
         $training->update($validated);

@@ -174,6 +174,82 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- UAE-Specific Information Section -->
+				<hr class="my-4">
+				<h5 class="mb-3">UAE-Specific Information</h5>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Emirates ID</label>
+							<input type="text" class="form-control @error('emirates_id') is-invalid @enderror" name="emirates_id" value="{{ old('emirates_id', $candidate->emirates_id) }}" placeholder="e.g., 784-1234-1234567-1">
+							@error('emirates_id')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Passport Number</label>
+							<input type="text" class="form-control @error('passport_number') is-invalid @enderror" name="passport_number" value="{{ old('passport_number', $candidate->passport_number) }}">
+							@error('passport_number')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Nationality</label>
+							<input type="text" class="form-control @error('nationality') is-invalid @enderror" name="nationality" value="{{ old('nationality', $candidate->nationality) }}">
+							@error('nationality')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Visa Status</label>
+							<select class="form-select @error('visa_status') is-invalid @enderror" name="visa_status">
+								<option value="">Select Visa Status</option>
+								<option value="valid" {{ old('visa_status', $candidate->visa_status) == 'valid' ? 'selected' : '' }}>Valid</option>
+								<option value="expired" {{ old('visa_status', $candidate->visa_status) == 'expired' ? 'selected' : '' }}>Expired</option>
+								<option value="not_required" {{ old('visa_status', $candidate->visa_status) == 'not_required' ? 'selected' : '' }}>Not Required</option>
+								<option value="pending" {{ old('visa_status', $candidate->visa_status) == 'pending' ? 'selected' : '' }}>Pending</option>
+							</select>
+							@error('visa_status')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Current Location - Emirate</label>
+							<select class="form-select @error('current_location_emirate') is-invalid @enderror" name="current_location_emirate">
+								<option value="">Select Emirate</option>
+								<option value="Abu Dhabi" {{ old('current_location_emirate', $candidate->current_location_emirate) == 'Abu Dhabi' ? 'selected' : '' }}>Abu Dhabi</option>
+								<option value="Dubai" {{ old('current_location_emirate', $candidate->current_location_emirate) == 'Dubai' ? 'selected' : '' }}>Dubai</option>
+								<option value="Sharjah" {{ old('current_location_emirate', $candidate->current_location_emirate) == 'Sharjah' ? 'selected' : '' }}>Sharjah</option>
+								<option value="Ajman" {{ old('current_location_emirate', $candidate->current_location_emirate) == 'Ajman' ? 'selected' : '' }}>Ajman</option>
+								<option value="Umm Al Quwain" {{ old('current_location_emirate', $candidate->current_location_emirate) == 'Umm Al Quwain' ? 'selected' : '' }}>Umm Al Quwain</option>
+								<option value="Ras Al Khaimah" {{ old('current_location_emirate', $candidate->current_location_emirate) == 'Ras Al Khaimah' ? 'selected' : '' }}>Ras Al Khaimah</option>
+								<option value="Fujairah" {{ old('current_location_emirate', $candidate->current_location_emirate) == 'Fujairah' ? 'selected' : '' }}>Fujairah</option>
+								<option value="Outside UAE" {{ old('current_location_emirate', $candidate->current_location_emirate) == 'Outside UAE' ? 'selected' : '' }}>Outside UAE</option>
+							</select>
+							@error('current_location_emirate')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Current Location - City</label>
+							<input type="text" class="form-control @error('current_location_city') is-invalid @enderror" name="current_location_city" value="{{ old('current_location_city', $candidate->current_location_city) }}">
+							@error('current_location_city')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+				</div>
 				<div class="d-flex justify-content-end gap-2">
 					<a href="{{ route('candidates.index') }}" class="btn btn-outline-light border">Cancel</a>
 					<button type="submit" class="btn btn-primary">Update Candidate</button>

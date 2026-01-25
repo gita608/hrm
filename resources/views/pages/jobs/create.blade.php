@@ -137,6 +137,57 @@
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
+							<label class="form-label">UAE Emirate</label>
+							<select class="form-select @error('uae_emirate') is-invalid @enderror" name="uae_emirate">
+								<option value="">Select Emirate</option>
+								<option value="Abu Dhabi" {{ old('uae_emirate') == 'Abu Dhabi' ? 'selected' : '' }}>Abu Dhabi</option>
+								<option value="Dubai" {{ old('uae_emirate') == 'Dubai' ? 'selected' : '' }}>Dubai</option>
+								<option value="Sharjah" {{ old('uae_emirate') == 'Sharjah' ? 'selected' : '' }}>Sharjah</option>
+								<option value="Ajman" {{ old('uae_emirate') == 'Ajman' ? 'selected' : '' }}>Ajman</option>
+								<option value="Umm Al Quwain" {{ old('uae_emirate') == 'Umm Al Quwain' ? 'selected' : '' }}>Umm Al Quwain</option>
+								<option value="Ras Al Khaimah" {{ old('uae_emirate') == 'Ras Al Khaimah' ? 'selected' : '' }}>Ras Al Khaimah</option>
+								<option value="Fujairah" {{ old('uae_emirate') == 'Fujairah' ? 'selected' : '' }}>Fujairah</option>
+							</select>
+							@error('uae_emirate')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">UAE City</label>
+							<input type="text" class="form-control @error('uae_city') is-invalid @enderror" name="uae_city" value="{{ old('uae_city') }}">
+							@error('uae_city')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Visa Sponsorship</label>
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" name="visa_sponsorship" value="1" id="visa_sponsorship" {{ old('visa_sponsorship') ? 'checked' : '' }}>
+								<label class="form-check-label" for="visa_sponsorship">Yes, visa sponsorship provided</label>
+							</div>
+							@error('visa_sponsorship')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Work Permit Required</label>
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox" name="work_permit_required" value="1" id="work_permit_required" {{ old('work_permit_required') ? 'checked' : '' }}>
+								<label class="form-check-label" for="work_permit_required">Work permit required</label>
+							</div>
+							@error('work_permit_required')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
 							<label class="form-label">Salary From</label>
 							<input type="number" class="form-control @error('salary_from') is-invalid @enderror" name="salary_from" value="{{ old('salary_from') }}" step="0.01" min="0">
 							@error('salary_from')

@@ -112,6 +112,46 @@
 						<div class="col-md-8">{{ $candidate->notes }}</div>
 					</div>
 					@endif
+					@if($candidate->emirates_id)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Emirates ID:</strong></div>
+						<div class="col-md-8">{{ $candidate->emirates_id }}</div>
+					</div>
+					@endif
+					@if($candidate->passport_number)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Passport Number:</strong></div>
+						<div class="col-md-8">{{ $candidate->passport_number }}</div>
+					</div>
+					@endif
+					@if($candidate->nationality)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Nationality:</strong></div>
+						<div class="col-md-8">{{ $candidate->nationality }}</div>
+					</div>
+					@endif
+					@if($candidate->visa_status)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Visa Status:</strong></div>
+						<div class="col-md-8">
+							@if($candidate->visa_status == 'valid')
+								<span class="badge badge-success">Valid</span>
+							@elseif($candidate->visa_status == 'expired')
+								<span class="badge badge-danger">Expired</span>
+							@elseif($candidate->visa_status == 'pending')
+								<span class="badge badge-warning">Pending</span>
+							@else
+								<span class="badge badge-info">Not Required</span>
+							@endif
+						</div>
+					</div>
+					@endif
+					@if($candidate->current_location_emirate)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Current Location:</strong></div>
+						<div class="col-md-8">{{ $candidate->current_location_emirate }}{{ $candidate->current_location_city ? ', ' . $candidate->current_location_city : '' }}</div>
+					</div>
+					@endif
 					<div class="row mb-3">
 						<div class="col-md-4"><strong>Created At:</strong></div>
 						<div class="col-md-8">{{ $candidate->created_at->format('M d, Y H:i') }}</div>

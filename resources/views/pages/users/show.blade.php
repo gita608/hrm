@@ -48,6 +48,84 @@
 						<div class="col-md-4"><strong>Address:</strong></div>
 						<div class="col-md-8">{{ $user->address ?? 'N/A' }}</div>
 					</div>
+					@if($user->emirates_id)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Emirates ID:</strong></div>
+						<div class="col-md-8">{{ $user->emirates_id }}</div>
+					</div>
+					@endif
+					@if($user->nationality)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Nationality:</strong></div>
+						<div class="col-md-8">{{ $user->nationality }}</div>
+					</div>
+					@endif
+					@if($user->passport_number)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Passport Number:</strong></div>
+						<div class="col-md-8">{{ $user->passport_number }}</div>
+					</div>
+					@endif
+					@if($user->passport_expiry_date)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Passport Expiry:</strong></div>
+						<div class="col-md-8">{{ $user->passport_expiry_date->format('M d, Y') }}</div>
+					</div>
+					@endif
+					@if($user->visa_type)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Visa Type:</strong></div>
+						<div class="col-md-8">{{ ucfirst($user->visa_type) }}</div>
+					</div>
+					@endif
+					@if($user->visa_number)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Visa Number:</strong></div>
+						<div class="col-md-8">{{ $user->visa_number }}</div>
+					</div>
+					@endif
+					@if($user->visa_expiry_date)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Visa Expiry:</strong></div>
+						<div class="col-md-8">{{ $user->visa_expiry_date->format('M d, Y') }}</div>
+					</div>
+					@endif
+					@if($user->labor_card_number)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Labor Card Number:</strong></div>
+						<div class="col-md-8">{{ $user->labor_card_number }}</div>
+					</div>
+					@endif
+					@if($user->labor_card_expiry_date)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Labor Card Expiry:</strong></div>
+						<div class="col-md-8">{{ $user->labor_card_expiry_date->format('M d, Y') }}</div>
+					</div>
+					@endif
+					@if($user->uae_emirate)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>UAE Location:</strong></div>
+						<div class="col-md-8">{{ $user->uae_emirate }}{{ $user->uae_city ? ', ' . $user->uae_city : '' }}{{ $user->uae_area ? ', ' . $user->uae_area : '' }}</div>
+					</div>
+					@endif
+					@if($user->bank_name)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Bank Name:</strong></div>
+						<div class="col-md-8">{{ $user->bank_name }}</div>
+					</div>
+					@endif
+					@if($user->iban)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>IBAN:</strong></div>
+						<div class="col-md-8">{{ $user->iban }}</div>
+					</div>
+					@endif
+					@if($user->emergency_contact_name)
+					<div class="row mb-3">
+						<div class="col-md-4"><strong>Emergency Contact:</strong></div>
+						<div class="col-md-8">{{ $user->emergency_contact_name }}{{ $user->emergency_contact_phone ? ' - ' . $user->emergency_contact_phone : '' }}</div>
+					</div>
+					@endif
 					<div class="row mb-3">
 						<div class="col-md-4"><strong>Email Verified:</strong></div>
 						<div class="col-md-8">

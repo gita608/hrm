@@ -18,11 +18,16 @@ class Termination extends Model
         'reason',
         'notes',
         'is_active',
+        // UAE-specific fields
+        'visa_cancellation_date',
+        'labor_card_cancellation_date',
     ];
 
     protected $casts = [
         'termination_date' => 'date',
         'notice_date' => 'date',
+        'visa_cancellation_date' => 'date',
+        'labor_card_cancellation_date' => 'date',
         'is_active' => 'boolean',
     ];
 

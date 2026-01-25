@@ -27,6 +27,13 @@ class Candidate extends Model
         'education',
         'skills',
         'is_active',
+        // UAE-specific fields
+        'emirates_id',
+        'passport_number',
+        'nationality',
+        'visa_status',
+        'current_location_emirate',
+        'current_location_city',
     ];
 
     protected $casts = [
