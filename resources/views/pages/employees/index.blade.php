@@ -33,7 +33,7 @@
 				</div>
 			</div>
 			<div class="mb-2">
-				<a href="#" data-bs-toggle="modal" data-bs-target="#add_employee" class="btn btn-primary d-flex align-items-center"><i class="ti ti-circle-plus me-2"></i>Add Employee</a>
+				<a href="{{ route('employees.create') }}" class="btn btn-primary d-flex align-items-center"><i class="ti ti-circle-plus me-2"></i>Add Employee</a>
 			</div>
 			<div class="head-icons ms-2">
 				<a href="javascript:void(0);" class="" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Collapse" id="collapse-header">
@@ -250,7 +250,7 @@
 							</td>
 							<td>
 								<div class="action-icon d-inline-flex">
-									<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_employee" onclick="loadEmployeeData({{ $employee->id }})"><i class="ti ti-edit"></i></a>
+									<a href="{{ route('employees.edit', $employee->id) }}" class="me-2"><i class="ti ti-edit"></i></a>
 									<a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal" onclick="setDeleteEmployeeId({{ $employee->id }})"><i class="ti ti-trash"></i></a>
 								</div>
 							</td>
@@ -271,9 +271,7 @@
 		</div>
 
 	
-	<!-- Add Employee -->
-	<div class="modal fade" id="add_employee">
-		<div class="modal-dialog modal-dialog-centered modal-lg">
+	<!-- Add Employee Success -->
 		<div class="modal-content">
 			<div class="modal-header">
 			<div class="d-flex align-items-center">
@@ -1057,8 +1055,10 @@
 	</div>
 	<!-- /Add Employee -->
 
-	<!-- Edit Employee -->
-	<div class="modal fade" id="edit_employee">
+		</div>
+
+	
+	<!-- Add Employee Success -->
 		<div class="modal-dialog modal-dialog-centered modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">

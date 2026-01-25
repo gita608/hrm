@@ -50,7 +50,8 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('pages.employees.create');
+        $roles = \App\Models\Role::where('is_active', true)->orderBy('name')->get();
+        return view('pages.employees.create', compact('roles'));
     }
 
     /**
@@ -61,7 +62,37 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        // TODO: Implement employee creation logic
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'role_id' => 'required|exists:roles,id',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:500',
+            // UAE-specific fields
+            'emirates_id' => 'nullable|string|max:255|unique:users,emirates_id',
+            'passport_number' => 'nullable|string|max:255',
+            'passport_expiry_date' => 'nullable|date',
+            'nationality' => 'nullable|string|max:255',
+            'visa_type' => 'nullable|in:employment,dependent,investor,student,tourist,other',
+            'visa_number' => 'nullable|string|max:255',
+            'visa_expiry_date' => 'nullable|date',
+            'labor_card_number' => 'nullable|string|max:255',
+            'labor_card_expiry_date' => 'nullable|date',
+            'bank_name' => 'nullable|string|max:255',
+            'iban' => 'nullable|string|max:34',
+            'uae_emirate' => 'nullable|in:Abu Dhabi,Dubai,Sharjah,Ajman,Umm Al Quwain,Ras Al Khaimah,Fujairah',
+            'uae_city' => 'nullable|string|max:255',
+            'uae_area' => 'nullable|string|max:255',
+            'emergency_contact_name' => 'nullable|string|max:255',
+            'emergency_contact_phone' => 'nullable|string|max:20',
+        ]);
+
+        $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
+        $validated['email_verified_at'] = now();
+
+        \App\Models\User::create($validated);
+
         return redirect()->route('employees.index')->with('success', 'Employee created successfully.');
     }
 
@@ -85,8 +116,9 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        // TODO: Implement employee edit view
-        return view('pages.employees.edit', compact('id'));
+        $employee = \App\Models\User::findOrFail($id);
+        $roles = \App\Models\Role::where('is_active', true)->orderBy('name')->get();
+        return view('pages.employees.edit', compact('employee', 'roles'));
     }
 
     /**
@@ -98,7 +130,42 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // TODO: Implement employee update logic
+        $employee = \App\Models\User::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'password' => 'nullable|string|min:8|confirmed',
+            'role_id' => 'required|exists:roles,id',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:500',
+            // UAE-specific fields
+            'emirates_id' => 'nullable|string|max:255|unique:users,emirates_id,' . $id,
+            'passport_number' => 'nullable|string|max:255',
+            'passport_expiry_date' => 'nullable|date',
+            'nationality' => 'nullable|string|max:255',
+            'visa_type' => 'nullable|in:employment,dependent,investor,student,tourist,other',
+            'visa_number' => 'nullable|string|max:255',
+            'visa_expiry_date' => 'nullable|date',
+            'labor_card_number' => 'nullable|string|max:255',
+            'labor_card_expiry_date' => 'nullable|date',
+            'bank_name' => 'nullable|string|max:255',
+            'iban' => 'nullable|string|max:34',
+            'uae_emirate' => 'nullable|in:Abu Dhabi,Dubai,Sharjah,Ajman,Umm Al Quwain,Ras Al Khaimah,Fujairah',
+            'uae_city' => 'nullable|string|max:255',
+            'uae_area' => 'nullable|string|max:255',
+            'emergency_contact_name' => 'nullable|string|max:255',
+            'emergency_contact_phone' => 'nullable|string|max:20',
+        ]);
+
+        if (!empty($validated['password'])) {
+            $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $employee->update($validated);
+
         return redirect()->route('employees.index')->with('success', 'Employee updated successfully.');
     }
 
