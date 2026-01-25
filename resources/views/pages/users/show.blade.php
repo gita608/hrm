@@ -152,7 +152,13 @@
 			<div class="card">
 				<div class="card-body text-center">
 					<div class="avatar avatar-xxl mb-3">
-						<img src="{{ asset('assets/img/profiles/avatar-12.jpg') }}" alt="User" class="img-fluid rounded-circle">
+						@if($user->profile_picture)
+							<img src="{{ asset('storage/' . $user->profile_picture) }}" alt="User" class="img-fluid rounded-circle">
+						@else
+							<div class="avatar-initial bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 2.5rem;">
+								{{ strtoupper(substr($user->name, 0, 1)) }}
+							</div>
+						@endif
 					</div>
 					<h4 class="mb-1">{{ $user->name }}</h4>
 					<p class="text-muted mb-2">{{ $user->role->name ?? 'N/A' }}</p>

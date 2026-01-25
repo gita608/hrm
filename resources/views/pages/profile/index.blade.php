@@ -28,7 +28,13 @@
 				<div class="card-body">
 					<div class="text-center">
 						<div class="avatar avatar-xxl mb-3">
-							<img src="{{ asset('assets/img/profiles/avatar-12.jpg') }}" alt="Profile" class="img-fluid rounded-circle">
+							@if($user->profile_picture)
+								<img src="{{ asset('storage/' . $user->profile_picture) }}" alt="Profile" class="img-fluid rounded-circle">
+							@else
+								<div class="avatar-initial bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 100px; height: 100px; font-size: 2.5rem;">
+									{{ strtoupper(substr($user->name, 0, 1)) }}
+								</div>
+							@endif
 						</div>
 						<h4 class="mb-1">{{ $user->name }}</h4>
 						<p class="text-muted mb-2">{{ $user->role->name ?? 'N/A' }}</p>
@@ -90,10 +96,42 @@
 					<h5>Profile Information</h5>
 				</div>
 				<div class="card-body">
-					<form action="{{ route('profile.update') }}" method="POST">
+					<form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
 						@csrf
 						@method('PUT')
 						<div class="row">
+							<div class="col-md-12">
+								<div class="mb-4">
+									<label class="form-label">Profile Picture</label>
+									<div class="d-flex align-items-center flex-wrap row-gap-3 bg-light w-100 rounded p-3">
+										<div class="d-flex align-items-center justify-content-center avatar avatar-xxl rounded-circle border border-dashed me-2 flex-shrink-0 text-dark frames" id="profile-preview-container">
+											@if($user->profile_picture)
+												<img id="profile-preview" src="{{ asset('storage/' . $user->profile_picture) }}" alt="Profile Preview" class="img-fluid rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
+												<i class="ti ti-photo text-gray-2 fs-16 d-none" id="profile-preview-icon"></i>
+											@else
+												<i class="ti ti-photo text-gray-2 fs-16" id="profile-preview-icon"></i>
+												<img id="profile-preview" src="" alt="Profile Preview" class="img-fluid rounded-circle d-none" style="width: 100%; height: 100%; object-fit: cover;">
+											@endif
+										</div>
+										<div class="profile-upload">
+											<div class="mb-2">
+												<h6 class="mb-1">Upload Profile Image</h6>
+												<p class="fs-12">Image should be below 4 MB (JPG, PNG, GIF)</p>
+											</div>
+											<div class="profile-uploader d-flex align-items-center">
+												<label for="profile_picture" class="btn btn-sm btn-primary me-2 mb-0" style="cursor: pointer;">
+													Upload
+													<input type="file" id="profile_picture" name="profile_picture" class="d-none" accept="image/*" onchange="previewProfilePicture(this)">
+												</label>
+												<button type="button" class="btn btn-light btn-sm" onclick="clearProfilePicture()">Clear</button>
+											</div>
+											@error('profile_picture')
+												<div class="text-danger fs-12 mt-1">{{ $message }}</div>
+											@enderror
+										</div>
+									</div>
+								</div>
+							</div>
 							<div class="col-md-6">
 								<div class="mb-3">
 									<label class="form-label">Full Name <span class="text-danger">*</span></label>
@@ -303,10 +341,6 @@
 									@enderror
 								</div>
 							</div>
-						</div>
-						<div class="d-flex justify-content-end gap-2">
-							<button type="submit" class="btn btn-primary">Update Profile</button>
-						</div>
 					</form>
 				</div>
 			</div>
@@ -362,5 +396,32 @@
 			</div>
 		</div>
 	</div>
+
+	<script>
+		function previewProfilePicture(input) {
+			if (input.files && input.files[0]) {
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					document.getElementById('profile-preview').src = e.target.result;
+					document.getElementById('profile-preview').classList.remove('d-none');
+					document.getElementById('profile-preview-icon').classList.add('d-none');
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+
+		function clearProfilePicture() {
+			document.getElementById('profile_picture').value = '';
+			@if($user->profile_picture)
+				document.getElementById('profile-preview').src = '{{ asset('storage/' . $user->profile_picture) }}';
+				document.getElementById('profile-preview').classList.remove('d-none');
+				document.getElementById('profile-preview-icon').classList.add('d-none');
+			@else
+				document.getElementById('profile-preview').src = '';
+				document.getElementById('profile-preview').classList.add('d-none');
+				document.getElementById('profile-preview-icon').classList.remove('d-none');
+			@endif
+		}
+	</script>
 
 @endsection

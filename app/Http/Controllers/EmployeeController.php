@@ -69,6 +69,7 @@ class EmployeeController extends Controller
             'role_id' => 'required|exists:roles,id',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
             // UAE-specific fields
             'emirates_id' => 'nullable|string|max:255|unique:users,emirates_id',
             'passport_number' => 'nullable|string|max:255',
@@ -90,6 +91,14 @@ class EmployeeController extends Controller
 
         $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
         $validated['email_verified_at'] = now();
+
+        // Handle profile picture upload
+        if ($request->hasFile('profile_picture')) {
+            $file = $request->file('profile_picture');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('profile_pictures', $filename, 'public');
+            $validated['profile_picture'] = $path;
+        }
 
         \App\Models\User::create($validated);
 
@@ -139,6 +148,7 @@ class EmployeeController extends Controller
             'role_id' => 'required|exists:roles,id',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
             // UAE-specific fields
             'emirates_id' => 'nullable|string|max:255|unique:users,emirates_id,' . $id,
             'passport_number' => 'nullable|string|max:255',
@@ -162,6 +172,19 @@ class EmployeeController extends Controller
             $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
         } else {
             unset($validated['password']);
+        }
+
+        // Handle profile picture upload
+        if ($request->hasFile('profile_picture')) {
+            // Delete old profile picture if exists
+            if ($employee->profile_picture) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($employee->profile_picture);
+            }
+            
+            $file = $request->file('profile_picture');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('profile_pictures', $filename, 'public');
+            $validated['profile_picture'] = $path;
         }
 
         $employee->update($validated);

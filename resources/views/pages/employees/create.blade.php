@@ -20,9 +20,36 @@
 			<h5>Employee Information</h5>
 		</div>
 		<div class="card-body">
-			<form action="{{ route('employees.store') }}" method="POST">
+			<form action="{{ route('employees.store') }}" method="POST" enctype="multipart/form-data">
 				@csrf
 				<div class="row">
+					<div class="col-md-12">
+						<div class="mb-4">
+							<label class="form-label">Profile Picture</label>
+							<div class="d-flex align-items-center flex-wrap row-gap-3 bg-light w-100 rounded p-3">
+								<div class="d-flex align-items-center justify-content-center avatar avatar-xxl rounded-circle border border-dashed me-2 flex-shrink-0 text-dark frames" id="profile-preview-container">
+									<i class="ti ti-photo text-gray-2 fs-16" id="profile-preview-icon"></i>
+									<img id="profile-preview" src="" alt="Profile Preview" class="img-fluid rounded-circle d-none" style="width: 100%; height: 100%; object-fit: cover;">
+								</div>
+								<div class="profile-upload">
+									<div class="mb-2">
+										<h6 class="mb-1">Upload Profile Image</h6>
+										<p class="fs-12">Image should be below 4 MB (JPG, PNG, GIF)</p>
+									</div>
+									<div class="profile-uploader d-flex align-items-center">
+										<label for="profile_picture" class="btn btn-sm btn-primary me-2 mb-0" style="cursor: pointer;">
+											Upload
+											<input type="file" id="profile_picture" name="profile_picture" class="d-none" accept="image/*" onchange="previewProfilePicture(this)">
+										</label>
+										<button type="button" class="btn btn-light btn-sm" onclick="clearProfilePicture()">Clear</button>
+									</div>
+									@error('profile_picture')
+										<div class="text-danger fs-12 mt-1">{{ $message }}</div>
+									@enderror
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
 							<label class="form-label">Full Name <span class="text-danger">*</span></label>
@@ -262,12 +289,29 @@
 						</div>
 					</div>
 				</div>
-				<div class="d-flex justify-content-end gap-2">
-					<a href="{{ route('employees.index') }}" class="btn btn-outline-light border">Cancel</a>
-					<button type="submit" class="btn btn-primary">Save Employee</button>
-				</div>
 			</form>
 		</div>
 	</div>
+
+	<script>
+		function previewProfilePicture(input) {
+			if (input.files && input.files[0]) {
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					document.getElementById('profile-preview').src = e.target.result;
+					document.getElementById('profile-preview').classList.remove('d-none');
+					document.getElementById('profile-preview-icon').classList.add('d-none');
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+
+		function clearProfilePicture() {
+			document.getElementById('profile_picture').value = '';
+			document.getElementById('profile-preview').src = '';
+			document.getElementById('profile-preview').classList.add('d-none');
+			document.getElementById('profile-preview-icon').classList.remove('d-none');
+		}
+	</script>
 
 @endsection

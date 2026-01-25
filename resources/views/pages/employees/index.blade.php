@@ -211,8 +211,8 @@
 							<td>
 								<div class="d-flex align-items-center">
 									<a href="{{ route('employees.show', $employee->id) }}" class="avatar avatar-md">
-										@if($employee->avatar)
-											<img src="{{ asset('storage/' . $employee->avatar) }}" class="img-fluid rounded-circle" alt="img">
+										@if($employee->profile_picture)
+											<img src="{{ asset('storage/' . $employee->profile_picture) }}" class="img-fluid rounded-circle" alt="img">
 										@else
 											<div class="avatar-initial bg-primary text-white rounded-circle d-flex align-items-center justify-content-center">
 												{{ strtoupper(substr($employee->name, 0, 1)) }}

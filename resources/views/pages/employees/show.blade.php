@@ -132,13 +132,19 @@
 			<div class="card">
 				<div class="card-body text-center">
 					<div class="avatar avatar-xxl mb-3">
-						<img src="{{ asset('assets/img/profiles/avatar-12.jpg') }}" alt="Employee" class="img-fluid rounded-circle">
+						@if($employee->profile_picture)
+							<img src="{{ asset('storage/' . $employee->profile_picture) }}" alt="Employee" class="img-fluid rounded-circle">
+						@else
+							<div class="avatar-initial bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 2.5rem;">
+								{{ strtoupper(substr($employee->name, 0, 1)) }}
+							</div>
+						@endif
 					</div>
 					<h4 class="mb-1">{{ $employee->name ?? 'Employee Name' }}</h4>
 					<p class="text-muted mb-2">{{ $employee->role->name ?? 'N/A' }}</p>
 					<p class="text-muted mb-3">{{ $employee->email ?? 'N/A' }}</p>
 					<div class="d-flex flex-column gap-2">
-						<a href="{{ route('employees.edit', $id ?? 1) }}" class="btn btn-primary btn-sm">
+						<a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-primary btn-sm">
 							<i class="ti ti-edit me-2"></i>Edit Employee
 						</a>
 					</div>

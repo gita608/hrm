@@ -142,7 +142,13 @@
 								<td>
 									<div class="d-flex align-items-center">
 										<span class="avatar avatar-sm me-2">
-											<img src="{{ asset('assets/img/profiles/avatar-12.jpg') }}" alt="User" class="img-fluid rounded-circle">
+											@if($user->profile_picture)
+												<img src="{{ asset('storage/' . $user->profile_picture) }}" alt="User" class="img-fluid rounded-circle">
+											@else
+												<div class="avatar-initial bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.875rem;">
+													{{ strtoupper(substr($user->name, 0, 1)) }}
+												</div>
+											@endif
 										</span>
 										<strong>{{ $user->name }}</strong>
 									</div>

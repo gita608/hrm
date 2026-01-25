@@ -24,6 +24,7 @@ class User extends Authenticatable
         'role_id',
         'phone',
         'address',
+        'profile_picture',
         // UAE-specific fields
         'emirates_id',
         'passport_number',

@@ -23,6 +23,9 @@ use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ResignationController;
 use App\Http\Controllers\TerminationController;
+use App\Http\Controllers\OnboardingController;
+use App\Http\Controllers\OnboardingTemplateController;
+use App\Http\Controllers\OnboardingChecklistController;
 use App\Http\Controllers\Auth\LoginController;
 
 // Authentication Routes
@@ -137,4 +140,33 @@ Route::middleware('auth')->group(function () {
 
     // Termination Routes
     Route::resource('terminations', TerminationController::class);
+
+    // Onboarding Routes
+    Route::prefix('onboarding')->name('onboarding.')->group(function () {
+        Route::get('/', [OnboardingController::class, 'index'])->name('index');
+        Route::get('/create', [OnboardingController::class, 'create'])->name('create');
+        Route::post('/', [OnboardingController::class, 'store'])->name('store');
+        Route::get('/{id}', [OnboardingController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [OnboardingController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [OnboardingController::class, 'update'])->name('update');
+        Route::delete('/{id}', [OnboardingController::class, 'destroy'])->name('destroy');
+        
+        // Templates routes
+        Route::get('/templates', [OnboardingTemplateController::class, 'index'])->name('templates.index');
+        Route::get('/templates/create', [OnboardingTemplateController::class, 'create'])->name('templates.create');
+        Route::post('/templates', [OnboardingTemplateController::class, 'store'])->name('templates.store');
+        Route::get('/templates/{id}', [OnboardingTemplateController::class, 'show'])->name('templates.show');
+        Route::get('/templates/{id}/edit', [OnboardingTemplateController::class, 'edit'])->name('templates.edit');
+        Route::put('/templates/{id}', [OnboardingTemplateController::class, 'update'])->name('templates.update');
+        Route::delete('/templates/{id}', [OnboardingTemplateController::class, 'destroy'])->name('templates.destroy');
+        
+        // Checklist routes
+        Route::prefix('checklist')->name('checklist.')->group(function () {
+            Route::get('/', [OnboardingChecklistController::class, 'index'])->name('index');
+            Route::post('/{onboarding_id}', [OnboardingChecklistController::class, 'store'])->name('store');
+            Route::put('/{id}', [OnboardingChecklistController::class, 'update'])->name('update');
+            Route::put('/{id}/complete', [OnboardingChecklistController::class, 'complete'])->name('complete');
+            Route::delete('/{id}', [OnboardingChecklistController::class, 'destroy'])->name('destroy');
+        });
+    });
 });
