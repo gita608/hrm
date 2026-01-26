@@ -15034,31 +15034,44 @@ button.swal2-cancel {
   margin-left: 8px;
 }
 .sidebar .sidebar-menu > ul > li ul li a.active {
-  color: #F26522;
+  background: rgba(254, 159, 67, 0.08);
+  border-radius: 5px;
+  color: #FE9F43;
+}
+.sidebar .sidebar-menu > ul > li ul li a.active i {
+  color: #FE9F43;
+}
+.sidebar .sidebar-menu > ul > li ul li a.active span {
+  color: #FE9F43;
 }
 .sidebar .sidebar-menu > ul > li ul li a.active::before {
   opacity: 1;
 }
 .sidebar .sidebar-menu > ul > li ul > li.active a {
-  background: #E8E9EA;
+  background: rgba(254, 159, 67, 0.08);
   border-radius: 5px;
-  color: #FFF;
+  color: #FE9F43;
+}
+.sidebar .sidebar-menu > ul > li ul > li.active a i {
+  color: #FE9F43;
+}
+.sidebar .sidebar-menu > ul > li ul > li.active a span {
+  color: #FE9F43;
 }
 .sidebar .sidebar-menu > ul > li ul > li.active a .menu-arrow::before {
-  border-right: 2px solid #F26522;
-  border-bottom: 2px solid #F26522;
+  border-right: 2px solid #FE9F43;
+  border-bottom: 2px solid #FE9F43;
 }
 .sidebar .sidebar-menu > ul > li ul > li.active a.subdrop {
-  background: #FEF1EB;
+  background: rgba(254, 159, 67, 0.08);
   border-radius: 5px;
-  color: #F26522;
+  color: #FE9F43;
 }
 .sidebar .sidebar-menu > ul > li ul > li.active a.subdrop i {
-  color: #FFF;
-  background: #FFF;
+  color: #FE9F43;
 }
 .sidebar .sidebar-menu > ul > li ul > li.active a.subdrop span {
-  color: #F26522;
+  color: #FE9F43;
 }
 .sidebar .sidebar-menu > ul > li:first-child h6 {
   margin-top: 0;
@@ -15120,29 +15133,51 @@ button.swal2-cancel {
   opacity: 0;
 }
 .sidebar .sidebar-menu > ul li .submenu > ul li a.active {
-  color: #F26522;
+  background: rgba(254, 159, 67, 0.08);
+  border-radius: 5px;
+  color: #FE9F43;
+}
+.sidebar .sidebar-menu > ul li .submenu > ul li a.active i {
+  color: #FE9F43;
+}
+.sidebar .sidebar-menu > ul li .submenu > ul li a.active span {
+  color: #FE9F43;
 }
 .sidebar .sidebar-menu > ul li .submenu > ul li a.active::before {
   opacity: 1;
+  background: #FE9F43;
 }
 .sidebar .sidebar-menu > ul li .submenu > ul li a:hover {
-  color: #F26522;
+  color: #FE9F43;
 }
 .sidebar .sidebar-menu > ul li .submenu > ul li a:hover .menu-arrow::before {
-  border-color: #F26522;
+  border-color: #FE9F43;
 }
 .sidebar .sidebar-menu > ul li .submenu > a.subdrop {
-  background: #E8E9EA;
+  background: rgba(254, 159, 67, 0.08);
+  border-radius: 5px;
 }
 .sidebar .sidebar-menu > ul li .submenu > a.subdrop i {
-  color: #374151;
+  color: #FE9F43;
+}
+.sidebar .sidebar-menu > ul li .submenu > a.subdrop span {
+  color: #FE9F43;
+}
+.sidebar .sidebar-menu > ul li .submenu > a.subdrop .menu-arrow::before {
+  border-color: #FE9F43;
 }
 .sidebar .sidebar-menu > ul li .submenu > a.active {
-  background: #E8E9EA;
+  background: rgba(254, 159, 67, 0.08);
   border-radius: 5px;
 }
 .sidebar .sidebar-menu > ul li .submenu > a.active i {
-  color: #374151;
+  color: #FE9F43;
+}
+.sidebar .sidebar-menu > ul li .submenu > a.active span {
+  color: #FE9F43;
+}
+.sidebar .sidebar-menu > ul li .submenu > a.active .menu-arrow::before {
+  border-color: #FE9F43;
 }
 .sidebar .sidebar-menu > ul li .submenu.submenu-two a.subdrop, .sidebar .sidebar-menu > ul li .submenu.submenu-two a.active {
   background: transparent;
@@ -17617,10 +17652,17 @@ body.data-layout-transparent .page-wrapper .head-icons {
   color: #E5E7EB;
 }
 [data-sidebar=dark] .sidebar .sidebar-menu > ul > li .submenu > a.subdrop {
-  background: #4B5563;
+  background: rgba(254, 159, 67, 0.15);
+}
+[data-sidebar=dark] .sidebar .sidebar-menu > ul > li .submenu > a.subdrop i,
+[data-sidebar=dark] .sidebar .sidebar-menu > ul > li .submenu > a.subdrop span {
+  color: #FE9F43;
+}
+[data-sidebar=dark] .sidebar .sidebar-menu > ul > li .submenu > a.subdrop .menu-arrow::before {
+  border-color: #FE9F43;
 }
 [data-sidebar=dark] .sidebar .sidebar-menu > ul > li .submenu > a:hover, [data-sidebar=dark] .sidebar .sidebar-menu > ul > li .submenu > a.active {
-  background: #4B5563;
+  background: rgba(254, 159, 67, 0.15);
 }
 [data-sidebar=dark] .sidebar .sidebar-menu > ul > li.active a span {
   color: #F26522;
