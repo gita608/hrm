@@ -81,7 +81,7 @@
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Status</label>
+							<label class="form-label">Record Status</label>
 							<select class="form-select @error('is_active') is-invalid @enderror" name="is_active">
 								<option value="1" {{ old('is_active', '1') == '1' ? 'selected' : '' }}>Active</option>
 								<option value="0" {{ old('is_active') == '0' ? 'selected' : '' }}>Inactive</option>
