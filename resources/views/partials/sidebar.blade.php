@@ -8,8 +8,6 @@
 					 alt="{{ \App\Helpers\SettingsHelper::appName() }}"
 					 class="sidebar-logo-img"
 					 style="object-fit: contain; display: block; vertical-align: bottom;">
-			@else
-				<span class="fw-bold fs-18">{{ \App\Helpers\SettingsHelper::appName() }}</span>
 			@endif
 		</a>
 	</div>
@@ -250,17 +248,17 @@
 				<li class="menu-title"><span>DOCUMENTS & SUPPORT</span></li>
 				<li>
 					<ul>
-						<li class="submenu {{ $submenuActiveClass('documents*') }}">
-							<a href="javascript:void(0);" class="{{ $subdropClass('documents*') }}" aria-expanded="{{ $isActive('documents*') ? 'true' : 'false' }}">
-								<i class="ti ti-file-text" aria-hidden="true"></i><span>Documents</span>
-								<span class="menu-arrow" aria-hidden="true"></span>
-							</a>
-							<ul style="{{ $displayStyle('documents*') }}">
-								<li><a href="javascript:void(0);" class="{{ $activeClass('documents') && !request()->is('documents/*') ? 'active' : '' }}">Document Library</a></li>
-								<li><a href="javascript:void(0);" class="{{ $activeClass('documents/letters') }}">HR Letters</a></li>
-								<li><a href="javascript:void(0);" class="{{ $activeClass('documents/certificates') }}">Certificates</a></li>
-							</ul>
-						</li>
+						<li class="submenu {{ $submenuActiveClass(['documents*', 'hr-letters*', 'certificates*']) }}">
+						<a href="javascript:void(0);" class="{{ $subdropClass(['documents*', 'hr-letters*', 'certificates*']) }}" aria-expanded="{{ $isActive(['documents*', 'hr-letters*', 'certificates*']) ? 'true' : 'false' }}">
+							<i class="ti ti-file-text" aria-hidden="true"></i><span>Documents</span>
+							<span class="menu-arrow" aria-hidden="true"></span>
+						</a>
+						<ul style="{{ $displayStyle(['documents*', 'hr-letters*', 'certificates*']) }}">
+							<li><a href="{{ route('documents.index') }}" class="{{ $activeClass('documents*') }}">Document Library</a></li>
+							<li><a href="{{ route('hr-letters.index') }}" class="{{ $activeClass('hr-letters*') }}">HR Letters</a></li>
+							<li><a href="{{ route('certificates.index') }}" class="{{ $activeClass('certificates*') }}">Certificates</a></li>
+						</ul>
+					</li>
 					</ul>
 				</li>
 

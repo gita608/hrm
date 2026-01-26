@@ -6,11 +6,14 @@ use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\HrLetterController;
 use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\InterviewFeedbackController;
 use App\Http\Controllers\JobPostingController;
@@ -231,4 +234,13 @@ Route::middleware('auth')->group(function () {
         Route::resource('provident-fund', ProvidentFundController::class);
         Route::resource('tax', TaxController::class);
     });
+
+    // Document Routes
+    Route::resource('documents', DocumentController::class);
+
+    // HR Letter Routes
+    Route::resource('hr-letters', HrLetterController::class);
+
+    // Certificate Routes
+    Route::resource('certificates', CertificateController::class);
 });
