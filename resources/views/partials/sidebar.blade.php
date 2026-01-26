@@ -1,52 +1,19 @@
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
 	<!-- Logo -->
-	<div class="sidebar-logo">
-		<a href="{{ url('/') }}" class="logo logo-normal">
+	<div class="sidebar-logo d-flex flex-column align-items-center justify-content-end">
+		<a href="{{ url('/') }}" class="logo logo-normal d-flex flex-column align-items-center justify-content-end text-decoration-none w-100">
 			@if(\App\Helpers\SettingsHelper::appLogo())
 				<img src="{{ \App\Helpers\SettingsHelper::appLogo() }}" 
 					 alt="{{ \App\Helpers\SettingsHelper::appName() }}"
-					 style="max-width: 100%; max-height: 40px; width: auto; height: auto; object-fit: contain; display: block;">
+					 class="sidebar-logo-img"
+					 style="object-fit: contain; display: block; vertical-align: bottom;">
 			@else
-				<span class="fw-bold">{{ \App\Helpers\SettingsHelper::appName() }}</span>
-			@endif
-		</a>
-		<a href="{{ url('/') }}" class="logo-small">
-			@if(\App\Helpers\SettingsHelper::appLogo())
-				<img src="{{ \App\Helpers\SettingsHelper::appLogo() }}" 
-					 alt="{{ \App\Helpers\SettingsHelper::appName() }}"
-					 style="max-width: 100%; max-height: 40px; width: auto; height: auto; object-fit: contain; display: block;">
-			@else
-				<span class="fw-bold fs-12">{{ \App\Helpers\SettingsHelper::appName() }}</span>
-			@endif
-		</a>
-		<a href="{{ url('/') }}" class="dark-logo">
-			@if(\App\Helpers\SettingsHelper::appLogoWhite())
-				<img src="{{ \App\Helpers\SettingsHelper::appLogoWhite() }}" 
-					 alt="{{ \App\Helpers\SettingsHelper::appName() }}"
-					 style="max-width: 100%; max-height: 40px; width: auto; height: auto; object-fit: contain; display: block;">
-			@else
-				<span class="fw-bold text-white">{{ \App\Helpers\SettingsHelper::appName() }}</span>
+				<span class="fw-bold fs-18">{{ \App\Helpers\SettingsHelper::appName() }}</span>
 			@endif
 		</a>
 	</div>
-	<!-- /Logo -->
-	<div class="modern-profile p-3 pb-0">
-		<div class="text-center rounded bg-light p-3 mb-4 user-profile">
-			<div class="avatar avatar-lg online mb-3">
-				<img src="{{ asset('assets/img/profiles/avatar-02.jpg') }}" alt="Img" class="img-fluid rounded-circle">
-			</div>
-			<h6 class="fs-12 fw-normal mb-1">Adrian Herman</h6>
-			<p class="fs-10">System Admin</p>
-		</div>
-		<div class="sidebar-nav mb-3">
-			<ul class="nav nav-tabs nav-tabs-solid nav-tabs-rounded nav-justified bg-transparent" role="tablist">
-				<li class="nav-item"><a class="nav-link active border-0" href="#">Menu</a></li>
-				<li class="nav-item"><a class="nav-link border-0" href="{{ url('/chat') }}">Chats</a></li>
-				<li class="nav-item"><a class="nav-link border-0" href="{{ url('/email') }}">Inbox</a></li>
-			</ul>
-		</div>
-	</div>
+
 	<div class="sidebar-header p-3 pb-0 pt-2">
 		<div class="text-center rounded bg-light p-2 mb-4 sidebar-profile d-flex align-items-center">
 			<div class="avatar avatar-md onlin">

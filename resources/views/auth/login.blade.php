@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="{{ \App\Helpers\SettingsHelper::appName() }} - HRM System">
 	<meta name="keywords" content="HRM, HR Management, Employee Management">
 	<meta name="author" content="{{ \App\Helpers\SettingsHelper::appName() }}">
@@ -30,6 +30,70 @@
 
 	<!-- Main CSS -->
 	<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+	
+	<!-- Login Page Responsive Styles -->
+	<style>
+		/* Login Page Responsive Styles */
+		@media (max-width: 991.98px) {
+			.login-form-content {
+				padding: 1rem 0;
+			}
+		}
+
+		@media (max-width: 575.98px) {
+			.login-form-content {
+				padding: 0.5rem 0;
+			}
+			
+			.login-form-content h2 {
+				font-size: 1.5rem !important;
+			}
+			
+			.login-form-content .form-label {
+				font-size: 0.9rem;
+			}
+			
+			.login-form-content .btn {
+				font-size: 0.95rem;
+				padding: 0.75rem;
+			}
+		}
+
+		/* Fix for mobile viewport height issues */
+		@supports (-webkit-touch-callout: none) {
+			.min-vh-100 {
+				min-height: -webkit-fill-available;
+			}
+		}
+
+		/* Ensure form inputs are touch-friendly on mobile */
+		@media (max-width: 575.98px) {
+			.form-control,
+			.btn {
+				min-height: 44px;
+				font-size: 16px; /* Prevents zoom on iOS */
+			}
+		}
+
+		/* Logo responsive adjustments */
+		@media (max-width: 575.98px) {
+			.login-form-content img {
+				max-height: 140px !important;
+			}
+		}
+
+		@media (min-width: 576px) and (max-width: 767.98px) {
+			.login-form-content img {
+				max-height: 180px !important;
+			}
+		}
+		
+		@media (min-width: 768px) {
+			.login-form-content img {
+				max-height: 200px !important;
+			}
+		}
+	</style>
 </head>
 
 <body class="bg-white">
@@ -41,15 +105,14 @@
 	<!-- Main Wrapper -->
 	<div class="main-wrapper">
 
-		<div class="container-fuild">
-			<div class="w-100 overflow-hidden position-relative flex-wrap d-block vh-100">
-				<div class="row">
+		<div class="container-fluid">
+			<div class="w-100 overflow-hidden position-relative flex-wrap d-block min-vh-100">
+				<div class="row g-0">
 					<div class="col-lg-5">
-						<div class="login-background position-relative d-lg-flex align-items-center justify-content-center d-none flex-wrap vh-100">
+						<div class="login-background position-relative d-lg-flex align-items-center justify-content-center d-none flex-wrap min-vh-100">
 							<div class="bg-overlay-img">
 								<img src="{{ asset('assets/img/bg/bg-blue-01.svg') }}" class="bg-1" alt="Img">
 								<img src="{{ asset('assets/img/bg/bg-green-01.svg') }}" class="bg-2" alt="Img">
-								<img src="{{ asset('assets/img/bg/bg-pink-01.svg') }}" class="bg-3" alt="Img">
 							</div>
 							<div class="authentication-card w-100">
 								<div class="authen-overlay-item border w-100">
@@ -64,35 +127,35 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-7 col-md-12 col-sm-12">
-						<div class="row justify-content-center align-items-center vh-100 overflow-auto flex-wrap">
-							<div class="col-md-7 mx-auto vh-100">
-								<form action="{{ route('login') }}" method="POST" class="vh-100">
-@csrf
-@if($errors->any())
-<div class="alert alert-danger mb-3">
-<ul class="mb-0">
-@foreach($errors->all() as $error)
-<li>{{ $error }}</li>
-@endforeach
-</ul>
-</div>
-@endif
+					<div class="col-lg-7 col-12">
+						<div class="row justify-content-center align-items-center min-vh-100 py-4 py-lg-0">
+							<div class="col-12 col-sm-10 col-md-8 col-lg-10 col-xl-8 mx-auto px-3 px-md-4">
+								<form action="{{ route('login') }}" method="POST" class="d-flex flex-column min-vh-100 justify-content-center">
+									@csrf
+									@if($errors->any())
+										<div class="alert alert-danger mb-3">
+											<ul class="mb-0">
+												@foreach($errors->all() as $error)
+													<li>{{ $error }}</li>
+												@endforeach
+											</ul>
+										</div>
+									@endif
 
-
-<div class="">
-	<div class="text-center mb-3">
-												@if(\App\Helpers\SettingsHelper::appLogo())
-													<div class="mb-3 d-flex align-items-center justify-content-center mx-auto" 
-														 style="width: 300px; height: 100%; background: transparent; padding: 10px;">
-														<img src="{{ \App\Helpers\SettingsHelper::appLogo() }}"
-															alt="{{ \App\Helpers\SettingsHelper::appName() }}" 
-															style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block;">
-													</div>
-												@endif
-												<h2 class="mb-2">Sign In</h2>
-												<p class="mb-0">Please enter your details to sign in</p>
-											</div>
+									<div class="login-form-content">
+										<div class="text-center mb-4 mb-md-5">
+											@if(\App\Helpers\SettingsHelper::appLogo())
+												<div class="mb-4 d-flex flex-column align-items-center justify-content-center mx-auto" 
+													 style="max-width: 100%; width: 100%; max-width: 400px; padding: 15px;">
+													<img src="{{ \App\Helpers\SettingsHelper::appLogo() }}"
+														alt="{{ \App\Helpers\SettingsHelper::appName() }}" 
+														class="img-fluid"
+														style="max-width: 100%; max-height: 200px; width: auto; height: auto; object-fit: contain; display: block;">
+												</div>
+											@endif
+											<h2 class="mb-2 fs-2 fw-bold">Sign In</h2>
+											<p class="mb-0 text-muted">Please enter your details to sign in</p>
+										</div>
 											<div class="mb-3">
 												<label class="form-label">Email Address</label>
 												<div class="input-group">
@@ -135,7 +198,6 @@
 									</div>
 								</form>
 							</div>
-
 						</div>
 					</div>
 				</div>
