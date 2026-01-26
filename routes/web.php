@@ -27,6 +27,9 @@ use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\OnboardingTemplateController;
 use App\Http\Controllers\OnboardingChecklistController;
 use App\Http\Controllers\ReferralController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\Auth\LoginController;
 
 // Authentication Routes
@@ -173,4 +176,29 @@ Route::middleware('auth')->group(function () {
 
     // Referral Routes
     Route::resource('referrals', ReferralController::class);
+
+    // Attendance Routes
+    Route::prefix('attendance')->name('attendance.')->group(function () {
+        Route::get('/admin', [AttendanceController::class, 'adminIndex'])->name('admin');
+        Route::get('/employee', [AttendanceController::class, 'employeeIndex'])->name('employee');
+        Route::post('/', [AttendanceController::class, 'store'])->name('store');
+        Route::put('/{id}', [AttendanceController::class, 'update'])->name('update');
+        Route::post('/checkin', [AttendanceController::class, 'checkIn'])->name('checkin');
+        Route::post('/checkout', [AttendanceController::class, 'checkOut'])->name('checkout');
+    });
+
+    // Leave Routes
+    Route::prefix('leaves')->name('leaves.')->group(function () {
+        Route::get('/', [LeaveController::class, 'index'])->name('index');
+        Route::get('/employee', [LeaveController::class, 'employeeIndex'])->name('employee');
+        Route::get('/create', [LeaveController::class, 'create'])->name('create');
+        Route::post('/', [LeaveController::class, 'store'])->name('store');
+        Route::post('/{id}/approve', [LeaveController::class, 'approve'])->name('approve');
+        Route::post('/{id}/reject', [LeaveController::class, 'reject'])->name('reject');
+        Route::put('/{id}/cancel', [LeaveController::class, 'cancel'])->name('cancel');
+        Route::get('/settings', [LeaveController::class, 'settings'])->name('settings');
+    });
+
+    // Leave Type Routes
+    Route::resource('leave-types', LeaveTypeController::class)->except(['index', 'show']);
 });
