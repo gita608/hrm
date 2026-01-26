@@ -39,6 +39,7 @@ class ResignationController extends Controller
     public function create()
     {
         $employees = User::orderBy('name')->get();
+
         return view('pages.resignations.create', compact('employees'));
     }
 
@@ -66,6 +67,7 @@ class ResignationController extends Controller
     public function show(string $id)
     {
         $resignation = Resignation::with('employee')->findOrFail($id);
+
         return view('pages.resignations.show', compact('resignation'));
     }
 
@@ -73,6 +75,7 @@ class ResignationController extends Controller
     {
         $resignation = Resignation::findOrFail($id);
         $employees = User::orderBy('name')->get();
+
         return view('pages.resignations.edit', compact('resignation', 'employees'));
     }
 

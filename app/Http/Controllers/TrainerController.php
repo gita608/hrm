@@ -57,6 +57,7 @@ class TrainerController extends Controller
     public function show(string $id)
     {
         $trainer = Trainer::withCount('trainings')->findOrFail($id);
+
         return view('pages.trainers.show', compact('trainer'));
     }
 
@@ -66,6 +67,7 @@ class TrainerController extends Controller
     public function edit(string $id)
     {
         $trainer = Trainer::findOrFail($id);
+
         return view('pages.trainers.edit', compact('trainer'));
     }
 
@@ -78,7 +80,7 @@ class TrainerController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:trainers,email,' . $id,
+            'email' => 'required|string|email|max:255|unique:trainers,email,'.$id,
             'phone' => 'nullable|string|max:20',
             'expertise' => 'nullable|string',
             'bio' => 'nullable|string',

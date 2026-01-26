@@ -55,6 +55,7 @@ class TrainingTypeController extends Controller
     public function show(string $id)
     {
         $trainingType = TrainingType::withCount('trainings')->findOrFail($id);
+
         return view('pages.training.types.show', compact('trainingType'));
     }
 
@@ -64,6 +65,7 @@ class TrainingTypeController extends Controller
     public function edit(string $id)
     {
         $trainingType = TrainingType::findOrFail($id);
+
         return view('pages.training.types.edit', compact('trainingType'));
     }
 
@@ -76,7 +78,7 @@ class TrainingTypeController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'nullable|string|max:255|unique:training_types,code,' . $id,
+            'code' => 'nullable|string|max:255|unique:training_types,code,'.$id,
             'description' => 'nullable|string',
             'is_active' => 'boolean',
         ]);
@@ -92,7 +94,7 @@ class TrainingTypeController extends Controller
     public function destroy(string $id)
     {
         $trainingType = TrainingType::findOrFail($id);
-        
+
         // Check if training type has trainings
         if ($trainingType->trainings()->count() > 0) {
             return redirect()->route('training.types.index')->with('error', 'Cannot delete training type that has assigned trainings.');

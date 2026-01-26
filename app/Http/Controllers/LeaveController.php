@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Leave;
 use App\Models\LeaveType;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class LeaveController extends Controller
 {
@@ -72,6 +72,7 @@ class LeaveController extends Controller
     public function create()
     {
         $leaveTypes = LeaveType::where('is_active', true)->orderBy('name')->get();
+
         return view('pages.leaves.create', compact('leaveTypes'));
     }
 
@@ -190,6 +191,7 @@ class LeaveController extends Controller
     public function settings()
     {
         $leaveTypes = LeaveType::orderBy('name')->get();
+
         return view('pages.leaves.settings', compact('leaveTypes'));
     }
 }

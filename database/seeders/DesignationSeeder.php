@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Designation;
 use App\Models\Department;
+use App\Models\Designation;
 use Illuminate\Database\Seeder;
 
 class DesignationSeeder extends Seeder
@@ -192,6 +192,6 @@ class DesignationSeeder extends Seeder
         }
 
         $this->command->info('Designations created successfully!');
-        $this->command->info('Created ' . count($designations) . ' designations.');
+        $this->command->info('Created '.count($designations).' designations.');
     }
 }

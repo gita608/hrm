@@ -68,6 +68,6 @@ class DepartmentSeeder extends Seeder
         }
 
         $this->command->info('Departments created successfully!');
-        $this->command->info('Created ' . count($departments) . ' departments.');
+        $this->command->info('Created '.count($departments).' departments.');
     }
 }

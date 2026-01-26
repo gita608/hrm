@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OnboardingChecklist;
 use App\Models\Onboarding;
-use App\Models\User;
+use App\Models\OnboardingChecklist;
 use Illuminate\Http\Request;
 
 class OnboardingChecklistController extends Controller
@@ -18,6 +17,7 @@ class OnboardingChecklistController extends Controller
         }
 
         $checklists = $query->orderBy('order')->get();
+
         return view('pages.onboarding.checklist.index', compact('checklists'));
     }
 

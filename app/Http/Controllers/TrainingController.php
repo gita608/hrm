@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Trainer;
 use App\Models\Training;
 use App\Models\TrainingType;
-use App\Models\Trainer;
 use Illuminate\Http\Request;
 
 class TrainingController extends Controller
@@ -45,6 +45,7 @@ class TrainingController extends Controller
     {
         $trainingTypes = TrainingType::where('is_active', true)->orderBy('name')->get();
         $trainers = Trainer::where('is_active', true)->orderBy('name')->get();
+
         return view('pages.training.create', compact('trainingTypes', 'trainers'));
     }
 
@@ -79,6 +80,7 @@ class TrainingController extends Controller
     public function show(string $id)
     {
         $training = Training::with(['trainingType', 'trainer'])->findOrFail($id);
+
         return view('pages.training.show', compact('training'));
     }
 
@@ -90,6 +92,7 @@ class TrainingController extends Controller
         $training = Training::findOrFail($id);
         $trainingTypes = TrainingType::where('is_active', true)->orderBy('name')->get();
         $trainers = Trainer::where('is_active', true)->orderBy('name')->get();
+
         return view('pages.training.edit', compact('training', 'trainingTypes', 'trainers'));
     }
 

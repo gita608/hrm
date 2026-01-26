@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\InterviewFeedback;
 use App\Models\Interview;
+use App\Models\InterviewFeedback;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -48,7 +48,7 @@ class InterviewFeedbackController extends Controller
             ->orderBy('interview_date', 'desc')
             ->get();
         $interviewers = User::orderBy('name')->get();
-        
+
         return view('pages.interviews.feedback.create', compact('interviews', 'interviewers', 'interviewId'));
     }
 
@@ -85,6 +85,7 @@ class InterviewFeedbackController extends Controller
     public function show(string $id)
     {
         $feedback = InterviewFeedback::with(['interview.candidate', 'interview.interviewer', 'interviewer'])->findOrFail($id);
+
         return view('pages.interviews.feedback.show', compact('feedback'));
     }
 
@@ -98,7 +99,7 @@ class InterviewFeedbackController extends Controller
             ->orderBy('interview_date', 'desc')
             ->get();
         $interviewers = User::orderBy('name')->get();
-        
+
         return view('pages.interviews.feedback.edit', compact('feedback', 'interviews', 'interviewers'));
     }
 

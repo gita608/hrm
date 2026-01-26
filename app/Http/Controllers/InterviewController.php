@@ -36,7 +36,7 @@ class InterviewController extends Controller
         $interviews = $query->orderBy('interview_date', 'desc')
             ->orderBy('interview_time', 'desc')
             ->get();
-        
+
         $interviewers = User::orderBy('name')->get();
 
         return view('pages.interviews.index', compact('interviews', 'interviewers'));
@@ -49,6 +49,7 @@ class InterviewController extends Controller
     {
         $candidates = User::orderBy('name')->get();
         $interviewers = User::orderBy('name')->get();
+
         return view('pages.interviews.create', compact('candidates', 'interviewers'));
     }
 
@@ -84,6 +85,7 @@ class InterviewController extends Controller
     public function show(string $id)
     {
         $interview = Interview::with(['candidate', 'interviewer', 'feedbacks.interviewer'])->findOrFail($id);
+
         return view('pages.interviews.show', compact('interview'));
     }
 
@@ -95,6 +97,7 @@ class InterviewController extends Controller
         $interview = Interview::findOrFail($id);
         $candidates = User::orderBy('name')->get();
         $interviewers = User::orderBy('name')->get();
+
         return view('pages.interviews.edit', compact('interview', 'candidates', 'interviewers'));
     }
 

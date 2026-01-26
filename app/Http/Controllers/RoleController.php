@@ -55,6 +55,7 @@ class RoleController extends Controller
     public function show(string $id)
     {
         $role = Role::withCount('users')->findOrFail($id);
+
         return view('pages.roles.show', compact('role'));
     }
 
@@ -64,6 +65,7 @@ class RoleController extends Controller
     public function edit(string $id)
     {
         $role = Role::findOrFail($id);
+
         return view('pages.roles.edit', compact('role'));
     }
 
@@ -76,7 +78,7 @@ class RoleController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:roles,slug,' . $id,
+            'slug' => 'required|string|max:255|unique:roles,slug,'.$id,
             'description' => 'nullable|string',
             'is_active' => 'boolean',
         ]);
@@ -92,7 +94,7 @@ class RoleController extends Controller
     public function destroy(string $id)
     {
         $role = Role::findOrFail($id);
-        
+
         // Check if role has users
         if ($role->users()->count() > 0) {
             return redirect()->route('roles.index')->with('error', 'Cannot delete role that has assigned users.');

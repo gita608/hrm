@@ -36,7 +36,7 @@ class LeaveTypeController extends Controller
         $leaveType = LeaveType::findOrFail($id);
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:leave_types,name,' . $id,
+            'name' => 'required|string|max:255|unique:leave_types,name,'.$id,
             'days_per_year' => 'required|integer|min:0',
             'is_paid' => 'boolean',
             'requires_approval' => 'boolean',

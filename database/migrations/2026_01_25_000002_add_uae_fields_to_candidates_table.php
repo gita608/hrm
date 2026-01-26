@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::table('candidates', function (Blueprint $table) {
             // Emirates ID
             $table->string('emirates_id')->nullable()->after('phone');
-            
+
             // Passport Information
             $table->string('passport_number')->nullable()->after('emirates_id');
-            
+
             // Nationality
             $table->string('nationality')->nullable()->after('passport_number');
-            
+
             // Visa Status
             $table->enum('visa_status', ['valid', 'expired', 'not_required', 'pending'])->nullable()->after('nationality');
-            
+
             // Current Location in UAE
             $table->enum('current_location_emirate', ['Abu Dhabi', 'Dubai', 'Sharjah', 'Ajman', 'Umm Al Quwain', 'Ras Al Khaimah', 'Fujairah', 'Outside UAE'])->nullable()->after('visa_status');
             $table->string('current_location_city')->nullable()->after('current_location_emirate');

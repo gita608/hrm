@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Designation;
 use App\Models\Department;
+use App\Models\Designation;
 use Illuminate\Http\Request;
 
 class DesignationController extends Controller
@@ -26,7 +26,7 @@ class DesignationController extends Controller
         }
 
         $designations = $query->orderBy('created_at', 'desc')->get();
-        
+
         // Get departments for filter dropdown
         $departments = Department::where('is_active', true)->orderBy('name')->get();
 
@@ -39,6 +39,7 @@ class DesignationController extends Controller
     public function create()
     {
         $departments = Department::where('is_active', true)->get();
+
         return view('pages.designations.create', compact('departments'));
     }
 
@@ -66,6 +67,7 @@ class DesignationController extends Controller
     public function show(string $id)
     {
         $designation = Designation::with('department')->findOrFail($id);
+
         return view('pages.designations.show', compact('designation'));
     }
 
@@ -76,6 +78,7 @@ class DesignationController extends Controller
     {
         $designation = Designation::findOrFail($id);
         $departments = Department::where('is_active', true)->get();
+
         return view('pages.designations.edit', compact('designation', 'departments'));
     }
 
@@ -88,7 +91,7 @@ class DesignationController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'nullable|string|max:255|unique:designations,code,' . $id,
+            'code' => 'nullable|string|max:255|unique:designations,code,'.$id,
             'description' => 'nullable|string',
             'department_id' => 'nullable|exists:departments,id',
             'is_active' => 'boolean',

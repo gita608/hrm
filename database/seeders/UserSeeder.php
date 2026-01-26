@@ -16,12 +16,11 @@ class UserSeeder extends Seeder
     {
         // Get all roles
         $roles = Role::all()->keyBy('slug');
-        
 
         // Define users for each role (3 users per role)
         $usersByRole = [
             'super-admin' => [
-                ['name' => 'Super Admin ', 'email' => 'superadmin@gmail.com', 'phone' => '+1-555-0001', 'address' => '100 Corporate Plaza, New York, NY 10001']
+                ['name' => 'Super Admin ', 'email' => 'superadmin@gmail.com', 'phone' => '+1-555-0001', 'address' => '100 Corporate Plaza, New York, NY 10001'],
             ],
             'admin' => [
                 ['name' => 'Admin One', 'email' => 'admin1@hrm.test', 'phone' => '+1-555-0101', 'address' => '123 Main Street, New York, NY 10001'],
@@ -65,9 +64,10 @@ class UserSeeder extends Seeder
         // Create users for each role
         foreach ($usersByRole as $roleSlug => $users) {
             $role = $roles->get($roleSlug);
-            
-            if (!$role) {
+
+            if (! $role) {
                 $this->command->warn("Role '{$roleSlug}' not found, skipping users for this role.");
+
                 continue;
             }
 

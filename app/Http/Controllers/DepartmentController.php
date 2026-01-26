@@ -25,10 +25,10 @@ class DepartmentController extends Controller
         }
 
         $departments = $query->orderBy('created_at', 'desc')->get();
-        
+
         // Get managers for filter dropdown
-        $managers = \App\Models\User::whereHas('role', function($q) { 
-            $q->whereIn('slug', ['manager', 'hr-manager', 'admin']); 
+        $managers = \App\Models\User::whereHas('role', function ($q) {
+            $q->whereIn('slug', ['manager', 'hr-manager', 'admin']);
         })->get();
 
         return view('pages.departments.index', compact('departments', 'managers'));
@@ -65,9 +65,10 @@ class DepartmentController extends Controller
      */
     public function show(string $id)
     {
-        $department = Department::with(['manager', 'designations' => function($query) {
+        $department = Department::with(['manager', 'designations' => function ($query) {
             $query->orderBy('created_at', 'desc');
         }])->findOrFail($id);
+
         return view('pages.departments.show', compact('department'));
     }
 
@@ -77,6 +78,7 @@ class DepartmentController extends Controller
     public function edit(string $id)
     {
         $department = Department::findOrFail($id);
+
         return view('pages.departments.edit', compact('department'));
     }
 
@@ -89,7 +91,7 @@ class DepartmentController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'nullable|string|max:255|unique:departments,code,' . $id,
+            'code' => 'nullable|string|max:255|unique:departments,code,'.$id,
             'description' => 'nullable|string',
             'manager_id' => 'nullable|exists:users,id',
             'is_active' => 'boolean',

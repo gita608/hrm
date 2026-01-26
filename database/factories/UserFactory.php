@@ -41,4 +41,25 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    /**
+     * Create a user with admin role.
+     */
+    public function admin(): static
+    {
+        return $this->state(function (array $attributes) {
+            $adminRole = \App\Models\Role::firstOrCreate(
+                ['slug' => 'admin'],
+                [
+                    'name' => 'Administrator',
+                    'description' => 'Full system access',
+                    'is_active' => true,
+                ]
+            );
+
+            return [
+                'role_id' => $adminRole->id,
+            ];
+        });
+    }
 }

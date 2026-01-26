@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JobPosting;
 use App\Models\Referral;
 use App\Models\User;
-use App\Models\JobPosting;
 use Illuminate\Http\Request;
 
 class ReferralController extends Controller
@@ -51,6 +51,7 @@ class ReferralController extends Controller
         $jobPostings = JobPosting::where('status', 'open')->orderBy('title')->get();
         $employees = User::orderBy('name')->get();
         $jobPostingId = request('job_posting_id');
+
         return view('pages.referrals.create', compact('jobPostings', 'employees', 'jobPostingId'));
     }
 
@@ -89,6 +90,7 @@ class ReferralController extends Controller
     public function show(string $id)
     {
         $referral = Referral::with(['referrer', 'jobPosting'])->findOrFail($id);
+
         return view('pages.referrals.show', compact('referral'));
     }
 
@@ -100,6 +102,7 @@ class ReferralController extends Controller
         $referral = Referral::findOrFail($id);
         $jobPostings = JobPosting::where('status', 'open')->orderBy('title')->get();
         $employees = User::orderBy('name')->get();
+
         return view('pages.referrals.edit', compact('referral', 'jobPostings', 'employees'));
     }
 
@@ -111,11 +114,11 @@ class ReferralController extends Controller
         $referral = Referral::findOrFail($id);
 
         $validated = $request->validate([
-            'referral_code' => 'nullable|string|max:255|unique:referrals,referral_code,' . $id,
+            'referral_code' => 'nullable|string|max:255|unique:referrals,referral_code,'.$id,
             'referrer_id' => 'required|exists:users,id',
             'referred_first_name' => 'required|string|max:255',
             'referred_last_name' => 'required|string|max:255',
-            'referred_email' => 'required|email|max:255|unique:referrals,referred_email,' . $id,
+            'referred_email' => 'required|email|max:255|unique:referrals,referred_email,'.$id,
             'referred_phone' => 'nullable|string|max:20',
             'job_posting_id' => 'nullable|exists:job_postings,id',
             'referral_date' => 'required|date',

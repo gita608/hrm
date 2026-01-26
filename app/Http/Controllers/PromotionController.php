@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Promotion;
-use App\Models\User;
 use App\Models\Department;
 use App\Models\Designation;
+use App\Models\Promotion;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PromotionController extends Controller
@@ -70,6 +70,7 @@ class PromotionController extends Controller
     public function show(string $id)
     {
         $promotion = Promotion::with(['employee', 'fromDepartment', 'toDepartment', 'fromDesignation', 'toDesignation'])->findOrFail($id);
+
         return view('pages.promotions.show', compact('promotion'));
     }
 

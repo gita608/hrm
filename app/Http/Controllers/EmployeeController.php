@@ -16,13 +16,13 @@ class EmployeeController extends Controller
         // Get departments and designations for filters
         $departments = \App\Models\Department::where('is_active', true)->orderBy('name')->get();
         $designations = \App\Models\Designation::where('is_active', true)->orderBy('name')->get();
-        
+
         // Build query for employees (users)
         $query = \App\Models\User::with('role');
-        
+
         // Filter by department (if users had department_id - for now we'll skip this)
         // Filter by designation (if users had designation_id - for now we'll skip this)
-        
+
         // Filter by status (email verified = active)
         if ($request->filled('status')) {
             if ($request->status == 'active') {
@@ -31,15 +31,15 @@ class EmployeeController extends Controller
                 $query->whereNull('email_verified_at');
             }
         }
-        
+
         $employees = $query->orderBy('created_at', 'desc')->get();
-        
+
         // Calculate statistics
         $totalEmployees = \App\Models\User::count();
         $activeEmployees = \App\Models\User::whereNotNull('email_verified_at')->count();
         $inactiveEmployees = \App\Models\User::whereNull('email_verified_at')->count();
         $newJoiners = \App\Models\User::where('created_at', '>=', now()->subDays(30))->count();
-        
+
         return view('pages.employees.index', compact('departments', 'designations', 'employees', 'totalEmployees', 'activeEmployees', 'inactiveEmployees', 'newJoiners'));
     }
 
@@ -51,13 +51,13 @@ class EmployeeController extends Controller
     public function create()
     {
         $roles = \App\Models\Role::where('is_active', true)->orderBy('name')->get();
+
         return view('pages.employees.create', compact('roles'));
     }
 
     /**
      * Store a newly created employee in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -95,7 +95,7 @@ class EmployeeController extends Controller
         // Handle profile picture upload
         if ($request->hasFile('profile_picture')) {
             $file = $request->file('profile_picture');
-            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $filename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
             $path = $file->storeAs('profile_pictures', $filename, 'public');
             $validated['profile_picture'] = $path;
         }
@@ -114,6 +114,7 @@ class EmployeeController extends Controller
     public function show($id)
     {
         $employee = \App\Models\User::with('role')->findOrFail($id);
+
         return view('pages.employees.show', compact('employee', 'id'));
     }
 
@@ -127,13 +128,13 @@ class EmployeeController extends Controller
     {
         $employee = \App\Models\User::findOrFail($id);
         $roles = \App\Models\Role::where('is_active', true)->orderBy('name')->get();
+
         return view('pages.employees.edit', compact('employee', 'roles'));
     }
 
     /**
      * Update the specified employee in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -143,14 +144,14 @@ class EmployeeController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
             'password' => 'nullable|string|min:8|confirmed',
             'role_id' => 'required|exists:roles,id',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
             // UAE-specific fields
-            'emirates_id' => 'nullable|string|max:255|unique:users,emirates_id,' . $id,
+            'emirates_id' => 'nullable|string|max:255|unique:users,emirates_id,'.$id,
             'passport_number' => 'nullable|string|max:255',
             'passport_expiry_date' => 'nullable|date',
             'nationality' => 'nullable|string|max:255',
@@ -168,7 +169,7 @@ class EmployeeController extends Controller
             'emergency_contact_phone' => 'nullable|string|max:20',
         ]);
 
-        if (!empty($validated['password'])) {
+        if (! empty($validated['password'])) {
             $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
         } else {
             unset($validated['password']);
@@ -180,9 +181,9 @@ class EmployeeController extends Controller
             if ($employee->profile_picture) {
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($employee->profile_picture);
             }
-            
+
             $file = $request->file('profile_picture');
-            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $filename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
             $path = $file->storeAs('profile_pictures', $filename, 'public');
             $validated['profile_picture'] = $path;
         }

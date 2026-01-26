@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\JobPosting;
 use App\Models\Department;
 use App\Models\Designation;
+use App\Models\JobPosting;
 use Illuminate\Http\Request;
 
 class JobPostingController extends Controller
@@ -44,6 +44,7 @@ class JobPostingController extends Controller
     {
         $departments = Department::where('is_active', true)->orderBy('name')->get();
         $designations = Designation::where('is_active', true)->orderBy('name')->get();
+
         return view('pages.jobs.create', compact('departments', 'designations'));
     }
 
@@ -88,6 +89,7 @@ class JobPostingController extends Controller
     public function show(string $id)
     {
         $jobPosting = JobPosting::with(['department', 'designation', 'candidates'])->findOrFail($id);
+
         return view('pages.jobs.show', compact('jobPosting'));
     }
 
@@ -99,6 +101,7 @@ class JobPostingController extends Controller
         $jobPosting = JobPosting::findOrFail($id);
         $departments = Department::where('is_active', true)->orderBy('name')->get();
         $designations = Designation::where('is_active', true)->orderBy('name')->get();
+
         return view('pages.jobs.edit', compact('jobPosting', 'departments', 'designations'));
     }
 
@@ -110,7 +113,7 @@ class JobPostingController extends Controller
         $jobPosting = JobPosting::findOrFail($id);
 
         $validated = $request->validate([
-            'job_code' => 'nullable|string|max:255|unique:job_postings,job_code,' . $id,
+            'job_code' => 'nullable|string|max:255|unique:job_postings,job_code,'.$id,
             'title' => 'required|string|max:255',
             'department_id' => 'nullable|exists:departments,id',
             'designation_id' => 'nullable|exists:designations,id',

@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
@@ -35,9 +35,9 @@ class AttendanceController extends Controller
         }
 
         // Default to current month if no date filters
-        if (!$request->hasAny(['date_from', 'date_to'])) {
+        if (! $request->hasAny(['date_from', 'date_to'])) {
             $query->whereMonth('date', Carbon::now()->month)
-                  ->whereYear('date', Carbon::now()->year);
+                ->whereYear('date', Carbon::now()->year);
         }
 
         $attendances = $query->orderBy('date', 'desc')->orderBy('created_at', 'desc')->get();
@@ -62,9 +62,9 @@ class AttendanceController extends Controller
         }
 
         // Default to current month if no date filters
-        if (!$request->hasAny(['date_from', 'date_to'])) {
+        if (! $request->hasAny(['date_from', 'date_to'])) {
             $query->whereMonth('date', Carbon::now()->month)
-                  ->whereYear('date', Carbon::now()->year);
+                ->whereYear('date', Carbon::now()->year);
         }
 
         $attendances = $query->orderBy('date', 'desc')->get();
@@ -90,13 +90,13 @@ class AttendanceController extends Controller
 
         // Calculate total hours and break duration
         if ($validated['check_in'] && $validated['check_out']) {
-            $checkIn = Carbon::parse($validated['date'] . ' ' . $validated['check_in']);
-            $checkOut = Carbon::parse($validated['date'] . ' ' . $validated['check_out']);
+            $checkIn = Carbon::parse($validated['date'].' '.$validated['check_in']);
+            $checkOut = Carbon::parse($validated['date'].' '.$validated['check_out']);
             $totalMinutes = $checkOut->diffInMinutes($checkIn);
 
             if ($validated['break_start'] && $validated['break_end']) {
-                $breakStart = Carbon::parse($validated['date'] . ' ' . $validated['break_start']);
-                $breakEnd = Carbon::parse($validated['date'] . ' ' . $validated['break_end']);
+                $breakStart = Carbon::parse($validated['date'].' '.$validated['break_start']);
+                $breakEnd = Carbon::parse($validated['date'].' '.$validated['break_end']);
                 $breakMinutes = $breakEnd->diffInMinutes($breakStart);
                 $validated['break_duration'] = $breakMinutes;
                 $validated['total_hours'] = $totalMinutes - $breakMinutes;
@@ -135,25 +135,25 @@ class AttendanceController extends Controller
         // Calculate total hours and break duration
         if ($validated['check_in'] && $validated['check_out']) {
             // Parse times - they come as H:i format from form, add :00 for seconds
-            $checkIn = Carbon::parse($attendance->date->format('Y-m-d') . ' ' . $validated['check_in'] . ':00');
-            $checkOut = Carbon::parse($attendance->date->format('Y-m-d') . ' ' . $validated['check_out'] . ':00');
-            
+            $checkIn = Carbon::parse($attendance->date->format('Y-m-d').' '.$validated['check_in'].':00');
+            $checkOut = Carbon::parse($attendance->date->format('Y-m-d').' '.$validated['check_out'].':00');
+
             // Handle case where check_out might be next day (e.g., night shift)
             if ($checkOut->lt($checkIn)) {
                 $checkOut->addDay();
             }
-            
+
             $totalMinutes = $checkOut->diffInMinutes($checkIn);
 
             if ($validated['break_start'] && $validated['break_end']) {
-                $breakStart = Carbon::parse($attendance->date->format('Y-m-d') . ' ' . $validated['break_start'] . ':00');
-                $breakEnd = Carbon::parse($attendance->date->format('Y-m-d') . ' ' . $validated['break_end'] . ':00');
-                
+                $breakStart = Carbon::parse($attendance->date->format('Y-m-d').' '.$validated['break_start'].':00');
+                $breakEnd = Carbon::parse($attendance->date->format('Y-m-d').' '.$validated['break_end'].':00');
+
                 // Handle case where break_end might be next day
                 if ($breakEnd->lt($breakStart)) {
                     $breakEnd->addDay();
                 }
-                
+
                 $breakMinutes = $breakEnd->diffInMinutes($breakStart);
                 $validated['break_duration'] = $breakMinutes;
                 $validated['total_hours'] = $totalMinutes - $breakMinutes;
@@ -161,19 +161,19 @@ class AttendanceController extends Controller
                 $validated['total_hours'] = $totalMinutes;
             }
         }
-        
+
         // Convert time inputs to H:i:s format for storage
         if (isset($validated['check_in']) && $validated['check_in']) {
-            $validated['check_in'] = $validated['check_in'] . ':00';
+            $validated['check_in'] = $validated['check_in'].':00';
         }
         if (isset($validated['check_out']) && $validated['check_out']) {
-            $validated['check_out'] = $validated['check_out'] . ':00';
+            $validated['check_out'] = $validated['check_out'].':00';
         }
         if (isset($validated['break_start']) && $validated['break_start']) {
-            $validated['break_start'] = $validated['break_start'] . ':00';
+            $validated['break_start'] = $validated['break_start'].':00';
         }
         if (isset($validated['break_end']) && $validated['break_end']) {
-            $validated['break_end'] = $validated['break_end'] . ':00';
+            $validated['break_end'] = $validated['break_end'].':00';
         }
 
         $attendance->update($validated);
@@ -187,7 +187,7 @@ class AttendanceController extends Controller
     public function checkIn()
     {
         $today = Carbon::today();
-        
+
         $attendance = Attendance::firstOrCreate(
             [
                 'employee_id' => auth()->id(),
@@ -216,12 +216,12 @@ class AttendanceController extends Controller
     public function checkOut()
     {
         $today = Carbon::today();
-        
+
         $attendance = Attendance::where('employee_id', auth()->id())
             ->where('date', $today)
             ->first();
 
-        if (!$attendance) {
+        if (! $attendance) {
             return redirect()->back()->with('error', 'Please check in first.');
         }
 
@@ -230,9 +230,9 @@ class AttendanceController extends Controller
         }
 
         $checkOutTime = Carbon::now();
-        
+
         // check_in is stored as time (H:i:s), combine with date for calculation
-        $checkInTime = Carbon::parse($attendance->date->format('Y-m-d') . ' ' . $attendance->check_in);
+        $checkInTime = Carbon::parse($attendance->date->format('Y-m-d').' '.$attendance->check_in);
         $totalMinutes = $checkOutTime->diffInMinutes($checkInTime);
 
         // Subtract break duration if exists

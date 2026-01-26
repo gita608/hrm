@@ -45,6 +45,7 @@ class AssetController extends Controller
     {
         $categories = AssetCategory::where('is_active', true)->orderBy('name')->get();
         $users = User::orderBy('name')->get();
+
         return view('pages.assets.create', compact('categories', 'users'));
     }
 
@@ -80,6 +81,7 @@ class AssetController extends Controller
     public function show(string $id)
     {
         $asset = Asset::with(['category', 'assignedUser'])->findOrFail($id);
+
         return view('pages.assets.show', compact('asset'));
     }
 
@@ -91,6 +93,7 @@ class AssetController extends Controller
         $asset = Asset::findOrFail($id);
         $categories = AssetCategory::where('is_active', true)->orderBy('name')->get();
         $users = User::orderBy('name')->get();
+
         return view('pages.assets.edit', compact('asset', 'categories', 'users'));
     }
 
@@ -103,7 +106,7 @@ class AssetController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'asset_code' => 'nullable|string|max:255|unique:assets,asset_code,' . $id,
+            'asset_code' => 'nullable|string|max:255|unique:assets,asset_code,'.$id,
             'category_id' => 'nullable|exists:asset_categories,id',
             'serial_number' => 'nullable|string|max:255',
             'description' => 'nullable|string',

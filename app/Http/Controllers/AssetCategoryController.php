@@ -55,6 +55,7 @@ class AssetCategoryController extends Controller
     public function show(string $id)
     {
         $category = AssetCategory::withCount('assets')->findOrFail($id);
+
         return view('pages.assets.categories.show', compact('category'));
     }
 
@@ -64,6 +65,7 @@ class AssetCategoryController extends Controller
     public function edit(string $id)
     {
         $category = AssetCategory::findOrFail($id);
+
         return view('pages.assets.categories.edit', compact('category'));
     }
 
@@ -76,7 +78,7 @@ class AssetCategoryController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'nullable|string|max:255|unique:asset_categories,code,' . $id,
+            'code' => 'nullable|string|max:255|unique:asset_categories,code,'.$id,
             'description' => 'nullable|string',
             'is_active' => 'boolean',
         ]);
@@ -92,7 +94,7 @@ class AssetCategoryController extends Controller
     public function destroy(string $id)
     {
         $category = AssetCategory::findOrFail($id);
-        
+
         // Check if category has assets
         if ($category->assets()->count() > 0) {
             return redirect()->route('assets.categories.index')->with('error', 'Cannot delete category that has assigned assets.');

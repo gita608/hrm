@@ -15,6 +15,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user()->load('role');
+
         return view('pages.profile.index', compact('user'));
     }
 
@@ -27,12 +28,12 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
             // UAE-specific fields
-            'emirates_id' => 'nullable|string|max:255|unique:users,emirates_id,' . $user->id,
+            'emirates_id' => 'nullable|string|max:255|unique:users,emirates_id,'.$user->id,
             'passport_number' => 'nullable|string|max:255',
             'passport_expiry_date' => 'nullable|date',
             'nationality' => 'nullable|string|max:255',
@@ -56,9 +57,9 @@ class ProfileController extends Controller
             if ($user->profile_picture) {
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($user->profile_picture);
             }
-            
+
             $file = $request->file('profile_picture');
-            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $filename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
             $path = $file->storeAs('profile_pictures', $filename, 'public');
             $validated['profile_picture'] = $path;
         }

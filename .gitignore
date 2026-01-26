@@ -9,6 +9,9 @@
 /.idea
 /.nova
 /.phpunit.cache
+/tests
+phpstan.neon
+qa-check.sh
 /.vscode
 /.zed
 /auth.json

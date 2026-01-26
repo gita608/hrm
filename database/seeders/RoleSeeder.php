@@ -68,6 +68,6 @@ class RoleSeeder extends Seeder
         }
 
         $this->command->info('Roles created successfully!');
-        $this->command->info('Created ' . count($roles) . ' roles.');
+        $this->command->info('Created '.count($roles).' roles.');
     }
 }

@@ -39,6 +39,7 @@ class TerminationController extends Controller
     public function create()
     {
         $employees = User::orderBy('name')->get();
+
         return view('pages.terminations.create', compact('employees'));
     }
 
@@ -65,6 +66,7 @@ class TerminationController extends Controller
     public function show(string $id)
     {
         $termination = Termination::with('employee')->findOrFail($id);
+
         return view('pages.terminations.show', compact('termination'));
     }
 
@@ -72,6 +74,7 @@ class TerminationController extends Controller
     {
         $termination = Termination::findOrFail($id);
         $employees = User::orderBy('name')->get();
+
         return view('pages.terminations.edit', compact('termination', 'employees'));
     }
 

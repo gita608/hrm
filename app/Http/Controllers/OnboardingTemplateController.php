@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OnboardingTemplate;
 use App\Models\Department;
 use App\Models\Designation;
+use App\Models\OnboardingTemplate;
 use Illuminate\Http\Request;
 
 class OnboardingTemplateController extends Controller
@@ -12,6 +12,7 @@ class OnboardingTemplateController extends Controller
     public function index()
     {
         $templates = OnboardingTemplate::with(['department', 'designation'])->orderBy('name')->get();
+
         return view('pages.onboarding.templates.index', compact('templates'));
     }
 
@@ -19,6 +20,7 @@ class OnboardingTemplateController extends Controller
     {
         $departments = Department::orderBy('name')->get();
         $designations = Designation::orderBy('name')->get();
+
         return view('pages.onboarding.templates.create', compact('departments', 'designations'));
     }
 
@@ -41,6 +43,7 @@ class OnboardingTemplateController extends Controller
     public function show(string $id)
     {
         $template = OnboardingTemplate::with(['department', 'designation', 'checklistItems'])->findOrFail($id);
+
         return view('pages.onboarding.templates.show', compact('template'));
     }
 
@@ -49,6 +52,7 @@ class OnboardingTemplateController extends Controller
         $template = OnboardingTemplate::findOrFail($id);
         $departments = Department::orderBy('name')->get();
         $designations = Designation::orderBy('name')->get();
+
         return view('pages.onboarding.templates.edit', compact('template', 'departments', 'designations'));
     }
 

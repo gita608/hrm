@@ -1,36 +1,36 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AssetCategoryController;
+use App\Http\Controllers\AssetController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DesignationController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\AssetController;
-use App\Http\Controllers\AssetCategoryController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HolidayController;
-use App\Http\Controllers\TrainingController;
-use App\Http\Controllers\TrainerController;
-use App\Http\Controllers\TrainingTypeController;
 use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\InterviewFeedbackController;
 use App\Http\Controllers\JobPostingController;
-use App\Http\Controllers\CandidateController;
-use App\Http\Controllers\PromotionController;
-use App\Http\Controllers\ResignationController;
-use App\Http\Controllers\TerminationController;
-use App\Http\Controllers\OnboardingController;
-use App\Http\Controllers\OnboardingTemplateController;
-use App\Http\Controllers\OnboardingChecklistController;
-use App\Http\Controllers\ReferralController;
-use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\OnboardingChecklistController;
+use App\Http\Controllers\OnboardingController;
+use App\Http\Controllers\OnboardingTemplateController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\ReferralController;
+use App\Http\Controllers\ResignationController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TerminationController;
+use App\Http\Controllers\TrainerController;
+use App\Http\Controllers\TrainingController;
+use App\Http\Controllers\TrainingTypeController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 // Authentication Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -87,7 +87,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/categories/{category}/edit', [AssetCategoryController::class, 'edit'])->name('assets.categories.edit');
         Route::put('/categories/{category}', [AssetCategoryController::class, 'update'])->name('assets.categories.update');
         Route::delete('/categories/{category}', [AssetCategoryController::class, 'destroy'])->name('assets.categories.destroy');
-        
+
         // Assets resource routes
         Route::get('/', [AssetController::class, 'index'])->name('assets.index');
         Route::get('/create', [AssetController::class, 'create'])->name('assets.create');
@@ -111,7 +111,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/types/{trainingType}', [TrainingTypeController::class, 'update'])->name('types.update');
         Route::delete('/types/{trainingType}', [TrainingTypeController::class, 'destroy'])->name('types.destroy');
     });
-    
+
     // Training resource routes (must come after types routes)
     Route::resource('training', TrainingController::class);
     Route::resource('trainers', TrainerController::class);
@@ -126,7 +126,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/feedback/{id}', [InterviewFeedbackController::class, 'update'])->name('feedback.update');
         Route::delete('/feedback/{id}', [InterviewFeedbackController::class, 'destroy'])->name('feedback.destroy');
     });
-    
+
     // Interview resource routes (must come after feedback routes)
     Route::resource('interviews', InterviewController::class);
 
@@ -154,7 +154,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', [OnboardingController::class, 'edit'])->name('edit');
         Route::put('/{id}', [OnboardingController::class, 'update'])->name('update');
         Route::delete('/{id}', [OnboardingController::class, 'destroy'])->name('destroy');
-        
+
         // Templates routes
         Route::get('/templates', [OnboardingTemplateController::class, 'index'])->name('templates.index');
         Route::get('/templates/create', [OnboardingTemplateController::class, 'create'])->name('templates.create');
@@ -163,7 +163,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/templates/{id}/edit', [OnboardingTemplateController::class, 'edit'])->name('templates.edit');
         Route::put('/templates/{id}', [OnboardingTemplateController::class, 'update'])->name('templates.update');
         Route::delete('/templates/{id}', [OnboardingTemplateController::class, 'destroy'])->name('templates.destroy');
-        
+
         // Checklist routes
         Route::prefix('checklist')->name('checklist.')->group(function () {
             Route::get('/', [OnboardingChecklistController::class, 'index'])->name('index');

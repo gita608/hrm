@@ -15,7 +15,7 @@ return new class extends Migration
             // UAE Location Details
             $table->enum('uae_emirate', ['Abu Dhabi', 'Dubai', 'Sharjah', 'Ajman', 'Umm Al Quwain', 'Ras Al Khaimah', 'Fujairah'])->nullable()->after('location');
             $table->string('uae_city')->nullable()->after('uae_emirate');
-            
+
             // Visa and Work Permit
             $table->boolean('visa_sponsorship')->default(false)->after('uae_city');
             $table->boolean('work_permit_required')->default(false)->after('visa_sponsorship');

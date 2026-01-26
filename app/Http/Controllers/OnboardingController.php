@@ -41,7 +41,7 @@ class OnboardingController extends Controller
         $templates = OnboardingTemplate::where('is_active', true)->orderBy('name')->get();
         $users = User::whereNotNull('email_verified_at')->orderBy('name')->get();
         $employeeId = request('employee_id');
-        
+
         return view('pages.onboarding.create', compact('employees', 'templates', 'users', 'employeeId'));
     }
 
@@ -74,6 +74,7 @@ class OnboardingController extends Controller
     public function show(string $id)
     {
         $onboarding = Onboarding::with(['employee', 'template', 'assignedUser', 'checklists.assignedUser'])->findOrFail($id);
+
         return view('pages.onboarding.show', compact('onboarding'));
     }
 
@@ -86,7 +87,7 @@ class OnboardingController extends Controller
         $employees = User::whereNotNull('email_verified_at')->orderBy('name')->get();
         $templates = OnboardingTemplate::where('is_active', true)->orderBy('name')->get();
         $users = User::whereNotNull('email_verified_at')->orderBy('name')->get();
-        
+
         return view('pages.onboarding.edit', compact('onboarding', 'employees', 'templates', 'users'));
     }
 
@@ -109,7 +110,7 @@ class OnboardingController extends Controller
         ]);
 
         // If status is completed, set actual completion date
-        if ($validated['status'] === 'completed' && !$onboarding->actual_completion_date) {
+        if ($validated['status'] === 'completed' && ! $onboarding->actual_completion_date) {
             $validated['actual_completion_date'] = now();
         }
 

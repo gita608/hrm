@@ -66,6 +66,7 @@ class HolidayController extends Controller
     public function show(string $id)
     {
         $holiday = Holiday::findOrFail($id);
+
         return view('pages.holidays.show', compact('holiday'));
     }
 
@@ -75,6 +76,7 @@ class HolidayController extends Controller
     public function edit(string $id)
     {
         $holiday = Holiday::findOrFail($id);
+
         return view('pages.holidays.edit', compact('holiday'));
     }
 

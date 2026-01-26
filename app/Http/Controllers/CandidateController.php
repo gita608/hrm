@@ -27,7 +27,7 @@ class CandidateController extends Controller
 
         // Filter by applied role
         if ($request->filled('applied_role')) {
-            $query->where('applied_role', 'like', '%' . $request->applied_role . '%');
+            $query->where('applied_role', 'like', '%'.$request->applied_role.'%');
         }
 
         $candidates = $query->orderBy('created_at', 'desc')->get();
@@ -43,6 +43,7 @@ class CandidateController extends Controller
     {
         $jobPostings = JobPosting::where('status', 'open')->orderBy('title')->get();
         $jobPostingId = request('job_posting_id');
+
         return view('pages.candidates.create', compact('jobPostings', 'jobPostingId'));
     }
 
@@ -88,6 +89,7 @@ class CandidateController extends Controller
     public function show(string $id)
     {
         $candidate = Candidate::with(['jobPosting'])->findOrFail($id);
+
         return view('pages.candidates.show', compact('candidate'));
     }
 
@@ -98,6 +100,7 @@ class CandidateController extends Controller
     {
         $candidate = Candidate::findOrFail($id);
         $jobPostings = JobPosting::where('status', 'open')->orderBy('title')->get();
+
         return view('pages.candidates.edit', compact('candidate', 'jobPostings'));
     }
 
@@ -109,10 +112,10 @@ class CandidateController extends Controller
         $candidate = Candidate::findOrFail($id);
 
         $validated = $request->validate([
-            'candidate_code' => 'nullable|string|max:255|unique:candidates,candidate_code,' . $id,
+            'candidate_code' => 'nullable|string|max:255|unique:candidates,candidate_code,'.$id,
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:candidates,email,' . $id,
+            'email' => 'required|email|max:255|unique:candidates,email,'.$id,
             'phone' => 'nullable|string|max:20',
             'job_posting_id' => 'nullable|exists:job_postings,id',
             'applied_role' => 'nullable|string|max:255',
