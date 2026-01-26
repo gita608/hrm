@@ -2,7 +2,7 @@
 <div class="sidebar" id="sidebar">
 	<!-- Logo -->
 	<div class="sidebar-logo d-flex flex-column align-items-center justify-content-end">
-		<a href="{{ url('/') }}" class="logo logo-normal d-flex flex-column align-items-center justify-content-end text-decoration-none w-100">
+		<a href="{{ route('dashboard') }}" class="logo logo-normal d-flex flex-column align-items-center justify-content-end text-decoration-none w-100" aria-label="{{ \App\Helpers\SettingsHelper::appName() }} Home">
 			@if(\App\Helpers\SettingsHelper::appLogo())
 				<img src="{{ \App\Helpers\SettingsHelper::appLogo() }}" 
 					 alt="{{ \App\Helpers\SettingsHelper::appName() }}"
@@ -17,7 +17,7 @@
 	<div class="sidebar-header p-3 pb-0 pt-2">
 		<div class="text-center rounded bg-light p-2 mb-4 sidebar-profile d-flex align-items-center">
 			<div class="avatar avatar-md onlin">
-				<img src="{{ asset('assets/img/profiles/avatar-02.jpg') }}" alt="Img" class="img-fluid rounded-circle">
+				<img src="{{ asset('assets/img/profiles/avatar-02.jpg') }}" alt="User Avatar" class="img-fluid rounded-circle">
 			</div>
 			<div class="text-start sidebar-profile-info ms-2">
 				<h6 class="fs-12 fw-normal mb-1">Adrian Herman</h6>
@@ -26,48 +26,73 @@
 		</div>
 		<div class="input-group input-group-flat d-inline-flex mb-4">
 			<span class="input-icon-addon">
-				<i class="ti ti-search"></i>
+				<i class="ti ti-search" aria-hidden="true"></i>
 			</span>
-			<input type="text" class="form-control" placeholder="Search in HRMS">
+			<input type="text" class="form-control" placeholder="Search in HRMS" aria-label="Search in HRMS">
 			<span class="input-group-text">
-				<kbd>CTRL + / </kbd>
+				<kbd>CTRL + /</kbd>
 			</span>
 		</div>
-		<div class="d-flex align-items-center justify-content-between menu-item mb-3">
-			<div class="me-3">
-				<a href="{{ url('/calendar') }}" class="btn btn-menubar">
-					<i class="ti ti-layout-grid-remove"></i>
-				</a>
-			</div>
-			<div class="me-3">
-				<a href="{{ url('/chat') }}" class="btn btn-menubar position-relative">
-					<i class="ti ti-brand-hipchat"></i>
-					<span class="badge bg-info rounded-pill d-flex align-items-center justify-content-center header-badge">5</span>
-				</a>
-			</div>
-			<div class="me-3 notification-item">
-				<a href="{{ url('/activity') }}" class="btn btn-menubar position-relative me-1">
-					<i class="ti ti-bell"></i>
-					<span class="notification-status-dot"></span>
-				</a>
-			</div>
-			<div class="me-0">
-				<a href="{{ url('/email') }}" class="btn btn-menubar">
-					<i class="ti ti-message"></i>
-				</a>
-			</div>
+		<div class="d-flex align-items-center justify-content-between menu-item mb-3" role="toolbar" aria-label="Quick actions">
+			<a href="" class="btn btn-menubar me-3" aria-label="Calendar" title="Calendar">
+				<i class="ti ti-layout-grid-remove" aria-hidden="true"></i>
+			</a>
+			<a href="" class="btn btn-menubar position-relative me-3" aria-label="Chat" title="Chat">
+				<i class="ti ti-brand-hipchat" aria-hidden="true"></i>
+				<span class="badge bg-info rounded-pill d-flex align-items-center justify-content-center header-badge" aria-label="5 unread messages">5</span>
+			</a>
+			<a href="" class="btn btn-menubar position-relative me-3 notification-item" aria-label="Notifications" title="Notifications">
+				<i class="ti ti-bell" aria-hidden="true"></i>
+				<span class="notification-status-dot" aria-hidden="true"></span>
+			</a>
+			<a href="" class="btn btn-menubar" aria-label="Email" title="Email">
+				<i class="ti ti-message" aria-hidden="true"></i>
+			</a>
 		</div>
 	</div>
+	
 	<div class="sidebar-inner slimscroll">
-		<div id="sidebar-menu" class="sidebar-menu">
+		<nav id="sidebar-menu" class="sidebar-menu" aria-label="Main navigation">
 			<ul>
+				@php
+					// Helper function to check if route is active
+					$isActive = function($patterns) {
+						foreach ((array)$patterns as $pattern) {
+							if (request()->is($pattern) || request()->routeIs($pattern)) {
+								return true;
+							}
+						}
+						return false;
+					};
+					
+					// Helper function to get active class
+					$activeClass = function($patterns) use ($isActive) {
+						return $isActive($patterns) ? 'active' : '';
+					};
+					
+					// Helper function to get submenu active class
+					$submenuActiveClass = function($patterns) use ($isActive) {
+						return $isActive($patterns) ? 'active' : '';
+					};
+					
+					// Helper function to get subdrop class
+					$subdropClass = function($patterns) use ($isActive) {
+						return $isActive($patterns) ? 'active subdrop' : '';
+					};
+					
+					// Helper function to get display style
+					$displayStyle = function($patterns) use ($isActive) {
+						return $isActive($patterns) ? 'display: block;' : '';
+					};
+				@endphp
+
 				<!-- Dashboard -->
 				<li class="menu-title"><span>DASHBOARD</span></li>
 				<li>
 					<ul>
 						<li>
-							<a href="{{ url('/') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
-								<i class="ti ti-layout-dashboard"></i><span>Dashboard</span>
+							<a href="{{ route('dashboard') }}" class="{{ $activeClass('dashboard') }}">
+								<i class="ti ti-layout-dashboard" aria-hidden="true"></i><span>Dashboard</span>
 							</a>
 						</li>
 					</ul>
@@ -78,23 +103,23 @@
 				<li>
 					<ul>
 						<li>
-							<a href="{{ url('/departments') }}" class="{{ request()->routeIs('departments.*') ? 'active' : '' }}">
-								<i class="ti ti-building"></i><span>Departments</span>
+							<a href="{{ route('departments.index') }}" class="{{ $activeClass('departments.*') }}">
+								<i class="ti ti-building" aria-hidden="true"></i><span>Departments</span>
 							</a>
 						</li>
 						<li>
-							<a href="{{ url('/designations') }}" class="{{ request()->routeIs('designations.*') ? 'active' : '' }}">
-								<i class="ti ti-briefcase"></i><span>Designations</span>
+							<a href="{{ route('designations.index') }}" class="{{ $activeClass('designations.*') }}">
+								<i class="ti ti-briefcase" aria-hidden="true"></i><span>Designations</span>
 							</a>
 						</li>
-						<li class="submenu {{ request()->is('users*') || request()->is('roles*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('users*') || request()->is('roles*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-user-star"></i><span>User Management</span>
-								<span class="menu-arrow"></span>
+						<li class="submenu {{ $submenuActiveClass(['users*', 'roles*']) }}">
+							<a href="javascript:void(0);" class="{{ $subdropClass(['users*', 'roles*']) }}" aria-expanded="{{ $isActive(['users*', 'roles*']) ? 'true' : 'false' }}">
+								<i class="ti ti-user-star" aria-hidden="true"></i><span>User Management</span>
+								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
-							<ul style="{{ request()->is('users*') || request()->is('roles*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/users') }}" class="{{ request()->is('users*') ? 'active' : '' }}">Users</a></li>
-								<li><a href="{{ url('/roles') }}" class="{{ request()->is('roles*') ? 'active' : '' }}">Roles & Permissions</a></li>
+							<ul style="{{ $displayStyle(['users*', 'roles*']) }}">
+								<li><a href="{{ route('users.index') }}" class="{{ $activeClass('users*') }}">Users</a></li>
+								<li><a href="{{ route('roles.index') }}" class="{{ $activeClass('roles*') }}">Roles & Permissions</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -104,56 +129,56 @@
 				<li class="menu-title"><span>EMPLOYEE MANAGEMENT</span></li>
 				<li>
 					<ul>
-						<li class="submenu {{ request()->is('attendance*') || request()->is('leaves*') || request()->is('timesheets*') || request()->is('schedule*') || request()->is('overtime*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('attendance*') || request()->is('leaves*') || request()->is('timesheets*') || request()->is('schedule*') || request()->is('overtime*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-file-time"></i><span>Attendance & Leaves</span>
-								<span class="menu-arrow"></span>
+						<li class="submenu {{ $submenuActiveClass(['attendance*', 'leaves*', 'timesheets*', 'schedule*', 'overtime*']) }}">
+							<a href="javascript:void(0);" class="{{ $subdropClass(['attendance*', 'leaves*', 'timesheets*', 'schedule*', 'overtime*']) }}" aria-expanded="{{ $isActive(['attendance*', 'leaves*', 'timesheets*', 'schedule*', 'overtime*']) ? 'true' : 'false' }}">
+								<i class="ti ti-file-time" aria-hidden="true"></i><span>Attendance & Leaves</span>
+								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
-							<ul style="{{ request()->is('attendance*') || request()->is('leaves*') || request()->is('timesheets*') || request()->is('schedule*') || request()->is('overtime*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/attendance/admin') }}" class="{{ request()->is('attendance/admin') ? 'active' : '' }}">Attendance (Admin)</a></li>
-								<li><a href="{{ url('/attendance/employee') }}" class="{{ request()->is('attendance/employee') ? 'active' : '' }}">Attendance (Employee)</a></li>
-								<li class="submenu submenu-two {{ request()->is('leaves*') ? 'active' : '' }}">
-									<a href="javascript:void(0);" class="{{ request()->is('leaves*') ? 'active subdrop' : '' }}">Leaves<span class="menu-arrow inside-submenu"></span></a>
-									<ul style="{{ request()->is('leaves*') ? 'display: block;' : '' }}">
-										<li><a href="{{ url('/leaves') }}" class="{{ request()->is('leaves') && !request()->is('leaves/*') ? 'active' : '' }}">Leaves (Admin)</a></li>
-										<li><a href="{{ url('/leaves/employee') }}" class="{{ request()->is('leaves/employee') ? 'active' : '' }}">Leave (Employee)</a></li>
-										<li><a href="{{ url('/leaves/settings') }}" class="{{ request()->is('leaves/settings') ? 'active' : '' }}">Leave Settings</a></li>												
-									</ul>												
+							<ul style="{{ $displayStyle(['attendance*', 'leaves*', 'timesheets*', 'schedule*', 'overtime*']) }}">
+								<li><a href="{{ route('attendance.admin') }}" class="{{ $activeClass('attendance/admin') }}">Attendance (Admin)</a></li>
+								<li><a href="{{ route('attendance.employee') }}" class="{{ $activeClass('attendance/employee') }}">Attendance (Employee)</a></li>
+								<li class="submenu submenu-two {{ $submenuActiveClass('leaves*') }}">
+									<a href="javascript:void(0);" class="{{ $subdropClass('leaves*') }}" aria-expanded="{{ $isActive('leaves*') ? 'true' : 'false' }}">Leaves<span class="menu-arrow inside-submenu" aria-hidden="true"></span></a>
+									<ul style="{{ $displayStyle('leaves*') }}">
+										<li><a href="{{ route('leaves.index') }}" class="{{ $activeClass('leaves') && !request()->is('leaves/*') ? 'active' : '' }}">Leaves (Admin)</a></li>
+										<li><a href="{{ route('leaves.employee') }}" class="{{ $activeClass('leaves/employee') }}">Leave (Employee)</a></li>
+										<li><a href="{{ route('leaves.settings') }}" class="{{ $activeClass('leaves/settings') }}">Leave Settings</a></li>
+									</ul>
 								</li>
-								<li><a href="{{ url('/timesheets') }}" class="{{ request()->is('timesheets*') ? 'active' : '' }}">Timesheets</a></li>
-								<li><a href="{{ url('/schedule') }}" class="{{ request()->is('schedule*') ? 'active' : '' }}">Shift & Schedule</a></li>
-								<li><a href="{{ url('/overtime') }}" class="{{ request()->is('overtime*') ? 'active' : '' }}">Overtime</a></li>
+								<li><a href="">Timesheets</a></li>
+								<li><a href="" class="{{ $activeClass('schedule*') }}">Shift & Schedule</a></li>
+								<li><a href="" class="{{ $activeClass('overtime*') }}">Overtime</a></li>
 							</ul>
 						</li>
 						<li>
-							<a href="{{ url('/holidays') }}" class="{{ request()->is('holidays*') ? 'active' : '' }}">
-								<i class="ti ti-calendar-event"></i><span>Holidays</span>
+							<a href="{{ route('holidays.index') }}" class="{{ $activeClass('holidays*') }}">
+								<i class="ti ti-calendar-event" aria-hidden="true"></i><span>Holidays</span>
 							</a>
 						</li>
-						<li class="submenu {{ request()->is('training*') || request()->is('trainers*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('training*') || request()->is('trainers*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-edit"></i><span>Training</span>
-								<span class="menu-arrow"></span>
+						<li class="submenu {{ $submenuActiveClass(['training*', 'trainers*']) }}">
+							<a href="javascript:void(0);" class="{{ $subdropClass(['training*', 'trainers*']) }}" aria-expanded="{{ $isActive(['training*', 'trainers*']) ? 'true' : 'false' }}">
+								<i class="ti ti-edit" aria-hidden="true"></i><span>Training</span>
+								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
-							<ul style="{{ request()->is('training*') || request()->is('trainers*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/training') }}" class="{{ request()->is('training') && !request()->is('training/*') ? 'active' : '' }}">Training List</a></li>
-								<li><a href="{{ url('/trainers') }}" class="{{ request()->is('trainers*') ? 'active' : '' }}">Trainers</a></li>
-								<li><a href="{{ url('/training/types') }}" class="{{ request()->is('training/types') ? 'active' : '' }}">Training Type</a></li>
+							<ul style="{{ $displayStyle(['training*', 'trainers*']) }}">
+								<li><a href="{{ route('training.index') }}" class="{{ $activeClass('training') && !request()->is('training/*') ? 'active' : '' }}">Training List</a></li>
+								<li><a href="{{ route('trainers.index') }}" class="{{ $activeClass('trainers*') }}">Trainers</a></li>
+								<li><a href="{{ route('training.types.index') }}" class="{{ $activeClass('training/types') }}">Training Type</a></li>
 							</ul>
 						</li>
 						<li>
-							<a href="{{ route('promotions.index') }}" class="{{ request()->routeIs('promotions.*') ? 'active' : '' }}">
-								<i class="ti ti-speakerphone"></i><span>Promotion</span>
+							<a href="{{ route('promotions.index') }}" class="{{ $activeClass('promotions.*') }}">
+								<i class="ti ti-speakerphone" aria-hidden="true"></i><span>Promotion</span>
 							</a>
 						</li>
 						<li>
-							<a href="{{ route('resignations.index') }}" class="{{ request()->routeIs('resignations.*') ? 'active' : '' }}">
-								<i class="ti ti-external-link"></i><span>Resignation</span>
+							<a href="{{ route('resignations.index') }}" class="{{ $activeClass('resignations.*') }}">
+								<i class="ti ti-external-link" aria-hidden="true"></i><span>Resignation</span>
 							</a>
 						</li>
 						<li>
-							<a href="{{ route('terminations.index') }}" class="{{ request()->routeIs('terminations.*') ? 'active' : '' }}">
-								<i class="ti ti-circle-x"></i><span>Termination</span>
+							<a href="{{ route('terminations.index') }}" class="{{ $activeClass('terminations.*') }}">
+								<i class="ti ti-circle-x" aria-hidden="true"></i><span>Termination</span>
 							</a>
 						</li>
 					</ul>
@@ -164,28 +189,28 @@
 				<li>
 					<ul>
 						<li>
-							<a href="{{ url('/jobs') }}" class="{{ request()->is('jobs*') ? 'active' : '' }}">
-								<i class="ti ti-timeline"></i><span>Jobs</span>
+							<a href="{{ route('jobs.index') }}" class="{{ $activeClass('jobs*') }}">
+								<i class="ti ti-timeline" aria-hidden="true"></i><span>Jobs</span>
 							</a>
 						</li>
 						<li>
-							<a href="{{ url('/candidates') }}" class="{{ request()->is('candidates*') ? 'active' : '' }}">
-								<i class="ti ti-user-shield"></i><span>Candidates</span>
+							<a href="{{ route('candidates.index') }}" class="{{ $activeClass('candidates*') }}">
+								<i class="ti ti-user-shield" aria-hidden="true"></i><span>Candidates</span>
 							</a>
 						</li>
-						<li class="submenu {{ request()->is('interviews*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('interviews*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-calendar-check"></i><span>Interview</span>
-								<span class="menu-arrow"></span>
+						<li class="submenu {{ $submenuActiveClass('interviews*') }}">
+							<a href="javascript:void(0);" class="{{ $subdropClass('interviews*') }}" aria-expanded="{{ $isActive('interviews*') ? 'true' : 'false' }}">
+								<i class="ti ti-calendar-check" aria-hidden="true"></i><span>Interview</span>
+								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
-							<ul style="{{ request()->is('interviews*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/interviews') }}" class="{{ request()->is('interviews') && !request()->is('interviews/*') ? 'active' : '' }}">Interview Schedule</a></li>
-								<li><a href="{{ url('/interviews/feedback') }}" class="{{ request()->is('interviews/feedback') ? 'active' : '' }}">Interview Feedback</a></li>
+							<ul style="{{ $displayStyle('interviews*') }}">
+								<li><a href="{{ route('interviews.index') }}" class="{{ $activeClass('interviews') && !request()->is('interviews/*') ? 'active' : '' }}">Interview Schedule</a></li>
+								<li><a href="" class="{{ $activeClass('interviews/feedback') }}">Interview Feedback</a></li>
 							</ul>
 						</li>
 						<li>
-							<a href="{{ url('/referrals') }}" class="{{ request()->is('referrals*') ? 'active' : '' }}">
-								<i class="ti ti-ux-circle"></i><span>Referrals</span>
+							<a href="{{ route('referrals.index') }}" class="{{ $activeClass('referrals*') }}">
+								<i class="ti ti-ux-circle" aria-hidden="true"></i><span>Referrals</span>
 							</a>
 						</li>
 					</ul>
@@ -195,30 +220,30 @@
 				<li class="menu-title"><span>FINANCE & PAYROLL</span></li>
 				<li>
 					<ul>
-						<li class="submenu {{ request()->is('payroll*') || request()->is('provident-fund*') || request()->is('taxes*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('payroll*') || request()->is('provident-fund*') || request()->is('taxes*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-cash"></i><span>Payroll</span>
-								<span class="menu-arrow"></span>
+						<li class="submenu {{ $submenuActiveClass(['payroll*', 'provident-fund*', 'taxes*']) }}">
+							<a href="javascript:void(0);" class="{{ $subdropClass(['payroll*', 'provident-fund*', 'taxes*']) }}" aria-expanded="{{ $isActive(['payroll*', 'provident-fund*', 'taxes*']) ? 'true' : 'false' }}">
+								<i class="ti ti-cash" aria-hidden="true"></i><span>Payroll</span>
+								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
-							<ul style="{{ request()->is('payroll*') || request()->is('provident-fund*') || request()->is('taxes*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/payroll/salary') }}" class="{{ request()->is('payroll/salary') ? 'active' : '' }}">Employee Salary</a></li>
-								<li><a href="{{ url('/payroll/payslip') }}" class="{{ request()->is('payroll/payslip') ? 'active' : '' }}">Payslip</a></li>
-								<li><a href="{{ url('/payroll/items') }}" class="{{ request()->is('payroll/items') ? 'active' : '' }}">Payroll Items</a></li>
-								<li><a href="{{ url('/provident-fund') }}" class="{{ request()->is('provident-fund*') ? 'active' : '' }}">Provident Fund</a></li>
-								<li><a href="{{ url('/taxes') }}" class="{{ request()->is('taxes*') ? 'active' : '' }}">Taxes</a></li>
+							<ul style="{{ $displayStyle(['payroll*', 'provident-fund*', 'taxes*']) }}">
+								<li><a href="" class="{{ $activeClass('payroll/salary') }}">Employee Salary</a></li>
+								<li><a href="" class="{{ $activeClass('payroll/payslip') }}">Payslip</a></li>
+								<li><a href="" class="{{ $activeClass('payroll/items') }}">Payroll Items</a></li>
+								<li><a href="" class="{{ $activeClass('provident-fund*') }}">Provident Fund</a></li>
+								<li><a href="" class="{{ $activeClass('taxes*') }}">Taxes</a></li>
 							</ul>
 						</li>
-						<li class="submenu {{ request()->is('expenses*') || request()->is('categories*') || request()->is('budgets*') || request()->is('budget-expenses*') || request()->is('budget-revenues*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('expenses*') || request()->is('categories*') || request()->is('budgets*') || request()->is('budget-expenses*') || request()->is('budget-revenues*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-file-dollar"></i><span>Accounting</span>
-								<span class="menu-arrow"></span>
+						<li class="submenu {{ $submenuActiveClass(['expenses*', 'categories*', 'budgets*', 'budget-expenses*', 'budget-revenues*']) }}">
+							<a href="javascript:void(0);" class="{{ $subdropClass(['expenses*', 'categories*', 'budgets*', 'budget-expenses*', 'budget-revenues*']) }}" aria-expanded="{{ $isActive(['expenses*', 'categories*', 'budgets*', 'budget-expenses*', 'budget-revenues*']) ? 'true' : 'false' }}">
+								<i class="ti ti-file-dollar" aria-hidden="true"></i><span>Accounting</span>
+								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
-							<ul style="{{ request()->is('expenses*') || request()->is('categories*') || request()->is('budgets*') || request()->is('budget-expenses*') || request()->is('budget-revenues*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/expenses') }}" class="{{ request()->is('expenses*') ? 'active' : '' }}">Expenses</a></li>
-								<li><a href="{{ url('/categories') }}" class="{{ request()->is('categories*') ? 'active' : '' }}">Categories</a></li>
-								<li><a href="{{ url('/budgets') }}" class="{{ request()->is('budgets') && !request()->is('budgets/*') ? 'active' : '' }}">Budgets</a></li>
-								<li><a href="{{ url('/budget-expenses') }}" class="{{ request()->is('budget-expenses*') ? 'active' : '' }}">Budget Expenses</a></li>
-								<li><a href="{{ url('/budget-revenues') }}" class="{{ request()->is('budget-revenues*') ? 'active' : '' }}">Budget Revenues</a></li>
+							<ul style="{{ $displayStyle(['expenses*', 'categories*', 'budgets*', 'budget-expenses*', 'budget-revenues*']) }}">
+								<li><a href="" class="{{ $activeClass('expenses*') }}">Expenses</a></li>
+								<li><a href="" class="{{ $activeClass('categories*') }}">Categories</a></li>
+								<li><a href="" class="{{ $activeClass('budgets') && !request()->is('budgets/*') ? 'active' : '' }}">Budgets</a></li>
+								<li><a href="" class="{{ $activeClass('budget-expenses*') }}">Budget Expenses</a></li>
+								<li><a href="" class="{{ $activeClass('budget-revenues*') }}">Budget Revenues</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -228,25 +253,25 @@
 				<li class="menu-title"><span>DOCUMENTS & SUPPORT</span></li>
 				<li>
 					<ul>
-						<li class="submenu {{ request()->is('documents*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('documents*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-file-text"></i><span>Documents</span>
-								<span class="menu-arrow"></span>
+						<li class="submenu {{ $submenuActiveClass('documents*') }}">
+							<a href="javascript:void(0);" class="{{ $subdropClass('documents*') }}" aria-expanded="{{ $isActive('documents*') ? 'true' : 'false' }}">
+								<i class="ti ti-file-text" aria-hidden="true"></i><span>Documents</span>
+								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
-							<ul style="{{ request()->is('documents*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/documents') }}" class="{{ request()->is('documents') && !request()->is('documents/*') ? 'active' : '' }}">Document Library</a></li>
-								<li><a href="{{ url('/documents/letters') }}" class="{{ request()->is('documents/letters') ? 'active' : '' }}">HR Letters</a></li>
-								<li><a href="{{ url('/documents/certificates') }}" class="{{ request()->is('documents/certificates') ? 'active' : '' }}">Certificates</a></li>
+							<ul style="{{ $displayStyle('documents*') }}">
+								<li><a href="" class="{{ $activeClass('documents') && !request()->is('documents/*') ? 'active' : '' }}">Document Library</a></li>
+								<li><a href="" class="{{ $activeClass('documents/letters') }}">HR Letters</a></li>
+								<li><a href="" class="{{ $activeClass('documents/certificates') }}">Certificates</a></li>
 							</ul>
 						</li>
-						<li class="submenu {{ request()->is('tickets*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('tickets*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-ticket"></i><span>Tickets</span>
-								<span class="menu-arrow"></span>
+						<li class="submenu {{ $submenuActiveClass('tickets*') }}">
+							<a href="javascript:void(0);" class="{{ $subdropClass('tickets*') }}" aria-expanded="{{ $isActive('tickets*') ? 'true' : 'false' }}">
+								<i class="ti ti-ticket" aria-hidden="true"></i><span>Tickets</span>
+								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
-							<ul style="{{ request()->is('tickets*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/tickets') }}" class="{{ request()->is('tickets') && !request()->is('tickets/*') ? 'active' : '' }}">Tickets</a></li>
-								<li><a href="{{ url('/tickets/details') }}" class="{{ request()->is('tickets/details') ? 'active' : '' }}">Ticket Details</a></li>
+							<ul style="{{ $displayStyle('tickets*') }}">
+								<li><a href="" class="{{ $activeClass('tickets') && !request()->is('tickets/*') ? 'active' : '' }}">Tickets</a></li>
+								<li><a href="" class="{{ $activeClass('tickets/details') }}">Ticket Details</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -256,14 +281,14 @@
 				<li class="menu-title"><span>ASSETS & RESOURCES</span></li>
 				<li>
 					<ul>
-						<li class="submenu {{ request()->is('assets*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('assets*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-package"></i><span>Assets</span>
-								<span class="menu-arrow"></span>
+						<li class="submenu {{ $submenuActiveClass('assets*') }}">
+							<a href="javascript:void(0);" class="{{ $subdropClass('assets*') }}" aria-expanded="{{ $isActive('assets*') ? 'true' : 'false' }}">
+								<i class="ti ti-package" aria-hidden="true"></i><span>Assets</span>
+								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
-							<ul style="{{ request()->is('assets*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/assets') }}" class="{{ request()->is('assets') && !request()->is('assets/*') ? 'active' : '' }}">Assets</a></li>
-								<li><a href="{{ url('/assets/categories') }}" class="{{ request()->is('assets/categories') ? 'active' : '' }}">Asset Categories</a></li>
+							<ul style="{{ $displayStyle('assets*') }}">
+								<li><a href="{{ route('assets.index') }}" class="{{ $activeClass('assets') && !request()->is('assets/*') ? 'active' : '' }}">Assets</a></li>
+								<li><a href="{{ route('assets.categories.index') }}" class="{{ $activeClass('assets/categories') }}">Asset Categories</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -273,21 +298,21 @@
 				<li class="menu-title"><span>REPORTS & ANALYTICS</span></li>
 				<li>
 					<ul>
-						<li class="submenu {{ request()->is('reports*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('reports*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-chart-bar"></i><span>Reports</span>
-								<span class="menu-arrow"></span>
+						<li class="submenu {{ $submenuActiveClass('reports*') }}">
+							<a href="javascript:void(0);" class="{{ $subdropClass('reports*') }}" aria-expanded="{{ $isActive('reports*') ? 'true' : 'false' }}">
+								<i class="ti ti-chart-bar" aria-hidden="true"></i><span>Reports</span>
+								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
-							<ul style="{{ request()->is('reports*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/reports/employees') }}" class="{{ request()->is('reports/employees') ? 'active' : '' }}">Employee Report</a></li>
-								<li><a href="{{ url('/reports/attendance') }}" class="{{ request()->is('reports/attendance') ? 'active' : '' }}">Attendance Report</a></li>
-								<li><a href="{{ url('/reports/leaves') }}" class="{{ request()->is('reports/leaves') ? 'active' : '' }}">Leave Report</a></li>
-								<li><a href="{{ url('/reports/payslips') }}" class="{{ request()->is('reports/payslips') ? 'active' : '' }}">Payslip Report</a></li>
-								<li><a href="{{ url('/reports/expenses') }}" class="{{ request()->is('reports/expenses') ? 'active' : '' }}">Expense Report</a></li>
-								<li><a href="{{ url('/reports/training') }}" class="{{ request()->is('reports/training') ? 'active' : '' }}">Training Report</a></li>
-								<li><a href="{{ url('/reports/recruitment') }}" class="{{ request()->is('reports/recruitment') ? 'active' : '' }}">Recruitment Report</a></li>
-								<li><a href="{{ url('/reports/users') }}" class="{{ request()->is('reports/users') ? 'active' : '' }}">User Report</a></li>
-								<li><a href="{{ url('/reports/daily') }}" class="{{ request()->is('reports/daily') ? 'active' : '' }}">Daily Report</a></li>
+							<ul style="{{ $displayStyle('reports*') }}">
+								<li><a href="" class="{{ $activeClass('reports/employees') }}">Employee Report</a></li>
+								<li><a href="" class="{{ $activeClass('reports/attendance') }}">Attendance Report</a></li>
+								<li><a href="" class="{{ $activeClass('reports/leaves') }}">Leave Report</a></li>
+								<li><a href="" class="{{ $activeClass('reports/payslips') }}">Payslip Report</a></li>
+								<li><a href="" class="{{ $activeClass('reports/expenses') }}">Expense Report</a></li>
+								<li><a href="" class="{{ $activeClass('reports/training') }}">Training Report</a></li>
+								<li><a href="" class="{{ $activeClass('reports/recruitment') }}">Recruitment Report</a></li>
+								<li><a href="" class="{{ $activeClass('reports/users') }}">User Report</a></li>
+								<li><a href="" class="{{ $activeClass('reports/daily') }}">Daily Report</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -296,12 +321,12 @@
 				<!-- Settings -->
 				<li class="menu-title"><span>SETTINGS</span></li>
 				<li>
-					<a href="{{ route('settings.index') }}" class="{{ request()->is('settings*') ? 'active' : '' }}">
-						<i class="ti ti-settings"></i><span>Settings</span>
+					<a href="{{ route('settings.index') }}" class="{{ $activeClass('settings*') }}">
+						<i class="ti ti-settings" aria-hidden="true"></i><span>Settings</span>
 					</a>
 				</li>
 			</ul>
-		</div>
+		</nav>
 	</div>
 </div>
 <!-- /Sidebar -->

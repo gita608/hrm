@@ -240,6 +240,26 @@ Template Name: Smarthr - Bootstrap Admin Template
 
 	// Sidebar Slimscroll
 	if($slimScrolls.length > 0) {
+		function updateSidebarHeight() {
+			var sidebarHeight = $('.sidebar').outerHeight() || $(window).height();
+			var logoHeight = $('.sidebar .sidebar-logo').outerHeight() || 120;
+			var headerHeight = $('.sidebar .sidebar-header').outerHeight() || 0;
+			var totalOffset = logoHeight + headerHeight;
+			var wHeight = sidebarHeight - totalOffset - 32; // Subtract padding
+			if (wHeight > 0) {
+				$slimScrolls.height(wHeight);
+				var $slimScrollDiv = $('.sidebar .slimScrollDiv');
+				if ($slimScrollDiv.length) {
+					$slimScrollDiv.css({
+						'height': 'auto',
+						'max-height': 'none',
+						'flex': '1',
+						'min-height': '0'
+					});
+				}
+			}
+		}
+		
 		$slimScrolls.slimScroll({
 			height: 'auto',
 			width: '100%',
@@ -249,13 +269,16 @@ Template Name: Smarthr - Bootstrap Admin Template
 			wheelStep: 10,
 			touchScrollStep: 100
 		});
-		var wHeight = $(window).height() - 60;
-		$slimScrolls.height(wHeight);
-		$('.sidebar .slimScrollDiv').height(wHeight);
+		
+		updateSidebarHeight();
 		$(window).resize(function() {
-			var rHeight = $(window).height() - 60;
-			$slimScrolls.height(rHeight);
-			$('.sidebar .slimScrollDiv').height(rHeight);
+			updateSidebarHeight();
+		});
+		// Recalculate after a short delay to ensure DOM is ready
+		setTimeout(updateSidebarHeight, 100);
+		// Recalculate when sidebar menu changes
+		$(document).on('click', '.sidebar-menu a', function() {
+			setTimeout(updateSidebarHeight, 300);
 		});
 	}
 

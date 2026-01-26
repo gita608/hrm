@@ -14757,6 +14757,7 @@ button.swal2-cancel {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  flex-direction: column;
   background-color: #FFF;
   border-right: 1px solid #E5E7EB;
   margin-top: 0;
@@ -14769,6 +14770,8 @@ button.swal2-cancel {
   -ms-transition: all 0.5s ease;
   transition: all 0.5s ease;
   width: 252px;
+  height: 100vh;
+  overflow: hidden;
 }
 @media (max-width: 991.98px) {
   .sidebar {
@@ -14786,10 +14789,10 @@ button.swal2-cancel {
   }
 }
 .sidebar .sidebar-logo {
-  position: fixed;
+  position: relative;
   min-height: 120px;
   height: 120px;
-  width: 252px;
+  width: 100%;
   padding: 10px 16px;
   display: flex;
   flex-direction: column;
@@ -14799,6 +14802,7 @@ button.swal2-cancel {
   left: 0;
   background: #FFF;
   z-index: 1002;
+  flex-shrink: 0;
 }
 .sidebar .sidebar-logo .logo {
   display: flex;
@@ -14853,9 +14857,36 @@ button.swal2-cancel {
     max-width: calc(100% - 20px);
   }
 }
+.sidebar .sidebar-header {
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  background: #FFF;
+}
+.sidebar .sidebar-inner.slimscroll {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 .sidebar .slimScrollDiv {
-  top: 120px;
+  flex: 1;
   padding: 16px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  height: auto !important;
+  max-height: none !important;
+}
+.sidebar .slimScrollDiv .sidebar-inner {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  min-height: 0;
 }
 @media (max-width: 575.98px) {
   .sidebar .slimScrollDiv {
@@ -14864,15 +14895,22 @@ button.swal2-cancel {
 }
 @media (max-width: 991.98px) {
   .sidebar .slimScrollDiv {
-    top: 80px;
+    position: relative;
+    height: auto;
+    max-height: none;
   }
 }
 .sidebar .slimScrollDiv .sidebar-menu {
   margin-top: 0;
   padding: 0 0 16px;
 }
-.sidebar .sidebar-inner {
+.sidebar .slimScrollDiv .sidebar-inner {
   width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  min-height: 0;
 }
 .sidebar .sidebar-menu {
   margin-top: 0;
