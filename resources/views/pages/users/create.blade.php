@@ -289,6 +289,11 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="card-footer d-flex justify-content-end gap-2">
+					<a href="{{ route('users.index') }}" class="btn btn-outline-light border">Cancel</a>
+					<button type="submit" class="btn btn-primary">Create User</button>
+				</div>
 			</form>
 		</div>
 	</div>

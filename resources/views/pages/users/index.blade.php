@@ -141,15 +141,15 @@
 								<td>{{ $loop->iteration }}</td>
 								<td>
 									<div class="d-flex align-items-center">
-										<span class="avatar avatar-sm me-2">
-											@if($user->profile_picture)
-												<img src="{{ asset('storage/' . $user->profile_picture) }}" alt="User" class="img-fluid rounded-circle">
-											@else
-												<div class="avatar-initial bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.875rem;">
-													{{ strtoupper(substr($user->name, 0, 1)) }}
-												</div>
-											@endif
-										</span>
+										@if($user->profile_picture)
+											<span class="avatar avatar-sm me-2">
+												<img src="{{ asset('storage/' . $user->profile_picture) }}" alt="User" class="img-fluid rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
+											</span>
+										@else
+											<span class="avatar avatar-sm bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="font-size: 0.875rem; font-weight: 600;">
+												{{ strtoupper(substr($user->name, 0, 1)) }}
+											</span>
+										@endif
 										<strong>{{ $user->name }}</strong>
 									</div>
 								</td>

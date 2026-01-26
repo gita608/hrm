@@ -289,6 +289,11 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="card-footer d-flex justify-content-end gap-2">
+					<a href="{{ route('employees.index') }}" class="btn btn-outline-light border">Cancel</a>
+					<button type="submit" class="btn btn-primary">Create Employee</button>
+				</div>
 			</form>
 		</div>
 	</div>

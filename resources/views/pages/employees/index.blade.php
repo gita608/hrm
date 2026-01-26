@@ -210,15 +210,15 @@
 							<td><a href="{{ route('employees.show', $employee->id) }}">EMP-{{ str_pad($employee->id, 3, '0', STR_PAD_LEFT) }}</a></td>
 							<td>
 								<div class="d-flex align-items-center">
-									<a href="{{ route('employees.show', $employee->id) }}" class="avatar avatar-md">
-										@if($employee->profile_picture)
-											<img src="{{ asset('storage/' . $employee->profile_picture) }}" class="img-fluid rounded-circle" alt="img">
-										@else
-											<div class="avatar-initial bg-primary text-white rounded-circle d-flex align-items-center justify-content-center">
-												{{ strtoupper(substr($employee->name, 0, 1)) }}
-											</div>
-										@endif
-									</a>
+									@if($employee->profile_picture)
+										<a href="{{ route('employees.show', $employee->id) }}" class="avatar avatar-md">
+											<img src="{{ asset('storage/' . $employee->profile_picture) }}" class="img-fluid rounded-circle" alt="img" style="width: 100%; height: 100%; object-fit: cover;">
+										</a>
+									@else
+										<a href="{{ route('employees.show', $employee->id) }}" class="avatar avatar-md bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="text-decoration: none;">
+											<span style="font-size: 0.875rem; font-weight: 600;">{{ strtoupper(substr($employee->name, 0, 1)) }}</span>
+										</a>
+									@endif
 									<div class="ms-2">
 										<p class="text-dark mb-0"><a href="{{ route('employees.show', $employee->id) }}">{{ $employee->name }}</a></p>
 										@if($employee->role)

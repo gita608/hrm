@@ -85,11 +85,6 @@
 							</a>
 						</li>
 						<li>
-							<a href="{{ url('/employees') }}" class="{{ request()->routeIs('employees.*') ? 'active' : '' }}">
-								<i class="ti ti-users"></i><span>Employee</span>
-							</a>
-						</li>
-						<li>
 							<a href="{{ url('/departments') }}" class="{{ request()->routeIs('departments.*') ? 'active' : '' }}">
 								<i class="ti ti-building"></i><span>Departments</span>
 							</a>
@@ -98,28 +93,6 @@
 							<a href="{{ url('/designations') }}" class="{{ request()->routeIs('designations.*') ? 'active' : '' }}">
 								<i class="ti ti-briefcase"></i><span>Designations</span>
 							</a>
-						</li>
-						<li class="submenu {{ request()->is('onboarding*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('onboarding*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-user-plus"></i><span>Onboarding</span>
-								<span class="menu-arrow"></span>
-							</a>
-							<ul style="{{ request()->is('onboarding*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/onboarding') }}" class="{{ request()->is('onboarding') && !request()->is('onboarding/*') ? 'active' : '' }}">Onboarding List</a></li>
-								<li><a href="{{ url('/onboarding/templates') }}" class="{{ request()->is('onboarding/templates') ? 'active' : '' }}">Onboarding Templates</a></li>
-								<li><a href="{{ url('/onboarding/checklist') }}" class="{{ request()->is('onboarding/checklist') ? 'active' : '' }}">Onboarding Checklist</a></li>
-							</ul>
-						</li>
-						<li class="submenu {{ request()->is('self-service*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('self-service*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-user-circle"></i><span>Employee Self-Service</span>
-								<span class="menu-arrow"></span>
-							</a>
-							<ul style="{{ request()->is('self-service*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/self-service/profile') }}" class="{{ request()->is('self-service/profile') ? 'active' : '' }}">My Profile</a></li>
-								<li><a href="{{ url('/self-service/documents') }}" class="{{ request()->is('self-service/documents') ? 'active' : '' }}">My Documents</a></li>
-								<li><a href="{{ url('/self-service/requests') }}" class="{{ request()->is('self-service/requests') ? 'active' : '' }}">My Requests</a></li>
-							</ul>
 						</li>
 						<li class="submenu {{ request()->is('documents*') ? 'active' : '' }}">
 							<a href="javascript:void(0);" class="{{ request()->is('documents*') ? 'active subdrop' : '' }}">
@@ -168,19 +141,6 @@
 								<li><a href="{{ url('/overtime') }}" class="{{ request()->is('overtime*') ? 'active' : '' }}">Overtime</a></li>
 							</ul>
 						</li>
-						<li class="submenu {{ request()->is('performance*') || request()->is('goals*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('performance*') || request()->is('goals*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-school"></i><span>Performance</span>
-								<span class="menu-arrow"></span>
-							</a>
-							<ul style="{{ request()->is('performance*') || request()->is('goals*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/performance/indicator') }}" class="{{ request()->is('performance/indicator') ? 'active' : '' }}">Performance Indicator</a></li>
-								<li><a href="{{ url('/performance/review') }}" class="{{ request()->is('performance/review') ? 'active' : '' }}">Performance Review</a></li>
-								<li><a href="{{ url('/performance/appraisal') }}" class="{{ request()->is('performance/appraisal') ? 'active' : '' }}">Performance Appraisal</a></li>
-								<li><a href="{{ url('/goals') }}" class="{{ request()->is('goals') && !request()->is('goals/*') ? 'active' : '' }}">Goal List</a></li>
-								<li><a href="{{ url('/goals/types') }}" class="{{ request()->is('goals/types') ? 'active' : '' }}">Goal Type</a></li>
-							</ul>
-						</li>
 						<li class="submenu {{ request()->is('training*') || request()->is('trainers*') ? 'active' : '' }}">
 							<a href="javascript:void(0);" class="{{ request()->is('training*') || request()->is('trainers*') ? 'active subdrop' : '' }}">
 								<i class="ti ti-edit"></i><span>Training</span>
@@ -207,29 +167,6 @@
 								<i class="ti ti-circle-x"></i><span>Termination</span>
 							</a>
 						</li>
-						<li class="submenu {{ request()->is('surveys*') || request()->is('recognition*') || request()->is('announcements*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('surveys*') || request()->is('recognition*') || request()->is('announcements*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-heart-handshake"></i><span>Employee Engagement</span>
-								<span class="menu-arrow"></span>
-							</a>
-							<ul style="{{ request()->is('surveys*') || request()->is('recognition*') || request()->is('announcements*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/surveys') }}" class="{{ request()->is('surveys*') ? 'active' : '' }}">Employee Surveys</a></li>
-								<li><a href="{{ url('/recognition') }}" class="{{ request()->is('recognition*') ? 'active' : '' }}">Recognition & Rewards</a></li>
-								<li><a href="{{ url('/announcements') }}" class="{{ request()->is('announcements*') ? 'active' : '' }}">Announcements</a></li>
-							</ul>
-						</li>
-						<li class="submenu {{ request()->is('benefits*') || request()->is('loans*') || request()->is('advances*') || request()->is('reimbursements*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('benefits*') || request()->is('loans*') || request()->is('advances*') || request()->is('reimbursements*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-wallet"></i><span>Benefits & Compensation</span>
-								<span class="menu-arrow"></span>
-							</a>
-							<ul style="{{ request()->is('benefits*') || request()->is('loans*') || request()->is('advances*') || request()->is('reimbursements*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/benefits') }}" class="{{ request()->is('benefits*') ? 'active' : '' }}">Benefits Management</a></li>
-								<li><a href="{{ url('/loans') }}" class="{{ request()->is('loans*') ? 'active' : '' }}">Loan Management</a></li>
-								<li><a href="{{ url('/advances') }}" class="{{ request()->is('advances*') ? 'active' : '' }}">Advance Salary</a></li>
-								<li><a href="{{ url('/reimbursements') }}" class="{{ request()->is('reimbursements*') ? 'active' : '' }}">Reimbursements</a></li>
-							</ul>
-						</li>
 					</ul>
 				</li>
 				<li class="menu-title"><span>RECRUITMENT</span></li>
@@ -253,16 +190,6 @@
 							<ul style="{{ request()->is('interviews*') ? 'display: block;' : '' }}">
 								<li><a href="{{ url('/interviews') }}" class="{{ request()->is('interviews') && !request()->is('interviews/*') ? 'active' : '' }}">Interview Schedule</a></li>
 								<li><a href="{{ url('/interviews/feedback') }}" class="{{ request()->is('interviews/feedback') ? 'active' : '' }}">Interview Feedback</a></li>
-							</ul>
-						</li>
-						<li class="submenu {{ request()->is('offers*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('offers*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-file-check"></i><span>Offer Management</span>
-								<span class="menu-arrow"></span>
-							</a>
-							<ul style="{{ request()->is('offers*') ? 'display: block;' : '' }}">
-								<li><a href="{{ url('/offers') }}" class="{{ request()->is('offers') && !request()->is('offers/*') ? 'active' : '' }}">Job Offers</a></li>
-								<li><a href="{{ url('/offers/templates') }}" class="{{ request()->is('offers/templates') ? 'active' : '' }}">Offer Templates</a></li>
 							</ul>
 						</li>
 						<li>
