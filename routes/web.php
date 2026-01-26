@@ -20,6 +20,11 @@ use App\Http\Controllers\OnboardingChecklistController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\OnboardingTemplateController;
 use App\Http\Controllers\OvertimeController;
+use App\Http\Controllers\Payroll\PayslipController;
+use App\Http\Controllers\Payroll\PayrollItemController;
+use App\Http\Controllers\Payroll\ProvidentFundController;
+use App\Http\Controllers\Payroll\SalaryController;
+use App\Http\Controllers\Payroll\TaxController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReferralController;
@@ -216,4 +221,14 @@ Route::middleware('auth')->group(function () {
     
     // Shift Type Routes
     Route::resource('shift-types', ShiftTypeController::class);
+
+    // Payroll Routes
+    Route::prefix('payroll')->name('payroll.')->group(function () {
+        Route::resource('salary', SalaryController::class);
+        Route::resource('payslip', PayslipController::class);
+        Route::post('/payslip/{id}/approve', [PayslipController::class, 'approve'])->name('payslip.approve');
+        Route::resource('items', PayrollItemController::class);
+        Route::resource('provident-fund', ProvidentFundController::class);
+        Route::resource('tax', TaxController::class);
+    });
 });

@@ -236,11 +236,11 @@
 								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
 							<ul style="{{ $displayStyle(['payroll*', 'provident-fund*', 'taxes*']) }}">
-								<li><a href="javascript:void(0);" class="{{ $activeClass('payroll/salary') }}">Employee Salary</a></li>
-								<li><a href="javascript:void(0);" class="{{ $activeClass('payroll/payslip') }}">Payslip</a></li>
-								<li><a href="javascript:void(0);" class="{{ $activeClass('payroll/items') }}">Payroll Items</a></li>
-								<li><a href="javascript:void(0);" class="{{ $activeClass('provident-fund*') }}">Provident Fund</a></li>
-								<li><a href="javascript:void(0);" class="{{ $activeClass('taxes*') }}">Taxes</a></li>
+								<li><a href="{{ route('payroll.salary.index') }}" class="{{ $activeClass('payroll/salary') }}">Employee Salary</a></li>
+								<li><a href="{{ route('payroll.payslip.index') }}" class="{{ $activeClass('payroll/payslip') }}">Payslip</a></li>
+								<li><a href="{{ route('payroll.items.index') }}" class="{{ $activeClass('payroll/items') }}">Payroll Items</a></li>
+								<li><a href="{{ route('payroll.provident-fund.index') }}" class="{{ $activeClass('provident-fund*') }}">Provident Fund</a></li>
+								<li><a href="{{ route('payroll.tax.index') }}" class="{{ $activeClass('taxes*') }}">Taxes</a></li>
 							</ul>
 						</li>
 					</ul>
