@@ -78,21 +78,18 @@
 </ul>
 </div>
 @endif
-									<div class="vh-100 d-flex flex-column justify-content-between p-4 pb-0">
-										<div class="mx-auto text-center">
-											<div class="d-flex flex-column align-items-center justify-content-center">
+
+
+<div class="">
+	<div class="text-center mb-3">
 												@if(\App\Helpers\SettingsHelper::appLogo())
-													<div class="mb-3 d-flex align-items-center justify-content-center" 
-														 style="width: 120px; height: 120px; background: transparent; padding: 10px;">
+													<div class="mb-3 d-flex align-items-center justify-content-center mx-auto" 
+														 style="width: 300px; height: 100%; background: transparent; padding: 10px;">
 														<img src="{{ \App\Helpers\SettingsHelper::appLogo() }}"
 															alt="{{ \App\Helpers\SettingsHelper::appName() }}" 
 															style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block;">
 													</div>
 												@endif
-											</div>
-										</div>
-										<div class="">
-											<div class="text-center mb-3">
 												<h2 class="mb-2">Sign In</h2>
 												<p class="mb-0">Please enter your details to sign in</p>
 											</div>
