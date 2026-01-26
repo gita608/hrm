@@ -25,7 +25,7 @@
 					<div class="col-md-6">
 						<div class="mb-3">
 							<label class="form-label">Title <span class="text-danger">*</span></label>
-							<input type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title', $certificate->title) }}" required>
+							<input type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title', $certificate->title) }}" placeholder="e.g., Bachelor of Science" required>
 							@error('title')
 								<div class="invalid-feedback">{{ $message }}</div>
 							@enderror
@@ -33,32 +33,48 @@
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Certificate Number</label>
-							<input type="text" class="form-control @error('document_number') is-invalid @enderror" name="document_number" value="{{ old('document_number', $certificate->document_number) }}">
-							@error('document_number')
+							<label class="form-label">Certificate Number <span class="text-danger">*</span></label>
+							<input type="text" class="form-control @error('certificate_number') is-invalid @enderror" name="certificate_number" value="{{ old('certificate_number', $certificate->certificate_number) }}" placeholder="e.g., CERT-2026-001" required>
+							@error('certificate_number')
 								<div class="invalid-feedback">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Category</label>
-							<input type="text" class="form-control @error('category') is-invalid @enderror" name="category" value="{{ old('category', $certificate->category) }}">
-							@error('category')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Employee</label>
-							<select class="form-select @error('employee_id') is-invalid @enderror" name="employee_id">
+							<label class="form-label">Employee <span class="text-danger">*</span></label>
+							<select class="form-select @error('employee_id') is-invalid @enderror" name="employee_id" required>
 								<option value="">Select Employee</option>
 								@foreach($employees as $employee)
 									<option value="{{ $employee->id }}" {{ old('employee_id', $certificate->employee_id) == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
 								@endforeach
 							</select>
 							@error('employee_id')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Certificate Type <span class="text-danger">*</span></label>
+							<select class="form-select @error('certificate_type') is-invalid @enderror" name="certificate_type" required>
+								<option value="">Select Type</option>
+								<option value="education" {{ old('certificate_type', $certificate->certificate_type) == 'education' ? 'selected' : '' }}>Education</option>
+								<option value="training" {{ old('certificate_type', $certificate->certificate_type) == 'training' ? 'selected' : '' }}>Training</option>
+								<option value="achievement" {{ old('certificate_type', $certificate->certificate_type) == 'achievement' ? 'selected' : '' }}>Achievement</option>
+								<option value="professional" {{ old('certificate_type', $certificate->certificate_type) == 'professional' ? 'selected' : '' }}>Professional</option>
+								<option value="other" {{ old('certificate_type', $certificate->certificate_type) == 'other' ? 'selected' : '' }}>Other</option>
+							</select>
+							@error('certificate_type')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Issuing Authority</label>
+							<input type="text" class="form-control @error('issuing_authority') is-invalid @enderror" name="issuing_authority" value="{{ old('issuing_authority', $certificate->issuing_authority) }}" placeholder="e.g., University Name, Training Institute">
+							@error('issuing_authority')
 								<div class="invalid-feedback">{{ $message }}</div>
 							@enderror
 						</div>

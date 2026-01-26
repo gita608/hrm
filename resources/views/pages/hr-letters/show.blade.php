@@ -25,12 +25,12 @@
 					<p>{{ $letter->title }}</p>
 				</div>
 				<div class="col-md-6 mb-3">
-					<label class="form-label fw-bold">HR Letter Number</label>
-					<p>{{ $letter->document_number ?? 'N/A' }}</p>
+					<label class="form-label fw-bold">Letter Number</label>
+					<p>{{ $letter->letter_number ?? 'N/A' }}</p>
 				</div>
 				<div class="col-md-6 mb-3">
-					<label class="form-label fw-bold">Category</label>
-					<p>{{ $letter->category ?? 'N/A' }}</p>
+					<label class="form-label fw-bold">Letter Type</label>
+					<p>{{ ucfirst(str_replace('_', ' ', $letter->letter_type ?? 'N/A')) }}</p>
 				</div>
 				<div class="col-md-6 mb-3">
 					<label class="form-label fw-bold">Employee</label>
@@ -41,28 +41,26 @@
 					<p>{{ $letter->issue_date ? $letter->issue_date->format('d M, Y') : 'N/A' }}</p>
 				</div>
 				<div class="col-md-6 mb-3">
-					<label class="form-label fw-bold">Expiry Date</label>
-					<p>{{ $letter->expiry_date ? $letter->expiry_date->format('d M, Y') : 'N/A' }}</p>
-				</div>
-				<div class="col-md-6 mb-3">
 					<label class="form-label fw-bold">Status</label>
 					<p>
-						@if($letter->status == 'active')
-							<span class="badge badge-success">Active</span>
-						@elseif($letter->status == 'expired')
-							<span class="badge badge-warning">Expired</span>
+						@if($letter->status == 'draft')
+							<span class="badge badge-secondary">Draft</span>
+						@elseif($letter->status == 'issued')
+							<span class="badge badge-success">Issued</span>
+						@elseif($letter->status == 'cancelled')
+							<span class="badge badge-danger">Cancelled</span>
 						@else
-							<span class="badge badge-secondary">Archived</span>
+							<span class="badge badge-info">{{ ucfirst($letter->status) }}</span>
 						@endif
 					</p>
 				</div>
 				<div class="col-md-6 mb-3">
-					<label class="form-label fw-bold">Uploaded By</label>
-					<p>{{ $letter->uploader ? $letter->uploader->name : 'N/A' }}</p>
+					<label class="form-label fw-bold">Issued By</label>
+					<p>{{ $letter->issuer ? $letter->issuer->name : 'N/A' }}</p>
 				</div>
 				<div class="col-md-12 mb-3">
-					<label class="form-label fw-bold">Description</label>
-					<p>{{ $letter->description ?? 'N/A' }}</p>
+					<label class="form-label fw-bold">Content</label>
+					<p>{{ $letter->content ?? 'N/A' }}</p>
 				</div>
 				<div class="col-md-12 mb-3">
 					<label class="form-label fw-bold">Notes</label>

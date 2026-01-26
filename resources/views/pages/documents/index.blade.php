@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('title', 'Document Library')
+@section('title', 'Employee Documents')
 
 @section('content')
 
 	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
 		<div class="my-auto mb-2">
-			<h2 class="mb-1">Document Library</h2>
+			<h2 class="mb-1">Employee Documents</h2>
 		</div>
 		<div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
 			<div class="mb-2">
-				<a href="{{ route('documents.create') }}" class="btn btn-primary d-flex align-items-center"><i class="ti ti-circle-plus me-2"></i>Add Document</a>
+				<a href="{{ route('documents.create') }}" class="btn btn-primary d-flex align-items-center"><i class="ti ti-upload me-2"></i>Upload Employee Document</a>
 			</div>
 			<div class="head-icons ms-2">
 				<a href="javascript:void(0);" class="" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Collapse" id="collapse-header">
@@ -95,16 +95,12 @@
 
 	<div class="card">
 		<div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3">
-			<h5>Document List</h5>
+			<h5>Employee Document List</h5>
 			<div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
 				<form method="GET" action="{{ route('documents.index') }}" class="d-flex align-items-center gap-2 flex-wrap">
-					<div>
-						<select name="status" class="form-select form-select-sm">
-							<option value="">All Status</option>
-							<option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
-							<option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>Expired</option>
-							<option value="archived" {{ request('status') == 'archived' ? 'selected' : '' }}>Archived</option>
-						</select>
+					<div class="input-group input-group-sm" style="min-width:260px;">
+						<span class="input-group-text bg-white"><i class="ti ti-search"></i></span>
+						<input type="text" name="q" value="{{ request('q') }}" class="form-control" placeholder="Search title or number">
 					</div>
 					<div>
 						<select name="employee_id" class="form-select form-select-sm">
@@ -115,8 +111,16 @@
 						</select>
 					</div>
 					<div>
+						<select name="status" class="form-select form-select-sm">
+							<option value="">All Status</option>
+							<option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+							<option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>Expired</option>
+							<option value="archived" {{ request('status') == 'archived' ? 'selected' : '' }}>Archived</option>
+						</select>
+					</div>
+					<div>
 						<button type="submit" class="btn btn-sm btn-primary">Filter</button>
-						@if(request()->hasAny(['status', 'employee_id']))
+						@if(request()->hasAny(['status', 'employee_id', 'q']))
 							<a href="{{ route('documents.index') }}" class="btn btn-sm btn-outline-light border">Clear</a>
 						@endif
 					</div>
@@ -129,9 +133,9 @@
 					<thead class="thead-light">
 						<tr>
 							<th>#</th>
+							<th>Employee</th>
 							<th>Title</th>
 							<th>Document Number</th>
-							<th>Employee</th>
 							<th>Issue Date</th>
 							<th>Status</th>
 							<th>Actions</th>
@@ -141,9 +145,26 @@
 						@forelse($documents as $document)
 							<tr>
 								<td>{{ $loop->iteration }}</td>
+								<td>
+									<div class="d-flex align-items-center">
+										@if($document->employee && $document->employee->profile_picture)
+											<span class="avatar avatar-sm me-2">
+												<img src="{{ asset('storage/' . $document->employee->profile_picture) }}" alt="User" class="img-fluid rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
+											</span>
+										@elseif($document->employee)
+											<span class="avatar avatar-sm bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="font-size: 0.875rem; font-weight: 600;">
+												{{ strtoupper(substr($document->employee->name, 0, 1)) }}
+											</span>
+										@endif
+										@if($document->employee)
+											<a href="{{ route('employees.show', $document->employee->id) }}" class="text-decoration-none">{{ $document->employee->name }}</a>
+										@else
+											<span class="text-muted">N/A</span>
+										@endif
+									</div>
+								</td>
 								<td><strong>{{ $document->title }}</strong></td>
 								<td>{{ $document->document_number ?? 'N/A' }}</td>
-								<td>{{ $document->employee ? $document->employee->name : 'N/A' }}</td>
 								<td>{{ $document->issue_date ? $document->issue_date->format('d M, Y') : 'N/A' }}</td>
 								<td>
 									@if($document->status == 'active')

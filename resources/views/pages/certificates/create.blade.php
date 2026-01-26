@@ -24,7 +24,7 @@
 					<div class="col-md-6">
 						<div class="mb-3">
 							<label class="form-label">Title <span class="text-danger">*</span></label>
-							<input type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required>
+							<input type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" placeholder="e.g., Bachelor of Science" required>
 							@error('title')
 								<div class="invalid-feedback">{{ $message }}</div>
 							@enderror
@@ -32,26 +32,17 @@
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Certificate Number</label>
-							<input type="text" class="form-control @error('document_number') is-invalid @enderror" name="document_number" value="{{ old('document_number') }}">
-							@error('document_number')
+							<label class="form-label">Certificate Number <span class="text-danger">*</span></label>
+							<input type="text" class="form-control @error('certificate_number') is-invalid @enderror" name="certificate_number" value="{{ old('certificate_number') }}" placeholder="e.g., CERT-2026-001" required>
+							@error('certificate_number')
 								<div class="invalid-feedback">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Category</label>
-							<input type="text" class="form-control @error('category') is-invalid @enderror" name="category" value="{{ old('category') }}">
-							@error('category')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Employee</label>
-							<select class="form-select @error('employee_id') is-invalid @enderror" name="employee_id">
+							<label class="form-label">Employee <span class="text-danger">*</span></label>
+							<select class="form-select @error('employee_id') is-invalid @enderror" name="employee_id" required>
 								<option value="">Select Employee</option>
 								@foreach($employees as $employee)
 									<option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
@@ -64,8 +55,33 @@
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Issue Date</label>
-							<input type="date" class="form-control @error('issue_date') is-invalid @enderror" name="issue_date" value="{{ old('issue_date') }}">
+							<label class="form-label">Certificate Type <span class="text-danger">*</span></label>
+							<select class="form-select @error('certificate_type') is-invalid @enderror" name="certificate_type" required>
+								<option value="">Select Type</option>
+								<option value="education" {{ old('certificate_type') == 'education' ? 'selected' : '' }}>Education</option>
+								<option value="training" {{ old('certificate_type') == 'training' ? 'selected' : '' }}>Training</option>
+								<option value="achievement" {{ old('certificate_type') == 'achievement' ? 'selected' : '' }}>Achievement</option>
+								<option value="professional" {{ old('certificate_type') == 'professional' ? 'selected' : '' }}>Professional</option>
+								<option value="other" {{ old('certificate_type') == 'other' ? 'selected' : '' }}>Other</option>
+							</select>
+							@error('certificate_type')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Issuing Authority</label>
+							<input type="text" class="form-control @error('issuing_authority') is-invalid @enderror" name="issuing_authority" value="{{ old('issuing_authority') }}" placeholder="e.g., University Name, Training Institute">
+							@error('issuing_authority')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Issue Date <span class="text-danger">*</span></label>
+							<input type="date" class="form-control @error('issue_date') is-invalid @enderror" name="issue_date" value="{{ old('issue_date') }}" required>
 							@error('issue_date')
 								<div class="invalid-feedback">{{ $message }}</div>
 							@enderror
@@ -75,6 +91,7 @@
 						<div class="mb-3">
 							<label class="form-label">Expiry Date</label>
 							<input type="date" class="form-control @error('expiry_date') is-invalid @enderror" name="expiry_date" value="{{ old('expiry_date') }}">
+							<small class="text-muted">Leave empty if certificate doesn't expire</small>
 							@error('expiry_date')
 								<div class="invalid-feedback">{{ $message }}</div>
 							@enderror
@@ -86,7 +103,7 @@
 							<select class="form-select @error('status') is-invalid @enderror" name="status" required>
 								<option value="active" {{ old('status', 'active') == 'active' ? 'selected' : '' }}>Active</option>
 								<option value="expired" {{ old('status') == 'expired' ? 'selected' : '' }}>Expired</option>
-								<option value="archived" {{ old('status') == 'archived' ? 'selected' : '' }}>Archived</option>
+								<option value="revoked" {{ old('status') == 'revoked' ? 'selected' : '' }}>Revoked</option>
 							</select>
 							@error('status')
 								<div class="invalid-feedback">{{ $message }}</div>
@@ -95,9 +112,9 @@
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">File <span class="text-danger">*</span></label>
-							<input type="file" class="form-control @error('file') is-invalid @enderror" name="file" required>
-							<small class="text-muted">Max file size: 10MB</small>
+							<label class="form-label">Certificate File</label>
+							<input type="file" class="form-control @error('file') is-invalid @enderror" name="file" accept=".pdf,.jpg,.jpeg,.png">
+							<small class="text-muted">Upload certificate copy (PDF or Image, Max: 10MB)</small>
 							@error('file')
 								<div class="invalid-feedback">{{ $message }}</div>
 							@enderror

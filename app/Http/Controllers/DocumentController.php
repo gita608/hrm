@@ -21,6 +21,14 @@ class DocumentController extends Controller
             $query->where('employee_id', $request->employee_id);
         }
 
+        if ($request->filled('q')) {
+            $q = $request->q;
+            $query->where(function ($sub) use ($q) {
+                $sub->where('title', 'like', "%{$q}%")
+                    ->orWhere('document_number', 'like', "%{$q}%");
+            });
+        }
+
         $documents = $query->orderBy('created_at', 'desc')->get();
         $employees = User::all();
 
@@ -40,7 +48,7 @@ class DocumentController extends Controller
             'document_number' => 'nullable|string|max:255|unique:documents,document_number',
             'description' => 'nullable|string',
             'file' => 'required|file|max:10240',
-            'employee_id' => 'nullable|exists:users,id',
+            'employee_id' => 'required|exists:users,id',
             'issue_date' => 'nullable|date',
             'expiry_date' => 'nullable|date|after_or_equal:issue_date',
             'status' => 'required|in:active,expired,archived',
@@ -87,7 +95,7 @@ class DocumentController extends Controller
             'document_number' => 'nullable|string|max:255|unique:documents,document_number,'.$id,
             'description' => 'nullable|string',
             'file' => 'nullable|file|max:10240',
-            'employee_id' => 'nullable|exists:users,id',
+            'employee_id' => 'required|exists:users,id',
             'issue_date' => 'nullable|date',
             'expiry_date' => 'nullable|date|after_or_equal:issue_date',
             'status' => 'required|in:active,expired,archived',

@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Add Document')
+@section('title', 'Upload Employee Document')
 
 @section('content')
 
 	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
 		<div class="my-auto mb-2">
-			<h2 class="mb-1">Add Document</h2>
+			<h2 class="mb-1">Upload Employee Document</h2>
 		</div>
 		<div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
-			<a href="{{ route('documents.index') }}" class="btn btn-outline-light border">Back to List</a>
+			<a href="{{ route('documents.index') }}" class="btn btn-outline-light border">Back to Documents</a>
 		</div>
 	</div>
 
@@ -21,6 +21,29 @@
 			<form action="{{ route('documents.store') }}" method="POST" enctype="multipart/form-data">
 				@csrf
 				<div class="row">
+					<div class="col-md-12">
+						<div class="alert alert-info d-flex align-items-start" role="alert">
+							<i class="ti ti-info-circle me-2"></i>
+							<div>
+								Select the employee first, then fill document details. Accepted max file size 10MB.
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">Employee <span class="text-danger">*</span></label>
+							<select class="form-select @error('employee_id') is-invalid @enderror" name="employee_id" required>
+								<option value="">Select Employee</option>
+								@foreach($employees as $employee)
+									<option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
+								@endforeach
+							</select>
+							@error('employee_id')
+								<div class="invalid-feedback">{{ $message }}</div>
+							@enderror
+						</div>
+					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
 							<label class="form-label">Title <span class="text-danger">*</span></label>
@@ -33,26 +56,13 @@
 					<div class="col-md-6">
 						<div class="mb-3">
 							<label class="form-label">Document Number</label>
-							<input type="text" class="form-control @error('document_number') is-invalid @enderror" name="document_number" value="{{ old('document_number') }}">
+							<input type="text" class="form-control @error('document_number') is-invalid @enderror" name="document_number" value="{{ old('document_number') }}" placeholder="e.g., EMP-XXXX or Gov Ref">
 							@error('document_number')
 								<div class="invalid-feedback">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Employee</label>
-							<select class="form-select @error('employee_id') is-invalid @enderror" name="employee_id">
-								<option value="">Select Employee</option>
-								@foreach($employees as $employee)
-									<option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
-								@endforeach
-							</select>
-							@error('employee_id')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
+					
 					<div class="col-md-6">
 						<div class="mb-3">
 							<label class="form-label">Issue Date</label>
@@ -87,8 +97,8 @@
 					<div class="col-md-6">
 						<div class="mb-3">
 							<label class="form-label">File <span class="text-danger">*</span></label>
-							<input type="file" class="form-control @error('file') is-invalid @enderror" name="file" required>
-							<small class="text-muted">Max file size: 10MB</small>
+							<input type="file" class="form-control @error('file') is-invalid @enderror" name="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" required>
+							<small class="text-muted">PDF, Images, DOC up to 10MB</small>
 							@error('file')
 								<div class="invalid-feedback">{{ $message }}</div>
 							@enderror
@@ -115,7 +125,7 @@
 				</div>
 				<div class="d-flex justify-content-end gap-2">
 					<a href="{{ route('documents.index') }}" class="btn btn-outline-light border">Cancel</a>
-					<button type="submit" class="btn btn-primary">Save Document</button>
+					<button type="submit" class="btn btn-primary"><i class="ti ti-upload me-1"></i>Save Document</button>
 				</div>
 			</form>
 		</div>

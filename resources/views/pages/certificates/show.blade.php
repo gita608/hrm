@@ -26,15 +26,19 @@
 				</div>
 				<div class="col-md-6 mb-3">
 					<label class="form-label fw-bold">Certificate Number</label>
-					<p>{{ $certificate->document_number ?? 'N/A' }}</p>
+					<p>{{ $certificate->certificate_number ?? 'N/A' }}</p>
 				</div>
 				<div class="col-md-6 mb-3">
-					<label class="form-label fw-bold">Category</label>
-					<p>{{ $certificate->category ?? 'N/A' }}</p>
+					<label class="form-label fw-bold">Certificate Type</label>
+					<p>{{ ucfirst($certificate->certificate_type ?? 'N/A') }}</p>
 				</div>
 				<div class="col-md-6 mb-3">
 					<label class="form-label fw-bold">Employee</label>
 					<p>{{ $certificate->employee ? $certificate->employee->name : 'N/A' }}</p>
+				</div>
+				<div class="col-md-6 mb-3">
+					<label class="form-label fw-bold">Issuing Authority</label>
+					<p>{{ $certificate->issuing_authority ?? 'N/A' }}</p>
 				</div>
 				<div class="col-md-6 mb-3">
 					<label class="form-label fw-bold">Issue Date</label>
@@ -51,8 +55,10 @@
 							<span class="badge badge-success">Active</span>
 						@elseif($certificate->status == 'expired')
 							<span class="badge badge-warning">Expired</span>
+						@elseif($certificate->status == 'revoked')
+							<span class="badge badge-danger">Revoked</span>
 						@else
-							<span class="badge badge-secondary">Archived</span>
+							<span class="badge badge-secondary">{{ ucfirst($certificate->status) }}</span>
 						@endif
 					</p>
 				</div>

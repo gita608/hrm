@@ -28,6 +28,23 @@
 			<div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
 				<form method="GET" action="{{ route('hr-letters.index') }}" class="d-flex align-items-center gap-2 flex-wrap">
 					<div>
+						<input type="text" name="q" class="form-control form-control-sm" placeholder="Search by title or letter number..." value="{{ request('q') }}" style="min-width: 250px;">
+					</div>
+					<div>
+						<select name="letter_type" class="form-select form-select-sm">
+							<option value="">All Letter Types</option>
+							<option value="offer" {{ request('letter_type') == 'offer' ? 'selected' : '' }}>Offer Letter</option>
+							<option value="appointment" {{ request('letter_type') == 'appointment' ? 'selected' : '' }}>Appointment Letter</option>
+							<option value="experience" {{ request('letter_type') == 'experience' ? 'selected' : '' }}>Experience Certificate</option>
+							<option value="relieving" {{ request('letter_type') == 'relieving' ? 'selected' : '' }}>Relieving Letter</option>
+							<option value="warning" {{ request('letter_type') == 'warning' ? 'selected' : '' }}>Warning Letter</option>
+							<option value="appreciation" {{ request('letter_type') == 'appreciation' ? 'selected' : '' }}>Appreciation Letter</option>
+							<option value="promotion" {{ request('letter_type') == 'promotion' ? 'selected' : '' }}>Promotion Letter</option>
+							<option value="transfer" {{ request('letter_type') == 'transfer' ? 'selected' : '' }}>Transfer Letter</option>
+							<option value="other" {{ request('letter_type') == 'other' ? 'selected' : '' }}>Other</option>
+						</select>
+					</div>
+					<div>
 						<select name="status" class="form-select form-select-sm">
 							<option value="">All Status</option>
 							<option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
@@ -36,8 +53,16 @@
 						</select>
 					</div>
 					<div>
+						<select name="employee_id" class="form-select form-select-sm">
+							<option value="">All Employees</option>
+							@foreach($employees as $employee)
+								<option value="{{ $employee->id }}" {{ request('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
+							@endforeach
+						</select>
+					</div>
+					<div>
 						<button type="submit" class="btn btn-sm btn-primary">Filter</button>
-						@if(request()->hasAny(['status', 'employee_id']))
+						@if(request()->hasAny(['q', 'status', 'employee_id', 'letter_type']))
 							<a href="{{ route('hr-letters.index') }}" class="btn btn-sm btn-outline-light border">Clear</a>
 						@endif
 					</div>
@@ -66,7 +91,18 @@
 								<td><strong>{{ $letter->letter_number }}</strong></td>
 								<td>{{ $letter->title }}</td>
 								<td><span class="badge badge-info">{{ ucfirst($letter->letter_type) }}</span></td>
-								<td>{{ $letter->employee->name }}</td>
+								<td>
+									<div class="d-flex align-items-center">
+										@if($letter->employee->profile_picture)
+											<img src="{{ asset('storage/' . $letter->employee->profile_picture) }}" alt="{{ $letter->employee->name }}" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
+										@else
+											<div class="avatar avatar-sm me-2">
+												<span class="avatar-title rounded-circle bg-primary">{{ substr($letter->employee->name, 0, 1) }}</span>
+											</div>
+										@endif
+										<span>{{ $letter->employee->name }}</span>
+									</div>
+								</td>
 								<td>{{ $letter->issue_date->format('d M, Y') }}</td>
 								<td>
 									@if($letter->status == 'issued')

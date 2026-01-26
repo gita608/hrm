@@ -13,6 +13,14 @@ class HrLetterController extends Controller
     {
         $query = HrLetter::with(['employee', 'issuer']);
 
+        if ($request->filled('q')) {
+            $q = $request->q;
+            $query->where(function ($sub) use ($q) {
+                $sub->where('title', 'like', "%{$q}%")
+                    ->orWhere('letter_number', 'like', "%{$q}%");
+            });
+        }
+
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
