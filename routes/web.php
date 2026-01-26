@@ -19,6 +19,7 @@ use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\OnboardingChecklistController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\OnboardingTemplateController;
+use App\Http\Controllers\OvertimeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReferralController;
@@ -202,4 +203,9 @@ Route::middleware('auth')->group(function () {
 
     // Leave Type Routes
     Route::resource('leave-types', LeaveTypeController::class)->except(['index', 'show']);
+
+    // Overtime Routes
+    Route::resource('overtime', OvertimeController::class);
+    Route::post('/overtime/{id}/approve', [OvertimeController::class, 'approve'])->name('overtime.approve');
+    Route::post('/overtime/{id}/reject', [OvertimeController::class, 'reject'])->name('overtime.reject');
 });

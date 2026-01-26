@@ -161,7 +161,7 @@
 							</a>
 						</li>
 						<li>
-							<a href="{{ url('/overtime') }}" class="{{ $activeClass('overtime*') }}">
+							<a href="{{ route('overtime.index') }}" class="{{ $activeClass('overtime*') }}">
 								<i class="ti ti-clock-hour-4" aria-hidden="true"></i><span>Overtime</span>
 							</a>
 						</li>
