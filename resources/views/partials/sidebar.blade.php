@@ -34,18 +34,18 @@
 			</span>
 		</div>
 		<div class="d-flex align-items-center justify-content-between menu-item mb-3" role="toolbar" aria-label="Quick actions">
-			<a href="" class="btn btn-menubar me-3" aria-label="Calendar" title="Calendar">
+			<a href="javascript:void(0);" class="btn btn-menubar me-3" aria-label="Calendar" title="Calendar">
 				<i class="ti ti-layout-grid-remove" aria-hidden="true"></i>
 			</a>
-			<a href="" class="btn btn-menubar position-relative me-3" aria-label="Chat" title="Chat">
+			<a href="javascript:void(0);" class="btn btn-menubar position-relative me-3" aria-label="Chat" title="Chat">
 				<i class="ti ti-brand-hipchat" aria-hidden="true"></i>
 				<span class="badge bg-info rounded-pill d-flex align-items-center justify-content-center header-badge" aria-label="5 unread messages">5</span>
 			</a>
-			<a href="" class="btn btn-menubar position-relative me-3 notification-item" aria-label="Notifications" title="Notifications">
+			<a href="javascript:void(0);" class="btn btn-menubar position-relative me-3 notification-item" aria-label="Notifications" title="Notifications">
 				<i class="ti ti-bell" aria-hidden="true"></i>
 				<span class="notification-status-dot" aria-hidden="true"></span>
 			</a>
-			<a href="" class="btn btn-menubar" aria-label="Email" title="Email">
+			<a href="javascript:void(0);" class="btn btn-menubar" aria-label="Email" title="Email">
 				<i class="ti ti-message" aria-hidden="true"></i>
 			</a>
 		</div>
@@ -129,26 +129,41 @@
 				<li class="menu-title"><span>EMPLOYEE MANAGEMENT</span></li>
 				<li>
 					<ul>
-						<li class="submenu {{ $submenuActiveClass(['attendance*', 'leaves*', 'timesheets*', 'schedule*', 'overtime*']) }}">
-							<a href="javascript:void(0);" class="{{ $subdropClass(['attendance*', 'leaves*', 'timesheets*', 'schedule*', 'overtime*']) }}" aria-expanded="{{ $isActive(['attendance*', 'leaves*', 'timesheets*', 'schedule*', 'overtime*']) ? 'true' : 'false' }}">
-								<i class="ti ti-file-time" aria-hidden="true"></i><span>Attendance & Leaves</span>
+						<li class="submenu {{ $submenuActiveClass('attendance*') }}">
+							<a href="javascript:void(0);" class="{{ $subdropClass('attendance*') }}" aria-expanded="{{ $isActive('attendance*') ? 'true' : 'false' }}">
+								<i class="ti ti-file-time" aria-hidden="true"></i><span>Attendance</span>
 								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
-							<ul style="{{ $displayStyle(['attendance*', 'leaves*', 'timesheets*', 'schedule*', 'overtime*']) }}">
+							<ul style="{{ $displayStyle('attendance*') }}">
 								<li><a href="{{ route('attendance.admin') }}" class="{{ $activeClass('attendance/admin') }}">Attendance (Admin)</a></li>
 								<li><a href="{{ route('attendance.employee') }}" class="{{ $activeClass('attendance/employee') }}">Attendance (Employee)</a></li>
-								<li class="submenu submenu-two {{ $submenuActiveClass('leaves*') }}">
-									<a href="javascript:void(0);" class="{{ $subdropClass('leaves*') }}" aria-expanded="{{ $isActive('leaves*') ? 'true' : 'false' }}">Leaves<span class="menu-arrow inside-submenu" aria-hidden="true"></span></a>
-									<ul style="{{ $displayStyle('leaves*') }}">
-										<li><a href="{{ route('leaves.index') }}" class="{{ $activeClass('leaves') && !request()->is('leaves/*') ? 'active' : '' }}">Leaves (Admin)</a></li>
-										<li><a href="{{ route('leaves.employee') }}" class="{{ $activeClass('leaves/employee') }}">Leave (Employee)</a></li>
-										<li><a href="{{ route('leaves.settings') }}" class="{{ $activeClass('leaves/settings') }}">Leave Settings</a></li>
-									</ul>
-								</li>
-								<li><a href="">Timesheets</a></li>
-								<li><a href="" class="{{ $activeClass('schedule*') }}">Shift & Schedule</a></li>
-								<li><a href="" class="{{ $activeClass('overtime*') }}">Overtime</a></li>
 							</ul>
+						</li>
+						<li class="submenu {{ $submenuActiveClass('leaves*') }}">
+							<a href="javascript:void(0);" class="{{ $subdropClass('leaves*') }}" aria-expanded="{{ $isActive('leaves*') ? 'true' : 'false' }}">
+								<i class="ti ti-calendar-off" aria-hidden="true"></i><span>Leaves</span>
+								<span class="menu-arrow" aria-hidden="true"></span>
+							</a>
+							<ul style="{{ $displayStyle('leaves*') }}">
+								<li><a href="{{ route('leaves.index') }}" class="{{ $activeClass('leaves') && !request()->is('leaves/*') ? 'active' : '' }}">Leaves (Admin)</a></li>
+								<li><a href="{{ route('leaves.employee') }}" class="{{ $activeClass('leaves/employee') }}">Leave (Employee)</a></li>
+								<li><a href="{{ route('leaves.settings') }}" class="{{ $activeClass('leaves/settings') }}">Leave Settings</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="{{ url('/timesheets') }}" class="{{ $activeClass('timesheets*') }}">
+								<i class="ti ti-clock" aria-hidden="true"></i><span>Timesheets</span>
+							</a>
+						</li>
+						<li>
+							<a href="{{ url('/schedule') }}" class="{{ $activeClass('schedule*') }}">
+								<i class="ti ti-calendar-time" aria-hidden="true"></i><span>Shift & Schedule</span>
+							</a>
+						</li>
+						<li>
+							<a href="{{ url('/overtime') }}" class="{{ $activeClass('overtime*') }}">
+								<i class="ti ti-clock-hour-4" aria-hidden="true"></i><span>Overtime</span>
+							</a>
 						</li>
 						<li>
 							<a href="{{ route('holidays.index') }}" class="{{ $activeClass('holidays*') }}">
@@ -205,7 +220,7 @@
 							</a>
 							<ul style="{{ $displayStyle('interviews*') }}">
 								<li><a href="{{ route('interviews.index') }}" class="{{ $activeClass('interviews') && !request()->is('interviews/*') ? 'active' : '' }}">Interview Schedule</a></li>
-								<li><a href="" class="{{ $activeClass('interviews/feedback') }}">Interview Feedback</a></li>
+								<li><a href="{{ route('interviews.feedback.index') }}" class="{{ $activeClass('interviews/feedback') }}">Interview Feedback</a></li>
 							</ul>
 						</li>
 						<li>
@@ -226,11 +241,11 @@
 								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
 							<ul style="{{ $displayStyle(['payroll*', 'provident-fund*', 'taxes*']) }}">
-								<li><a href="" class="{{ $activeClass('payroll/salary') }}">Employee Salary</a></li>
-								<li><a href="" class="{{ $activeClass('payroll/payslip') }}">Payslip</a></li>
-								<li><a href="" class="{{ $activeClass('payroll/items') }}">Payroll Items</a></li>
-								<li><a href="" class="{{ $activeClass('provident-fund*') }}">Provident Fund</a></li>
-								<li><a href="" class="{{ $activeClass('taxes*') }}">Taxes</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('payroll/salary') }}">Employee Salary</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('payroll/payslip') }}">Payslip</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('payroll/items') }}">Payroll Items</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('provident-fund*') }}">Provident Fund</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('taxes*') }}">Taxes</a></li>
 							</ul>
 						</li>
 						<li class="submenu {{ $submenuActiveClass(['expenses*', 'categories*', 'budgets*', 'budget-expenses*', 'budget-revenues*']) }}">
@@ -239,11 +254,11 @@
 								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
 							<ul style="{{ $displayStyle(['expenses*', 'categories*', 'budgets*', 'budget-expenses*', 'budget-revenues*']) }}">
-								<li><a href="" class="{{ $activeClass('expenses*') }}">Expenses</a></li>
-								<li><a href="" class="{{ $activeClass('categories*') }}">Categories</a></li>
-								<li><a href="" class="{{ $activeClass('budgets') && !request()->is('budgets/*') ? 'active' : '' }}">Budgets</a></li>
-								<li><a href="" class="{{ $activeClass('budget-expenses*') }}">Budget Expenses</a></li>
-								<li><a href="" class="{{ $activeClass('budget-revenues*') }}">Budget Revenues</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('expenses*') }}">Expenses</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('categories*') }}">Categories</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('budgets') && !request()->is('budgets/*') ? 'active' : '' }}">Budgets</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('budget-expenses*') }}">Budget Expenses</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('budget-revenues*') }}">Budget Revenues</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -259,9 +274,9 @@
 								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
 							<ul style="{{ $displayStyle('documents*') }}">
-								<li><a href="" class="{{ $activeClass('documents') && !request()->is('documents/*') ? 'active' : '' }}">Document Library</a></li>
-								<li><a href="" class="{{ $activeClass('documents/letters') }}">HR Letters</a></li>
-								<li><a href="" class="{{ $activeClass('documents/certificates') }}">Certificates</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('documents') && !request()->is('documents/*') ? 'active' : '' }}">Document Library</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('documents/letters') }}">HR Letters</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('documents/certificates') }}">Certificates</a></li>
 							</ul>
 						</li>
 						<li class="submenu {{ $submenuActiveClass('tickets*') }}">
@@ -270,8 +285,8 @@
 								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
 							<ul style="{{ $displayStyle('tickets*') }}">
-								<li><a href="" class="{{ $activeClass('tickets') && !request()->is('tickets/*') ? 'active' : '' }}">Tickets</a></li>
-								<li><a href="" class="{{ $activeClass('tickets/details') }}">Ticket Details</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('tickets') && !request()->is('tickets/*') ? 'active' : '' }}">Tickets</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('tickets/details') }}">Ticket Details</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -304,15 +319,15 @@
 								<span class="menu-arrow" aria-hidden="true"></span>
 							</a>
 							<ul style="{{ $displayStyle('reports*') }}">
-								<li><a href="" class="{{ $activeClass('reports/employees') }}">Employee Report</a></li>
-								<li><a href="" class="{{ $activeClass('reports/attendance') }}">Attendance Report</a></li>
-								<li><a href="" class="{{ $activeClass('reports/leaves') }}">Leave Report</a></li>
-								<li><a href="" class="{{ $activeClass('reports/payslips') }}">Payslip Report</a></li>
-								<li><a href="" class="{{ $activeClass('reports/expenses') }}">Expense Report</a></li>
-								<li><a href="" class="{{ $activeClass('reports/training') }}">Training Report</a></li>
-								<li><a href="" class="{{ $activeClass('reports/recruitment') }}">Recruitment Report</a></li>
-								<li><a href="" class="{{ $activeClass('reports/users') }}">User Report</a></li>
-								<li><a href="" class="{{ $activeClass('reports/daily') }}">Daily Report</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('reports/employees') }}">Employee Report</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('reports/attendance') }}">Attendance Report</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('reports/leaves') }}">Leave Report</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('reports/payslips') }}">Payslip Report</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('reports/expenses') }}">Expense Report</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('reports/training') }}">Training Report</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('reports/recruitment') }}">Recruitment Report</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('reports/users') }}">User Report</a></li>
+								<li><a href="javascript:void(0);" class="{{ $activeClass('reports/daily') }}">Daily Report</a></li>
 							</ul>
 						</li>
 					</ul>
