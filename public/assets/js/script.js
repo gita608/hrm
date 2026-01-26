@@ -745,6 +745,19 @@ Template Name: Smarthr - Bootstrap Admin Template
 		}
 		}
 	}
+
+	var sidebarScrollContainer = $('.sidebar-inner.slimscroll');
+	
+	if (sidebarScrollContainer.length > 0) {
+		var savedScrollPosition = localStorage.getItem('sidebarScrollPosition');
+		if (savedScrollPosition !== null) {
+			sidebarScrollContainer.scrollTop(parseInt(savedScrollPosition));
+		}
+
+		sidebarScrollContainer.on('scroll', function() {
+			localStorage.setItem('sidebarScrollPosition', $(this).scrollTop());
+		});
+	}
 	
 })();
 
