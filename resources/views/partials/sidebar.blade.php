@@ -151,12 +151,7 @@
 							</ul>
 						</li>
 						<li>
-							<a href="{{ url('/timesheets') }}" class="{{ $activeClass('timesheets*') }}">
-								<i class="ti ti-clock" aria-hidden="true"></i><span>Timesheets</span>
-							</a>
-						</li>
-						<li>
-							<a href="{{ url('/schedule') }}" class="{{ $activeClass('schedule*') }}">
+							<a href="{{ route('schedule.index') }}" class="{{ $activeClass('schedule*') }}">
 								<i class="ti ti-calendar-time" aria-hidden="true"></i><span>Shift & Schedule</span>
 							</a>
 						</li>
@@ -248,19 +243,6 @@
 								<li><a href="javascript:void(0);" class="{{ $activeClass('taxes*') }}">Taxes</a></li>
 							</ul>
 						</li>
-						<li class="submenu {{ $submenuActiveClass(['expenses*', 'categories*', 'budgets*', 'budget-expenses*', 'budget-revenues*']) }}">
-							<a href="javascript:void(0);" class="{{ $subdropClass(['expenses*', 'categories*', 'budgets*', 'budget-expenses*', 'budget-revenues*']) }}" aria-expanded="{{ $isActive(['expenses*', 'categories*', 'budgets*', 'budget-expenses*', 'budget-revenues*']) ? 'true' : 'false' }}">
-								<i class="ti ti-file-dollar" aria-hidden="true"></i><span>Accounting</span>
-								<span class="menu-arrow" aria-hidden="true"></span>
-							</a>
-							<ul style="{{ $displayStyle(['expenses*', 'categories*', 'budgets*', 'budget-expenses*', 'budget-revenues*']) }}">
-								<li><a href="javascript:void(0);" class="{{ $activeClass('expenses*') }}">Expenses</a></li>
-								<li><a href="javascript:void(0);" class="{{ $activeClass('categories*') }}">Categories</a></li>
-								<li><a href="javascript:void(0);" class="{{ $activeClass('budgets') && !request()->is('budgets/*') ? 'active' : '' }}">Budgets</a></li>
-								<li><a href="javascript:void(0);" class="{{ $activeClass('budget-expenses*') }}">Budget Expenses</a></li>
-								<li><a href="javascript:void(0);" class="{{ $activeClass('budget-revenues*') }}">Budget Revenues</a></li>
-							</ul>
-						</li>
 					</ul>
 				</li>
 
@@ -277,16 +259,6 @@
 								<li><a href="javascript:void(0);" class="{{ $activeClass('documents') && !request()->is('documents/*') ? 'active' : '' }}">Document Library</a></li>
 								<li><a href="javascript:void(0);" class="{{ $activeClass('documents/letters') }}">HR Letters</a></li>
 								<li><a href="javascript:void(0);" class="{{ $activeClass('documents/certificates') }}">Certificates</a></li>
-							</ul>
-						</li>
-						<li class="submenu {{ $submenuActiveClass('tickets*') }}">
-							<a href="javascript:void(0);" class="{{ $subdropClass('tickets*') }}" aria-expanded="{{ $isActive('tickets*') ? 'true' : 'false' }}">
-								<i class="ti ti-ticket" aria-hidden="true"></i><span>Tickets</span>
-								<span class="menu-arrow" aria-hidden="true"></span>
-							</a>
-							<ul style="{{ $displayStyle('tickets*') }}">
-								<li><a href="javascript:void(0);" class="{{ $activeClass('tickets') && !request()->is('tickets/*') ? 'active' : '' }}">Tickets</a></li>
-								<li><a href="javascript:void(0);" class="{{ $activeClass('tickets/details') }}">Ticket Details</a></li>
 							</ul>
 						</li>
 					</ul>

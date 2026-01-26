@@ -25,6 +25,8 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\ResignationController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\ShiftTypeController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TerminationController;
 use App\Http\Controllers\TrainerController;
@@ -208,4 +210,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('overtime', OvertimeController::class);
     Route::post('/overtime/{id}/approve', [OvertimeController::class, 'approve'])->name('overtime.approve');
     Route::post('/overtime/{id}/reject', [OvertimeController::class, 'reject'])->name('overtime.reject');
+
+    // Schedule Routes
+    Route::resource('schedule', ScheduleController::class);
+    
+    // Shift Type Routes
+    Route::resource('shift-types', ShiftTypeController::class);
 });
