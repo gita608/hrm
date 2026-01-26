@@ -3,13 +3,31 @@
 	<!-- Logo -->
 	<div class="sidebar-logo">
 		<a href="{{ url('/') }}" class="logo logo-normal">
-			<img src="{{ asset('assets/img/logo.svg') }}" alt="Logo">
+			@if(\App\Helpers\SettingsHelper::appLogo())
+				<img src="{{ \App\Helpers\SettingsHelper::appLogo() }}" 
+					 alt="{{ \App\Helpers\SettingsHelper::appName() }}"
+					 style="max-width: 100%; max-height: 40px; width: auto; height: auto; object-fit: contain; display: block;">
+			@else
+				<span class="fw-bold">{{ \App\Helpers\SettingsHelper::appName() }}</span>
+			@endif
 		</a>
 		<a href="{{ url('/') }}" class="logo-small">
-			<img src="{{ asset('assets/img/logo-small.svg') }}" alt="Logo">
+			@if(\App\Helpers\SettingsHelper::appLogo())
+				<img src="{{ \App\Helpers\SettingsHelper::appLogo() }}" 
+					 alt="{{ \App\Helpers\SettingsHelper::appName() }}"
+					 style="max-width: 100%; max-height: 40px; width: auto; height: auto; object-fit: contain; display: block;">
+			@else
+				<span class="fw-bold fs-12">{{ \App\Helpers\SettingsHelper::appName() }}</span>
+			@endif
 		</a>
 		<a href="{{ url('/') }}" class="dark-logo">
-			<img src="{{ asset('assets/img/logo-white.svg') }}" alt="Logo">
+			@if(\App\Helpers\SettingsHelper::appLogoWhite())
+				<img src="{{ \App\Helpers\SettingsHelper::appLogoWhite() }}" 
+					 alt="{{ \App\Helpers\SettingsHelper::appName() }}"
+					 style="max-width: 100%; max-height: 40px; width: auto; height: auto; object-fit: contain; display: block;">
+			@else
+				<span class="fw-bold text-white">{{ \App\Helpers\SettingsHelper::appName() }}</span>
+			@endif
 		</a>
 	</div>
 	<!-- /Logo -->
@@ -311,82 +329,9 @@
 				<!-- Settings -->
 				<li class="menu-title"><span>SETTINGS</span></li>
 				<li>
-					<ul>
-						<li class="submenu {{ request()->is('settings*') || request()->is('policies*') ? 'active' : '' }}">
-							<a href="javascript:void(0);" class="{{ request()->is('settings*') || request()->is('policies*') ? 'active subdrop' : '' }}">
-								<i class="ti ti-settings"></i><span>Settings</span>
-								<span class="menu-arrow"></span>
-							</a>
-							<ul style="{{ request()->is('settings*') || request()->is('policies*') ? 'display: block;' : '' }}">
-								<li class="submenu submenu-two {{ request()->is('settings/profile') || request()->is('settings/security') || request()->is('settings/notifications') || request()->is('settings/apps') ? 'active' : '' }}">
-									<a href="javascript:void(0);" class="{{ request()->is('settings/profile') || request()->is('settings/security') || request()->is('settings/notifications') || request()->is('settings/apps') ? 'active subdrop' : '' }}">General Settings<span class="menu-arrow inside-submenu"></span></a>
-									<ul style="{{ request()->is('settings/profile') || request()->is('settings/security') || request()->is('settings/notifications') || request()->is('settings/apps') ? 'display: block;' : '' }}">
-										<li><a href="{{ url('/settings/profile') }}" class="{{ request()->is('settings/profile') ? 'active' : '' }}">Profile</a></li>
-										<li><a href="{{ url('/settings/security') }}" class="{{ request()->is('settings/security') ? 'active' : '' }}">Security</a></li>
-										<li><a href="{{ url('/settings/notifications') }}" class="{{ request()->is('settings/notifications') ? 'active' : '' }}">Notifications</a></li>
-										<li><a href="{{ url('/settings/apps') }}" class="{{ request()->is('settings/apps') ? 'active' : '' }}">Connected Apps</a></li>
-									</ul>
-								</li>
-								<li class="submenu submenu-two {{ request()->is('settings/business') || request()->is('settings/seo') || request()->is('settings/localization') || request()->is('settings/prefixes') || request()->is('settings/preferences') || request()->is('settings/appearance') || request()->is('settings/language') || request()->is('settings/authentication') || request()->is('settings/ai') ? 'active' : '' }}">
-									<a href="javascript:void(0);" class="{{ request()->is('settings/business') || request()->is('settings/seo') || request()->is('settings/localization') || request()->is('settings/prefixes') || request()->is('settings/preferences') || request()->is('settings/appearance') || request()->is('settings/language') || request()->is('settings/authentication') || request()->is('settings/ai') ? 'active subdrop' : '' }}">Website Settings<span class="menu-arrow inside-submenu"></span></a>
-									<ul style="{{ request()->is('settings/business') || request()->is('settings/seo') || request()->is('settings/localization') || request()->is('settings/prefixes') || request()->is('settings/preferences') || request()->is('settings/appearance') || request()->is('settings/language') || request()->is('settings/authentication') || request()->is('settings/ai') ? 'display: block;' : '' }}">
-										<li><a href="{{ url('/settings/business') }}" class="{{ request()->is('settings/business') ? 'active' : '' }}">Business Settings</a></li>
-										<li><a href="{{ url('/settings/seo') }}" class="{{ request()->is('settings/seo') ? 'active' : '' }}">SEO Settings</a></li>
-										<li><a href="{{ url('/settings/localization') }}" class="{{ request()->is('settings/localization') ? 'active' : '' }}">Localization</a></li>
-										<li><a href="{{ url('/settings/prefixes') }}" class="{{ request()->is('settings/prefixes') ? 'active' : '' }}">Prefixes</a></li>
-										<li><a href="{{ url('/settings/preferences') }}" class="{{ request()->is('settings/preferences') ? 'active' : '' }}">Preferences</a></li>
-										<li><a href="{{ url('/settings/appearance') }}" class="{{ request()->is('settings/appearance') ? 'active' : '' }}">Appearance</a></li>
-										<li><a href="{{ url('/settings/language') }}" class="{{ request()->is('settings/language') ? 'active' : '' }}">Language</a></li>
-										<li><a href="{{ url('/settings/authentication') }}" class="{{ request()->is('settings/authentication') ? 'active' : '' }}">Authentication</a></li>
-										<li><a href="{{ url('/settings/ai') }}" class="{{ request()->is('settings/ai') ? 'active' : '' }}">AI Settings</a></li>
-									</ul>
-								</li>
-								<li class="submenu submenu-two {{ request()->is('settings/salary') || request()->is('settings/approval') || request()->is('settings/invoice') || request()->is('settings/leave-type') || request()->is('settings/custom-fields') || request()->is('policies*') ? 'active' : '' }}">
-									<a href="javascript:void(0);" class="{{ request()->is('settings/salary') || request()->is('settings/approval') || request()->is('settings/invoice') || request()->is('settings/leave-type') || request()->is('settings/custom-fields') || request()->is('policies*') ? 'active subdrop' : '' }}">App Settings<span class="menu-arrow inside-submenu"></span></a>
-									<ul style="{{ request()->is('settings/salary') || request()->is('settings/approval') || request()->is('settings/invoice') || request()->is('settings/leave-type') || request()->is('settings/custom-fields') || request()->is('policies*') ? 'display: block;' : '' }}">
-										<li><a href="{{ url('/settings/salary') }}" class="{{ request()->is('settings/salary') ? 'active' : '' }}">Salary Settings</a></li>
-										<li><a href="{{ url('/settings/approval') }}" class="{{ request()->is('settings/approval') ? 'active' : '' }}">Approval Settings</a></li>
-										<li><a href="{{ url('/settings/invoice') }}" class="{{ request()->is('settings/invoice') ? 'active' : '' }}">Invoice Settings</a></li>
-										<li><a href="{{ url('/settings/leave-type') }}" class="{{ request()->is('settings/leave-type') ? 'active' : '' }}">Leave Type</a></li>
-										<li><a href="{{ url('/settings/custom-fields') }}" class="{{ request()->is('settings/custom-fields') ? 'active' : '' }}">Custom Fields</a></li>
-										<li><a href="{{ url('/policies') }}" class="{{ request()->is('policies*') ? 'active' : '' }}">Policies</a></li>
-									</ul>
-								</li>
-								<li class="submenu submenu-two {{ request()->is('settings/email') || request()->is('settings/email-templates') || request()->is('settings/sms') || request()->is('settings/sms-templates') || request()->is('settings/otp') || request()->is('settings/gdpr') || request()->is('settings/maintenance') ? 'active' : '' }}">
-									<a href="javascript:void(0);" class="{{ request()->is('settings/email') || request()->is('settings/email-templates') || request()->is('settings/sms') || request()->is('settings/sms-templates') || request()->is('settings/otp') || request()->is('settings/gdpr') || request()->is('settings/maintenance') ? 'active subdrop' : '' }}">System Settings<span class="menu-arrow inside-submenu"></span></a>
-									<ul style="{{ request()->is('settings/email') || request()->is('settings/email-templates') || request()->is('settings/sms') || request()->is('settings/sms-templates') || request()->is('settings/otp') || request()->is('settings/gdpr') || request()->is('settings/maintenance') ? 'display: block;' : '' }}">
-										<li><a href="{{ url('/settings/email') }}" class="{{ request()->is('settings/email') && !request()->is('settings/email-templates') ? 'active' : '' }}">Email Settings</a></li>
-										<li><a href="{{ url('/settings/email-templates') }}" class="{{ request()->is('settings/email-templates') ? 'active' : '' }}">Email Templates</a></li>
-										<li><a href="{{ url('/settings/sms') }}" class="{{ request()->is('settings/sms') && !request()->is('settings/sms-templates') ? 'active' : '' }}">SMS Settings</a></li>
-										<li><a href="{{ url('/settings/sms-templates') }}" class="{{ request()->is('settings/sms-templates') ? 'active' : '' }}">SMS Templates</a></li>
-										<li><a href="{{ url('/settings/otp') }}" class="{{ request()->is('settings/otp') ? 'active' : '' }}">OTP</a></li>
-										<li><a href="{{ url('/settings/gdpr') }}" class="{{ request()->is('settings/gdpr') ? 'active' : '' }}">GDPR Cookies</a></li>
-										<li><a href="{{ url('/settings/maintenance') }}" class="{{ request()->is('settings/maintenance') ? 'active' : '' }}">Maintenance Mode</a></li>
-									</ul>
-								</li>
-								<li class="submenu submenu-two {{ request()->is('settings/payment-gateways') || request()->is('settings/tax-rates') || request()->is('settings/currencies') ? 'active' : '' }}">
-									<a href="javascript:void(0);" class="{{ request()->is('settings/payment-gateways') || request()->is('settings/tax-rates') || request()->is('settings/currencies') ? 'active subdrop' : '' }}">Financial Settings<span class="menu-arrow inside-submenu"></span></a>
-									<ul style="{{ request()->is('settings/payment-gateways') || request()->is('settings/tax-rates') || request()->is('settings/currencies') ? 'display: block;' : '' }}">
-										<li><a href="{{ url('/settings/payment-gateways') }}" class="{{ request()->is('settings/payment-gateways') ? 'active' : '' }}">Payment Gateways</a></li>
-										<li><a href="{{ url('/settings/tax-rates') }}" class="{{ request()->is('settings/tax-rates') ? 'active' : '' }}">Tax Rate</a></li>
-										<li><a href="{{ url('/settings/currencies') }}" class="{{ request()->is('settings/currencies') ? 'active' : '' }}">Currencies</a></li>
-									</ul>
-								</li>
-								<li class="submenu submenu-two {{ request()->is('settings/custom-css') || request()->is('settings/custom-js') || request()->is('settings/cronjob') || request()->is('settings/storage') || request()->is('settings/ban-ip') || request()->is('settings/backup') || request()->is('settings/clear-cache') ? 'active' : '' }}">
-									<a href="javascript:void(0);" class="{{ request()->is('settings/custom-css') || request()->is('settings/custom-js') || request()->is('settings/cronjob') || request()->is('settings/storage') || request()->is('settings/ban-ip') || request()->is('settings/backup') || request()->is('settings/clear-cache') ? 'active subdrop' : '' }}">Other Settings<span class="menu-arrow inside-submenu"></span></a>
-									<ul style="{{ request()->is('settings/custom-css') || request()->is('settings/custom-js') || request()->is('settings/cronjob') || request()->is('settings/storage') || request()->is('settings/ban-ip') || request()->is('settings/backup') || request()->is('settings/clear-cache') ? 'display: block;' : '' }}">
-										<li><a href="{{ url('/settings/custom-css') }}" class="{{ request()->is('settings/custom-css') ? 'active' : '' }}">Custom CSS</a></li>
-										<li><a href="{{ url('/settings/custom-js') }}" class="{{ request()->is('settings/custom-js') ? 'active' : '' }}">Custom JS</a></li>
-										<li><a href="{{ url('/settings/cronjob') }}" class="{{ request()->is('settings/cronjob') ? 'active' : '' }}">Cronjob</a></li>
-										<li><a href="{{ url('/settings/storage') }}" class="{{ request()->is('settings/storage') ? 'active' : '' }}">Storage</a></li>
-										<li><a href="{{ url('/settings/ban-ip') }}" class="{{ request()->is('settings/ban-ip') ? 'active' : '' }}">Ban IP Address</a></li>
-										<li><a href="{{ url('/settings/backup') }}" class="{{ request()->is('settings/backup') ? 'active' : '' }}">Backup</a></li>
-										<li><a href="{{ url('/settings/clear-cache') }}" class="{{ request()->is('settings/clear-cache') ? 'active' : '' }}">Clear Cache</a></li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-					</ul>
+					<a href="{{ route('settings.index') }}" class="{{ request()->is('settings*') ? 'active' : '' }}">
+						<i class="ti ti-settings"></i><span>Settings</span>
+					</a>
 				</li>
 			</ul>
 		</div>

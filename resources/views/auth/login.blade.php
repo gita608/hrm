@@ -4,10 +4,10 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-	<meta name="description" content="SmartHR - HRM System">
+	<meta name="description" content="{{ \App\Helpers\SettingsHelper::appName() }} - HRM System">
 	<meta name="keywords" content="HRM, HR Management, Employee Management">
-	<meta name="author" content="SmartHR">
-	<title>Login | {{ config('app.name') }}</title>
+	<meta name="author" content="{{ \App\Helpers\SettingsHelper::appName() }}">
+	<title>Login | {{ \App\Helpers\SettingsHelper::appName() }}</title>
 
 	<!-- Favicon -->
 	<link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.png') }}">
@@ -79,9 +79,17 @@
 </div>
 @endif
 									<div class="vh-100 d-flex flex-column justify-content-between p-4 pb-0">
-										<div class=" mx-auto mb-5 text-center">
-											<img src="{{ asset('assets/img/logo.svg') }}"
-												class="img-fluid" alt="Logo">
+										<div class="mx-auto text-center">
+											<div class="d-flex flex-column align-items-center justify-content-center">
+												@if(\App\Helpers\SettingsHelper::appLogo())
+													<div class="mb-3 d-flex align-items-center justify-content-center" 
+														 style="width: 120px; height: 120px; background: transparent; padding: 10px;">
+														<img src="{{ \App\Helpers\SettingsHelper::appLogo() }}"
+															alt="{{ \App\Helpers\SettingsHelper::appName() }}" 
+															style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block;">
+													</div>
+												@endif
+											</div>
 										</div>
 										<div class="">
 											<div class="text-center mb-3">
@@ -125,7 +133,7 @@
 											</div>
 										</div>
                                         <div class="mt-5 pb-4 text-center">
-											<p class="mb-0 text-gray-9">Copyright &copy; {{ date('Y') }} - {{ config('app.name') }}</p>
+											<p class="mb-0 text-gray-9">Copyright &copy; {{ date('Y') }} - {{ \App\Helpers\SettingsHelper::appName() }}</p>
 										</div>
 									</div>
 								</form>

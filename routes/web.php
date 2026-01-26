@@ -67,6 +67,7 @@ Route::middleware('auth')->group(function () {
 
     // Settings Routes
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
 
     // Account Routes
     Route::get('/account', [AccountController::class, 'index'])->name('account.index');

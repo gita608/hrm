@@ -4,10 +4,18 @@
 
 		<div class="header-left">
 			<a href="{{ url('/') }}" class="logo">
-				<img src="{{ asset('assets/img/logo.svg') }}" alt="Logo">
+				@if(\App\Helpers\SettingsHelper::appLogo())
+					<img src="{{ \App\Helpers\SettingsHelper::appLogo() }}" alt="{{ \App\Helpers\SettingsHelper::appName() }}">
+				@else
+					<span class="fw-bold fs-18">{{ \App\Helpers\SettingsHelper::appName() }}</span>
+				@endif
 			</a>
 			<a href="{{ url('/') }}" class="dark-logo">
-				<img src="{{ asset('assets/img/logo-white.svg') }}" alt="Logo">
+				@if(\App\Helpers\SettingsHelper::appLogoWhite())
+					<img src="{{ \App\Helpers\SettingsHelper::appLogoWhite() }}" alt="{{ \App\Helpers\SettingsHelper::appName() }}">
+				@else
+					<span class="fw-bold fs-18 text-white">{{ \App\Helpers\SettingsHelper::appName() }}</span>
+				@endif
 			</a>
 		</div>
 
@@ -31,7 +39,7 @@
 						<span class="input-icon-addon">
 							<i class="ti ti-search"></i>
 						</span>
-						<input type="text" class="form-control" placeholder="Search in HRMS">
+						<input type="text" class="form-control" placeholder="Search in {{ \App\Helpers\SettingsHelper::appName() }}">
 						<span class="input-group-text">
 							<kbd>CTRL + / </kbd>
 						</span>
