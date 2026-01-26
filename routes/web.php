@@ -26,6 +26,7 @@ use App\Http\Controllers\TerminationController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\OnboardingTemplateController;
 use App\Http\Controllers\OnboardingChecklistController;
+use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\Auth\LoginController;
 
 // Authentication Routes
@@ -169,4 +170,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{id}', [OnboardingChecklistController::class, 'destroy'])->name('destroy');
         });
     });
+
+    // Referral Routes
+    Route::resource('referrals', ReferralController::class);
 });
