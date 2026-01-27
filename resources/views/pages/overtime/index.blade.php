@@ -5,19 +5,15 @@
 @section('content')
 
 	<!-- Page Header -->
-	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-		<div class="my-auto mb-2">
-			<h2 class="mb-1">Overtime</h2>
+	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
+		<div class="my-auto">
+			<h2 class="mb-1 text-dark fw-bold">Overtime Requests</h2>
+			<p class="text-muted mb-0 fs-13">Manage employee overtime applications</p>
 		</div>
-		<div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
-			<div class="mb-2">
-				<a href="{{ route('overtime.create') }}" class="btn btn-primary d-flex align-items-center"><i class="ti ti-circle-plus me-2"></i>Add Overtime</a>
-			</div>
-			<div class="head-icons ms-2">
-				<a href="javascript:void(0);" class="" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Collapse" id="collapse-header">
-					<i class="ti ti-chevrons-up"></i>
-				</a>
-			</div>
+		<div class="d-flex align-items-center gap-2">
+			<a href="{{ route('overtime.create') }}" class="btn btn-primary rounded-pill shadow-sm py-2">
+				<i class="ti ti-plus me-1"></i>Add Overtime
+			</a>
 		</div>
 	</div>
 	<!-- /Page Header -->
@@ -29,98 +25,192 @@
 		</div>
 	@endif
 
-	<div class="card">
-		<div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3">
-			<h5>Overtime List</h5>
+	<div class="row mb-4">
+		<!-- Total Requests -->
+		<div class="col-lg-3 col-md-6 d-flex">
+			<div class="card flex-fill border-0 shadow-sm rounded-4 overflow-hidden">
+				<div class="card-body p-4">
+					<div class="d-flex align-items-center justify-content-between">
+						<div>
+							<p class="text-muted fw-medium mb-1 fs-13">Total Requests</p>
+							<h3 class="mb-0 fw-bold text-dark">{{ $overtimes->count() }}</h3>
+						</div>
+						<div class="avatar avatar-lg bg-primary-transparent text-primary rounded-circle">
+							<i class="ti ti-clock-hour-4 fs-24"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /Total Requests -->
+
+		<!-- Approved -->
+		<div class="col-lg-3 col-md-6 d-flex">
+			<div class="card flex-fill border-0 shadow-sm rounded-4 overflow-hidden">
+				<div class="card-body p-4">
+					<div class="d-flex align-items-center justify-content-between">
+						<div>
+							<p class="text-muted fw-medium mb-1 fs-13">Approved</p>
+							<h3 class="mb-0 fw-bold text-dark">{{ $overtimes->where('status', 'approved')->count() }}</h3>
+						</div>
+						<div class="avatar avatar-lg bg-success-transparent text-success rounded-circle">
+							<i class="ti ti-check fs-24"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /Approved -->
+
+		<!-- Pending -->
+		<div class="col-lg-3 col-md-6 d-flex">
+			<div class="card flex-fill border-0 shadow-sm rounded-4 overflow-hidden">
+				<div class="card-body p-4">
+					<div class="d-flex align-items-center justify-content-between">
+						<div>
+							<p class="text-muted fw-medium mb-1 fs-13">Pending</p>
+							<h3 class="mb-0 fw-bold text-dark">{{ $overtimes->where('status', 'pending')->count() }}</h3>
+						</div>
+						<div class="avatar avatar-lg bg-warning-transparent text-warning rounded-circle">
+							<i class="ti ti-clock-exclamation fs-24"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /Pending -->
+
+		<!-- Rejected -->
+		<div class="col-lg-3 col-md-6 d-flex">
+			<div class="card flex-fill border-0 shadow-sm rounded-4 overflow-hidden">
+				<div class="card-body p-4">
+					<div class="d-flex align-items-center justify-content-between">
+						<div>
+							<p class="text-muted fw-medium mb-1 fs-13">Rejected</p>
+							<h3 class="mb-0 fw-bold text-dark">{{ $overtimes->where('status', 'rejected')->count() }}</h3>
+						</div>
+						<div class="avatar avatar-lg bg-danger-transparent text-danger rounded-circle">
+							<i class="ti ti-x fs-24"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /Rejected -->
+	</div>
+
+	<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+		<div class="card-header bg-transparent border-0 d-flex align-items-center justify-content-between pt-3 pb-2 flex-wrap row-gap-3">
+			<h5 class="mb-0 fw-bold text-dark">Overtime List</h5>
 			<div class="d-flex gap-2 flex-wrap">
-				<form method="GET" action="{{ route('overtime.index') }}" class="d-flex gap-2">
-					<select name="status" class="form-select form-select-sm" style="width: auto;">
+				<form method="GET" action="{{ route('overtime.index') }}" class="d-flex gap-2 align-items-center">
+					<select name="status" class="form-select form-select-sm rounded-pill fs-12 border-light-subtle shadow-none" style="width: auto;">
 						<option value="">All Status</option>
 						<option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
 						<option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
 						<option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
 					</select>
-					<select name="employee_id" class="form-select form-select-sm" style="width: auto;">
+					<select name="employee_id" class="form-select form-select-sm rounded-pill fs-12 border-light-subtle shadow-none" style="width: auto;">
 						<option value="">All Employees</option>
 						@foreach($employees as $employee)
 							<option value="{{ $employee->id }}" {{ request('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
 						@endforeach
 					</select>
-					<button type="submit" class="btn btn-sm btn-outline-primary">Filter</button>
+					<button type="submit" class="btn btn-sm btn-primary rounded-pill px-3">Filter</button>
 					@if(request()->hasAny(['status', 'employee_id', 'date_from', 'date_to']))
-						<a href="{{ route('overtime.index') }}" class="btn btn-sm btn-outline-secondary">Clear</a>
+						<a href="{{ route('overtime.index') }}" class="btn btn-sm btn-light rounded-pill px-3">Clear</a>
 					@endif
 				</form>
 			</div>
 		</div>
 		<div class="card-body p-0">
-			<div class="custom-datatable-filter table-responsive">
-				<table class="table datatable">
-					<thead class="thead-light">
+			<div class="table-responsive">
+				<table class="table table-hover align-middle mb-0">
+					<thead class="bg-light-50">
 						<tr>
-							<th class="no-sort">
-								<div class="form-check form-check-md">
+							<th class="ps-3 border-0 text-muted fs-12 fw-medium text-uppercase" style="width: 50px;">
+								<div class="form-check">
 									<input class="form-check-input" type="checkbox" id="select-all">
 								</div>
 							</th>
-							<th>#</th>
-							<th>Employee</th>
-							<th>Date</th>
-							<th>Start Time</th>
-							<th>End Time</th>
-							<th>Hours</th>
-							<th>Status</th>
-							<th>Reason</th>
-							<th></th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">#</th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Employee</th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Date</th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Start Time</th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">End Time</th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Hours</th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Status</th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Reason</th>
+							<th class="pe-3 border-0 text-end text-muted fs-12 fw-medium text-uppercase">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 						@forelse($overtimes as $overtime)
-							<tr>
-								<td>
-									<div class="form-check form-check-md">
+							<tr class="border-bottom border-light">
+								<td class="ps-3">
+									<div class="form-check">
 										<input class="form-check-input" type="checkbox" value="{{ $overtime->id }}">
 									</div>
 								</td>
-								<td>{{ $loop->iteration }}</td>
+								<td class="text-muted">{{ $loop->iteration }}</td>
 								<td>
-									<h6 class="fw-medium"><a href="#">{{ $overtime->employee->name ?? 'N/A' }}</a></h6>
+									@if($overtime->employee)
+									<div class="d-flex align-items-center">
+										<div class="avatar avatar-xs bg-primary-transparent text-primary rounded-circle me-2 fw-bold">
+											{{ strtoupper(substr($overtime->employee->name, 0, 1)) }}
+										</div>
+										<span class="text-dark fw-bold">{{ $overtime->employee->name }}</span>
+									</div>
+									@else
+										<span class="text-muted">N/A</span>
+									@endif
 								</td>
-								<td>{{ $overtime->date->format('d M Y') }}</td>
-								<td>{{ date('H:i', strtotime($overtime->start_time)) }}</td>
-								<td>{{ date('H:i', strtotime($overtime->end_time)) }}</td>
-								<td>{{ number_format($overtime->hours, 2) }} hrs</td>
+								<td class="text-dark">{{ $overtime->date->format('d M Y') }}</td>
+								<td class="text-muted">{{ date('H:i', strtotime($overtime->start_time)) }}</td>
+								<td class="text-muted">{{ date('H:i', strtotime($overtime->end_time)) }}</td>
+								<td class="fw-bold text-dark">{{ number_format($overtime->hours, 2) }} hrs</td>
 								<td>
 									@if($overtime->status == 'approved')
-										<span class="badge badge-success d-inline-flex align-items-center badge-sm">
-											<i class="ti ti-point-filled me-1"></i>Approved
+										<span class="badge bg-success-transparent text-success rounded-pill d-inline-flex align-items-center px-2 py-1">
+											<i class="ti ti-point-filled me-1 fs-10"></i>Approved
 										</span>
 									@elseif($overtime->status == 'rejected')
-										<span class="badge badge-danger d-inline-flex align-items-center badge-sm">
-											<i class="ti ti-point-filled me-1"></i>Rejected
+										<span class="badge bg-danger-transparent text-danger rounded-pill d-inline-flex align-items-center px-2 py-1">
+											<i class="ti ti-point-filled me-1 fs-10"></i>Rejected
 										</span>
 									@else
-										<span class="badge badge-warning d-inline-flex align-items-center badge-sm">
-											<i class="ti ti-point-filled me-1"></i>Pending
+										<span class="badge bg-warning-transparent text-warning rounded-pill d-inline-flex align-items-center px-2 py-1">
+											<i class="ti ti-point-filled me-1 fs-10"></i>Pending
 										</span>
 									@endif
 								</td>
-								<td>{{ Str::limit($overtime->reason ?? 'N/A', 30) }}</td>
-								<td>
-									<div class="action-icon d-inline-flex">
-										<a href="{{ route('overtime.show', $overtime->id) }}" class="me-2" data-bs-toggle="tooltip" title="View"><i class="ti ti-eye"></i></a>
-										<a href="{{ route('overtime.edit', $overtime->id) }}" class="me-2" data-bs-toggle="tooltip" title="Edit"><i class="ti ti-edit"></i></a>
+								<td class="text-muted fs-13">{{ Str::limit($overtime->reason ?? 'N/A', 30) }}</td>
+								<td class="pe-3 text-end">
+									<div class="d-flex justify-content-end gap-2">
+										<a href="{{ route('overtime.show', $overtime->id) }}" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-primary hover-text-white transition-all" data-bs-toggle="tooltip" title="View">
+											<i class="ti ti-eye"></i>
+										</a>
+										<a href="{{ route('overtime.edit', $overtime->id) }}" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-info hover-text-white transition-all" data-bs-toggle="tooltip" title="Edit">
+											<i class="ti ti-edit"></i>
+										</a>
 										<form action="{{ route('overtime.destroy', $overtime->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this overtime request?');">
 											@csrf
 											@method('DELETE')
-											<button type="submit" class="btn btn-link p-0 text-danger" data-bs-toggle="tooltip" title="Delete"><i class="ti ti-trash"></i></button>
+											<button type="submit" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-danger hover-text-white transition-all" data-bs-toggle="tooltip" title="Delete"><i class="ti ti-trash"></i></button>
 										</form>
 									</div>
 								</td>
 							</tr>
 						@empty
 							<tr>
-								<td colspan="10" class="text-center">No overtime requests found.</td>
+								<td colspan="10" class="text-center py-5">
+									<div class="d-flex flex-column align-items-center">
+										<div class="avatar avatar-xxl bg-light-50 rounded-circle mb-3 text-muted">
+											<i class="ti ti-clock-off fs-30"></i>
+										</div>
+										<h6 class="text-muted mb-0">No overtime requests found</h6>
+									</div>
+								</td>
 							</tr>
 						@endforelse
 					</tbody>

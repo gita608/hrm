@@ -4,16 +4,19 @@
 
 @section('content')
 
-	<!-- Breadcrumb -->
-	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-		<div class="my-auto mb-2">
-			<h2 class="mb-1">Edit Schedule</h2>
+	<!-- Page Header -->
+	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
+		<div class="my-auto">
+			<h2 class="mb-1 text-dark fw-bold">Edit Schedule</h2>
+			<p class="text-muted mb-0 fs-13">Update employee shift schedule</p>
 		</div>
-		<div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
-			<a href="{{ route('schedule.index') }}" class="btn btn-outline-light border">Back to List</a>
+		<div class="d-flex align-items-center gap-2">
+			<a href="{{ route('schedule.index') }}" class="btn btn-light rounded-pill border shadow-sm">
+				<i class="ti ti-arrow-left me-2"></i>Back to List
+			</a>
 		</div>
 	</div>
-	<!-- /Breadcrumb -->
+	<!-- /Page Header -->
 
 	@if(session('error'))
 		<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -22,33 +25,33 @@
 		</div>
 	@endif
 
-	<div class="card">
-		<div class="card-header">
-			<h5>Schedule Information</h5>
+	<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+		<div class="card-header bg-transparent border-bottom border-light pt-3 pb-2">
+			<h5 class="mb-0 fw-bold text-dark">Schedule Information</h5>
 		</div>
-		<div class="card-body">
+		<div class="card-body p-4">
 			<form action="{{ route('schedule.update', $schedule->id) }}" method="POST">
 				@csrf
 				@method('PUT')
 				<div class="row">
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Employee <span class="text-danger">*</span></label>
-							<select class="form-select @error('employee_id') is-invalid @enderror" name="employee_id" required>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Employee <span class="text-danger">*</span></label>
+							<select class="form-select rounded-3 border-light shadow-none" name="employee_id" required>
 								<option value="">Select Employee</option>
 								@foreach($employees as $employee)
 									<option value="{{ $employee->id }}" {{ old('employee_id', $schedule->employee_id) == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
 								@endforeach
 							</select>
 							@error('employee_id')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Shift Type <span class="text-danger">*</span></label>
-							<select class="form-select @error('shift_type_id') is-invalid @enderror" name="shift_type_id" id="shift_type_id" required>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Shift Type <span class="text-danger">*</span></label>
+							<select class="form-select rounded-3 border-light shadow-none" name="shift_type_id" id="shift_type_id" required>
 								<option value="">Select Shift Type</option>
 								@foreach($shiftTypes as $shiftType)
 									<option value="{{ $shiftType->id }}" 
@@ -58,64 +61,64 @@
 								@endforeach
 							</select>
 							@error('shift_type_id')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Date <span class="text-danger">*</span></label>
-							<input type="date" class="form-control @error('date') is-invalid @enderror" name="date" value="{{ old('date', $schedule->date->format('Y-m-d')) }}" required>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Date <span class="text-danger">*</span></label>
+							<input type="date" class="form-control rounded-3 border-light shadow-none" name="date" value="{{ old('date', $schedule->date->format('Y-m-d')) }}" required>
 							@error('date')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Status <span class="text-danger">*</span></label>
-							<select class="form-select @error('status') is-invalid @enderror" name="status" required>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Status <span class="text-danger">*</span></label>
+							<select class="form-select rounded-3 border-light shadow-none" name="status" required>
 								<option value="scheduled" {{ old('status', $schedule->status) == 'scheduled' ? 'selected' : '' }}>Scheduled</option>
 								<option value="completed" {{ old('status', $schedule->status) == 'completed' ? 'selected' : '' }}>Completed</option>
 								<option value="cancelled" {{ old('status', $schedule->status) == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
 								<option value="absent" {{ old('status', $schedule->status) == 'absent' ? 'selected' : '' }}>Absent</option>
 							</select>
 							@error('status')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Start Time</label>
-							<input type="time" class="form-control @error('start_time') is-invalid @enderror" name="start_time" id="start_time" value="{{ old('start_time', $schedule->start_time ? date('H:i', strtotime($schedule->start_time)) : '') }}">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Start Time</label>
+							<input type="time" class="form-control rounded-3 border-light shadow-none" name="start_time" id="start_time" value="{{ old('start_time', $schedule->start_time ? date('H:i', strtotime($schedule->start_time)) : '') }}">
 							@error('start_time')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">End Time</label>
-							<input type="time" class="form-control @error('end_time') is-invalid @enderror" name="end_time" id="end_time" value="{{ old('end_time', $schedule->end_time ? date('H:i', strtotime($schedule->end_time)) : '') }}">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">End Time</label>
+							<input type="time" class="form-control rounded-3 border-light shadow-none" name="end_time" id="end_time" value="{{ old('end_time', $schedule->end_time ? date('H:i', strtotime($schedule->end_time)) : '') }}">
 							@error('end_time')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="mb-3">
-							<label class="form-label">Notes</label>
-							<textarea class="form-control @error('notes') is-invalid @enderror" name="notes" rows="3" placeholder="Additional notes">{{ old('notes', $schedule->notes) }}</textarea>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Notes</label>
+							<textarea class="form-control rounded-3 border-light shadow-none" name="notes" rows="3" placeholder="Additional notes">{{ old('notes', $schedule->notes) }}</textarea>
 							@error('notes')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 				</div>
-				<div class="d-flex justify-content-end gap-2">
-					<a href="{{ route('schedule.index') }}" class="btn btn-outline-light border">Cancel</a>
-					<button type="submit" class="btn btn-primary">Update Schedule</button>
+				<div class="d-flex justify-content-end gap-2 mt-3">
+					<a href="{{ route('schedule.index') }}" class="btn btn-light rounded-pill px-4">Cancel</a>
+					<button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm">Update Schedule</button>
 				</div>
 			</form>
 		</div>
