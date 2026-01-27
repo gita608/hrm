@@ -65,43 +65,60 @@
 
 							<!-- App Logo Section -->
 							<div class="col-12 mt-5">
-								<div class="p-4 bg-light rounded-4 border border-dashed border-light-subtle">
-									<label class="form-label text-dark fw-bold fs-14 mb-3">System Identity Logo</label>
-									<div class="row align-items-center g-4">
-										<div class="col-auto">
-											<div class="position-relative">
-												<div class="avatar-preview shadow-sm rounded-4 border border-4 border-white overflow-hidden bg-white d-flex align-items-center justify-content-center" style="width: 120px; height: 120px;">
-													@if($appLogo)
-														<img id="logo-preview" src="{{ asset('storage/' . $appLogo) }}" alt="Logo" class="img-fluid w-100 h-100 object-fit-contain p-2">
-													@else
-														<div id="logo-placeholder" class="text-center p-3">
-															<i class="ti ti-photo fs-40 text-muted opacity-50"></i>
-															<p class="mb-0 fs-10 text-muted fw-bold text-uppercase mt-1">No Logo</p>
+								<div class="row g-4">
+									<!-- Primary Logo -->
+									<div class="col-md-6">
+										<div class="p-4 bg-light rounded-4 border border-dashed border-light-subtle h-100">
+											<label class="form-label text-dark fw-bold fs-14 mb-3">Main Banner Logo</label>
+											<div class="d-flex align-items-center g-4">
+												<div class="me-4">
+													<div class="position-relative">
+														<div class="avatar-preview shadow-sm rounded-4 border border-4 border-white overflow-hidden bg-white d-flex align-items-center justify-content-center" style="width: 100px; height: 100px;">
+															@if($appLogo)
+																<img id="logo-preview" src="{{ asset('storage/' . $appLogo) }}" alt="Logo" class="img-fluid w-100 h-100 object-fit-contain p-2">
+															@else
+																<div id="logo-placeholder" class="text-center p-3">
+																	<i class="ti ti-photo fs-30 text-muted opacity-50"></i>
+																	<p class="mb-0" style="font-size: 8px; color: #999; font-weight: 700;">NO LOGO</p>
+																</div>
+																<img id="logo-preview" src="#" alt="Logo Preview" class="img-fluid w-100 h-100 object-fit-contain p-2 d-none">
+															@endif
 														</div>
-														<img id="logo-preview" src="#" alt="Logo Preview" class="img-fluid w-100 h-100 object-fit-contain p-2 d-none">
-													@endif
+													</div>
 												</div>
-												@if($appLogo)
-												<div class="position-absolute bottom-0 end-0 mb-n2 me-n2">
-													<div class="badge bg-success border border-white border-2 rounded-pill shadow-sm py-1 px-2 fs-10">Current</div>
+												<div class="flex-grow-1">
+													<input type="file" class="form-control form-control-sm @error('app_logo') is-invalid @enderror" 
+														   name="app_logo" accept="image/*" onchange="previewImage(this, 'logo-preview', 'logo-placeholder')">
+													<p class="text-muted fs-11 mt-2 mb-0">Full logo used for sidebar headers and emails.</p>
 												</div>
-												@endif
 											</div>
 										</div>
-										<div class="col">
-											<div class="upload-wrapper">
-												<input type="file" id="app-logo-input" class="form-control @error('app_logo') is-invalid @enderror" 
-													   name="app_logo" accept="image/*" onchange="previewLogo(this)">
-												@error('app_logo')
-													<div class="text-danger fs-12 mt-1">{{ $message }}</div>
-												@enderror
-												<div class="mt-3">
-													<p class="text-muted mb-1 fs-12">
-														<i class="ti ti-check me-1 text-success"></i>Supported: JPG, PNG, SVG (Max 2MB)
-													</p>
-													<p class="text-muted mb-0 fs-11 lh-sm">
-														<i class="ti ti-wand me-1 text-primary"></i><strong>Pro-Tip:</strong> Our system automatically optimizes your logo by removing white backgrounds for a premium look on all themes.
-													</p>
+									</div>
+
+									<!-- Small Logo (Icon) -->
+									<div class="col-md-6">
+										<div class="p-4 bg-light rounded-4 border border-dashed border-light-subtle h-100">
+											<label class="form-label text-dark fw-bold fs-14 mb-3">Small Icon Logo (Mini Sidebar)</label>
+											<div class="d-flex align-items-center g-4">
+												<div class="me-4">
+													<div class="position-relative">
+														<div class="avatar-preview shadow-sm rounded-4 border border-4 border-white overflow-hidden bg-white d-flex align-items-center justify-content-center" style="width: 100px; height: 100px;">
+															@if($appLogoSmall)
+																<img id="small-logo-preview" src="{{ asset('storage/' . $appLogoSmall) }}" alt="Small Logo" class="img-fluid w-100 h-100 object-fit-contain p-2">
+															@else
+																<div id="small-logo-placeholder" class="text-center p-3">
+																	<i class="ti ti-brand-abstract fs-30 text-muted opacity-50"></i>
+																	<p class="mb-0" style="font-size: 8px; color: #999; font-weight: 700;">NO ICON</p>
+																</div>
+																<img id="small-logo-preview" src="#" alt="Small Logo Preview" class="img-fluid w-100 h-100 object-fit-contain p-2 d-none">
+															@endif
+														</div>
+													</div>
+												</div>
+												<div class="flex-grow-1">
+													<input type="file" class="form-control form-control-sm @error('app_logo_small') is-invalid @enderror" 
+														   name="app_logo_small" accept="image/*" onchange="previewImage(this, 'small-logo-preview', 'small-logo-placeholder')">
+													<p class="text-muted fs-11 mt-2 mb-0">Compact icon used when the sidebar is minimized.</p>
 												</div>
 											</div>
 										</div>
@@ -126,9 +143,9 @@
 	</div>
 
 	<script>
-		function previewLogo(input) {
-			const preview = document.getElementById('logo-preview');
-			const placeholder = document.getElementById('logo-placeholder');
+		function previewImage(input, previewId, placeholderId) {
+			const preview = document.getElementById(previewId);
+			const placeholder = document.getElementById(placeholderId);
 			
 			if (input.files && input.files[0]) {
 				const reader = new FileReader();

@@ -17,8 +17,9 @@ class SettingsController extends Controller
     {
         $appName = SettingsHelper::get('app_name', config('app.name', 'SmartHR'));
         $appLogo = SettingsHelper::get('app_logo');
+        $appLogoSmall = SettingsHelper::get('app_logo_small');
 
-        return view('pages.settings.index', compact('appName', 'appLogo'));
+        return view('pages.settings.index', compact('appName', 'appLogo', 'appLogoSmall'));
     }
 
     /**
@@ -29,6 +30,7 @@ class SettingsController extends Controller
         $validated = $request->validate([
             'app_name' => 'required|string|max:255',
             'app_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'app_logo_small' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ]);
 
         // Update app name
@@ -54,12 +56,36 @@ class SettingsController extends Controller
                 $logoPath = $processedPath;
             } catch (\Exception $e) {
                 // If processing fails, use original
-                // Log error if needed: \Log::error('Logo processing failed: ' . $e->getMessage());
             }
             
             DB::table('settings')->updateOrInsert(
                 ['key' => 'app_logo'],
                 ['value' => $logoPath, 'updated_at' => now()]
+            );
+        }
+
+        // Handle small logo upload
+        if ($request->hasFile('app_logo_small')) {
+            // Delete old small logo if exists
+            $oldSmallLogo = DB::table('settings')->where('key', 'app_logo_small')->value('value');
+            if ($oldSmallLogo && Storage::disk('public')->exists($oldSmallLogo)) {
+                Storage::disk('public')->delete($oldSmallLogo);
+            }
+
+            // Store new small logo
+            $smallLogoPath = $request->file('app_logo_small')->store('logos', 'public');
+            
+            // Process image: remove background and convert to PNG
+            try {
+                $processedPath = ImageHelper::removeWhiteBackground($smallLogoPath);
+                $smallLogoPath = $processedPath;
+            } catch (\Exception $e) {
+                // If processing fails, use original
+            }
+            
+            DB::table('settings')->updateOrInsert(
+                ['key' => 'app_logo_small'],
+                ['value' => $smallLogoPath, 'updated_at' => now()]
             );
         }
 

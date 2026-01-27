@@ -58,6 +58,18 @@ class SettingsHelper
     }
 
     /**
+     * Get small app logo from settings.
+     */
+    public static function appLogoSmall()
+    {
+        $logo = self::get('app_logo_small');
+        if ($logo) {
+            return asset('storage/' . $logo);
+        }
+        return null; // No default logo
+    }
+
+    /**
      * Clear settings cache.
      */
     public static function clearCache()
@@ -65,6 +77,7 @@ class SettingsHelper
         try {
             Cache::forget('setting_app_name');
             Cache::forget('setting_app_logo');
+            Cache::forget('setting_app_logo_small');
         } catch (\Exception $e) {
             // If cache driver fails, try to flush all cache
             try {

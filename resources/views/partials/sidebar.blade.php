@@ -6,11 +6,15 @@
         border-right: 1px solid #f0f0f0 !important;
         box-shadow: 4px 0 15px rgba(0, 0, 0, 0.03) !important;
     }
-
     #sidebar .sidebar-top {
-        padding: 25px 15px 10px !important;
+        padding: 20px 15px 10px !important;
         background: #ffffff !important;
         text-align: center;
+        border-bottom: 1px solid rgba(242, 101, 34, 0.05) !important;
+        height: 60px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 
     #sidebar .sidebar-logo {
@@ -25,14 +29,27 @@
     }
 
     #sidebar .sidebar-logo-img {
-        max-height: 55px !important;
+        max-height: 35px !important;
         width: auto !important;
         height: auto !important;
-        transition: transform 0.3s ease;
+        transition: all 0.3s ease;
+        display: block !important;
     }
 
-    #sidebar .sidebar-logo-img:hover {
-        transform: scale(1.05);
+    #sidebar .sidebar-logo-small {
+        display: none !important;
+        max-height: 30px !important;
+        width: auto !important;
+        transition: all 0.3s ease;
+    }
+
+    /* Mini Sidebar Logo Visibility */
+    .mini-sidebar #sidebar .sidebar-logo-img {
+        display: none !important;
+    }
+
+    .mini-sidebar #sidebar .sidebar-logo-small {
+        display: block !important;
     }
 
     /* Remove existing padding from sidebar elements to fix alignment */
@@ -165,6 +182,15 @@
 					<img src="{{ \App\Helpers\SettingsHelper::appLogo() }}" 
 						 alt="{{ \App\Helpers\SettingsHelper::appName() }}"
 						 class="sidebar-logo-img">
+				@endif
+				@if(\App\Helpers\SettingsHelper::appLogoSmall())
+					<img src="{{ \App\Helpers\SettingsHelper::appLogoSmall() }}" 
+						 alt="{{ \App\Helpers\SettingsHelper::appName() }}"
+						 class="sidebar-logo-small">
+				@elseif(\App\Helpers\SettingsHelper::appLogo())
+					<img src="{{ \App\Helpers\SettingsHelper::appLogo() }}" 
+						 alt="{{ \App\Helpers\SettingsHelper::appName() }}"
+						 class="sidebar-logo-small">
 				@endif
 			</a>
 		</div>
