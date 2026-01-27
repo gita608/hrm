@@ -7,7 +7,7 @@
         box-shadow: 4px 0 15px rgba(0, 0, 0, 0.03) !important;
     }
     #sidebar .sidebar-top {
-        padding: 20px 15px 10px !important;
+        padding: 10px 15px !important;
         background: #ffffff !important;
         text-align: center;
         border-bottom: 1px solid rgba(242, 101, 34, 0.05) !important;
@@ -29,7 +29,7 @@
     }
 
     #sidebar .sidebar-logo-img {
-        max-height: 35px !important;
+        max-height: 45px !important;
         width: auto !important;
         height: auto !important;
         transition: all 0.3s ease;
@@ -38,7 +38,7 @@
 
     #sidebar .sidebar-logo-small {
         display: none !important;
-        max-height: 30px !important;
+        max-height: 42px !important;
         width: auto !important;
         transition: all 0.3s ease;
     }
