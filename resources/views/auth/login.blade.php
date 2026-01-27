@@ -5,219 +5,370 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="{{ \App\Helpers\SettingsHelper::appName() }} - HRM System">
-	<meta name="keywords" content="HRM, HR Management, Employee Management">
-	<meta name="author" content="{{ \App\Helpers\SettingsHelper::appName() }}">
 	<title>Login | {{ \App\Helpers\SettingsHelper::appName() }}</title>
 
 	<!-- Favicon -->
 	<link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.png') }}">
 
-	<!-- Apple Touch Icon -->
-	<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/apple-touch-icon.png') }}">
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-
-	<!-- Feather CSS -->
-	<link rel="stylesheet" href="{{ asset('assets/plugins/icons/feather/feather.css') }}">
-
 	<!-- Tabler Icon CSS -->
 	<link rel="stylesheet" href="{{ asset('assets/plugins/tabler-icons/tabler-icons.min.css') }}">
 
-	<!-- Fontawesome CSS -->
-	<link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
-
-	<!-- Main CSS -->
-	<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-	
-	<!-- Login Page Responsive Styles -->
 	<style>
-		/* Login Page Responsive Styles */
-		@media (max-width: 991.98px) {
-			.login-form-content {
-				padding: 1rem 0;
+		:root {
+			--primary: #F26522;
+			--primary-hover: #e0551a;
+			--bg-gradient: linear-gradient(135deg, #fef2f2 0%, #fff7ed 100%);
+			--card-bg: rgba(255, 255, 255, 0.95);
+			--text-main: #1f2937;
+			--text-muted: #6b7280;
+		}
+
+		body {
+			font-family: 'Inter', sans-serif;
+			background-color: #f8fafc;
+			background-image: 
+				radial-gradient(at 0% 0%, rgba(242, 101, 34, 0.05) 0px, transparent 50%),
+				radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
+				radial-gradient(at 100% 100%, rgba(242, 101, 34, 0.05) 0px, transparent 50%),
+				radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.05) 0px, transparent 50%);
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0;
+            overflow-x: hidden;
+		}
+
+		.login-wrapper {
+			width: 100%;
+			max-width: 1100px;
+			padding: 20px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.login-container {
+			background: var(--card-bg);
+			border-radius: 24px;
+			box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+			overflow: hidden;
+			display: flex;
+			width: 100%;
+			border: 1px solid rgba(255, 255, 255, 0.8);
+			backdrop-filter: blur(10px);
+		}
+
+		.login-info {
+			flex: 1;
+			background: linear-gradient(135deg, #f26522 0%, #ff8c52 100%);
+			padding: 60px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			color: white;
+            position: relative;
+            overflow: hidden;
+		}
+
+        .login-info::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .login-info::after {
+            content: "";
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+		.login-info h1 {
+			font-weight: 800;
+			font-size: 2.5rem;
+			margin-bottom: 20px;
+			line-height: 1.2;
+            z-index: 1;
+		}
+
+		.login-info p {
+			font-size: 1.1rem;
+			opacity: 0.9;
+			line-height: 1.6;
+            z-index: 1;
+		}
+
+		.login-form-area {
+			flex: 1;
+			padding: 60px;
+			background: white;
+		}
+
+		@media (max-width: 991px) {
+			.login-info {
+				display: none;
+			}
+			.login-wrapper {
+				max-width: 500px;
 			}
 		}
 
-		@media (max-width: 575.98px) {
-			.login-form-content {
-				padding: 0.5rem 0;
-			}
-			
-			.login-form-content h2 {
-				font-size: 1.5rem !important;
-			}
-			
-			.login-form-content .form-label {
-				font-size: 0.9rem;
-			}
-			
-			.login-form-content .btn {
-				font-size: 0.95rem;
-				padding: 0.75rem;
-			}
+		.logo-wrapper {
+			margin-bottom: 50px;
+			display: flex;
+			justify-content: center;
 		}
 
-		/* Fix for mobile viewport height issues */
-		@supports (-webkit-touch-callout: none) {
-			.min-vh-100 {
-				min-height: -webkit-fill-available;
-			}
+		.logo-wrapper img {
+			max-height: 80px;
+			width: auto;
+			object-fit: contain;
+			transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 		}
 
-		/* Ensure form inputs are touch-friendly on mobile */
-		@media (max-width: 575.98px) {
-			.form-control,
-			.btn {
-				min-height: 44px;
-				font-size: 16px; /* Prevents zoom on iOS */
-			}
+		.logo-wrapper img:hover {
+			transform: scale(1.08);
 		}
 
-		/* Logo responsive adjustments */
-		@media (max-width: 575.98px) {
-			.login-form-content img {
-				max-height: 140px !important;
-			}
+		.form-title {
+			font-weight: 700;
+			font-size: 1.8rem;
+			color: var(--text-main);
+			margin-bottom: 8px;
 		}
 
-		@media (min-width: 576px) and (max-width: 767.98px) {
-			.login-form-content img {
-				max-height: 180px !important;
-			}
+		.form-subtitle {
+			color: var(--text-muted);
+			margin-bottom: 32px;
 		}
-		
-		@media (min-width: 768px) {
-			.login-form-content img {
-				max-height: 200px !important;
-			}
+
+		.form-label {
+			font-weight: 600;
+			font-size: 0.875rem;
+			color: var(--text-main);
+			margin-bottom: 8px;
 		}
+
+		.input-group-custom {
+			position: relative;
+			margin-bottom: 24px;
+		}
+
+		.input-group-custom i {
+			position: absolute;
+			left: 16px;
+			top: 50%;
+			transform: translateY(-50%);
+			color: var(--text-muted);
+			font-size: 1.2rem;
+			transition: all 0.2s;
+            z-index: 10;
+		}
+
+		.form-control {
+			height: 52px;
+			padding: 12px 16px 12px 48px;
+			background: #f9fafb;
+			border: 1px solid #e5e7eb;
+			border-radius: 12px;
+			font-size: 0.95rem;
+			transition: all 0.2s;
+            color: var(--text-main);
+		}
+
+		.form-control:focus {
+			background: #fff;
+			border-color: var(--primary);
+			box-shadow: 0 0 0 4px rgba(242, 101, 34, 0.1);
+			outline: none;
+		}
+
+		.form-control:focus + i {
+			color: var(--primary);
+		}
+
+		.pass-group {
+			position: relative;
+		}
+
+		.toggle-password {
+			position: absolute;
+			right: 16px;
+			top: 50%;
+			transform: translateY(-50%);
+			cursor: pointer;
+			color: var(--text-muted);
+			font-size: 1.1rem;
+            z-index: 10;
+		}
+
+		.btn-primary {
+			background: var(--primary);
+			border: none;
+			height: 52px;
+			border-radius: 12px;
+			font-weight: 700;
+			font-size: 1rem;
+			letter-spacing: 0.5px;
+			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			box-shadow: 0 4px 15px rgba(242, 101, 34, 0.2);
+		}
+
+		.btn-primary:hover {
+			background: var(--primary-hover);
+			transform: translateY(-2px);
+			box-shadow: 0 8px 25px rgba(242, 101, 34, 0.3);
+		}
+
+		.btn-primary:active {
+			transform: translateY(0);
+		}
+
+		.form-check-input:checked {
+			background-color: var(--primary);
+			border-color: var(--primary);
+		}
+
+		.forgot-link {
+			color: var(--primary);
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 0.875rem;
+		}
+
+		.forgot-link:hover {
+			text-decoration: underline;
+		}
+
+		.create-account {
+			margin-top: 32px;
+			text-align: center;
+			color: var(--text-muted);
+			font-size: 0.95rem;
+		}
+
+		.create-account a {
+			color: var(--primary);
+			font-weight: 700;
+			text-decoration: none;
+		}
+
+		.alert {
+			border-radius: 12px;
+			padding: 16px;
+			border: none;
+			margin-bottom: 24px;
+		}
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-container {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
 	</style>
 </head>
 
-<body class="bg-white">
+<body>
+	<div class="login-wrapper">
+		<div class="login-container">
+			<!-- Left Side Info -->
+			<div class="login-info">
+				<h1>Empowering your <br>workforce efficiently.</h1>
+				<p>Manage your people, payroll, and operations from one intuitive dashboard. Experience the next generation of HR management.</p>
+                <div class="mt-auto">
+                    <p class="small opacity-75">© {{ date('Y') }} {{ \App\Helpers\SettingsHelper::appName() }}. All rights reserved.</p>
+                </div>
+			</div>
 
-	<div id="global-loader" style="display: none;">
-		<div class="page-loader"></div>
-	</div>
-
-	<!-- Main Wrapper -->
-	<div class="main-wrapper">
-
-		<div class="container-fluid">
-			<div class="w-100 overflow-hidden position-relative flex-wrap d-block min-vh-100">
-				<div class="row g-0">
-					<div class="col-lg-5">
-						<div class="login-background position-relative d-lg-flex align-items-center justify-content-center d-none flex-wrap min-vh-100">
-							<div class="bg-overlay-img">
-								<img src="{{ asset('assets/img/bg/bg-blue-01.svg') }}" class="bg-1" alt="Img">
-								<img src="{{ asset('assets/img/bg/bg-green-01.svg') }}" class="bg-2" alt="Img">
-							</div>
-							<div class="authentication-card w-100">
-								<div class="authen-overlay-item border w-100">
-									<h1 class="text-white display-1">Empowering people <br> through seamless HR <br> management.</h1>
-									<div class="my-4 mx-auto authen-overlay-img">
-										<img src="{{ asset('assets/img/bg/modern-bg.png') }}" alt="Img">
-									</div>
-									<div>
-										<p class="text-white fs-20 fw-semibold text-center">Efficiently manage your workforce, streamline <br> operations effortlessly.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-7 col-12">
-						<div class="row justify-content-center align-items-center min-vh-100 py-4 py-lg-0">
-							<div class="col-12 col-sm-10 col-md-8 col-lg-10 col-xl-8 mx-auto px-3 px-md-4">
-								<form action="{{ route('login') }}" method="POST" class="d-flex flex-column min-vh-100 justify-content-center">
-									@csrf
-									@if($errors->any())
-										<div class="alert alert-danger mb-3">
-											<ul class="mb-0">
-												@foreach($errors->all() as $error)
-													<li>{{ $error }}</li>
-												@endforeach
-											</ul>
-										</div>
-									@endif
-
-									<div class="login-form-content">
-										<div class="text-center mb-4 mb-md-5">
-											@if(\App\Helpers\SettingsHelper::appLogo())
-												<div class="mb-4 d-flex flex-column align-items-center justify-content-center mx-auto" 
-													 style="max-width: 100%; width: 100%; max-width: 400px; padding: 15px;">
-													<img src="{{ \App\Helpers\SettingsHelper::appLogo() }}"
-														alt="{{ \App\Helpers\SettingsHelper::appName() }}" 
-														class="img-fluid"
-														style="max-width: 100%; max-height: 200px; width: auto; height: auto; object-fit: contain; display: block;">
-												</div>
-											@endif
-											<h2 class="mb-2 fs-2 fw-bold">Sign In</h2>
-											<p class="mb-0 text-muted">Please enter your details to sign in</p>
-										</div>
-											<div class="mb-3">
-												<label class="form-label">Email Address</label>
-												<div class="input-group">
-													<input type="email" name="email" value="{{ old("email") }}" class="form-control border-end-0 @error("email") is-invalid @enderror" required autofocus>
-													<span class="input-group-text border-start-0">
-														<i class="ti ti-mail"></i>
-													</span>
-												</div>
-											</div>
-											<div class="mb-3">
-												<label class="form-label">Password</label>
-												<div class="pass-group">
-													<input type="password" name="password" class="pass-input form-control @error("password") is-invalid @enderror" required>
-													<span class="ti toggle-password ti-eye-off"></span>
-												</div>
-											</div>
-											<div class="d-flex align-items-center justify-content-between mb-3">
-												<div class="d-flex align-items-center">
-													<div class="form-check form-check-md mb-0">
-														<input class="form-check-input" id="remember_me" name="remember" type="checkbox" {{ old("remember") ? "checked" : "" }}>
-														<label for="remember_me" class="form-check-label mt-0">Remember Me</label>
-													</div>
-												</div>
-												<div class="text-end">
-													<a href="#" class="link-danger">Forgot Password?</a>
-												</div>
-											</div>
-											<div class="mb-3">
-												<button type="submit" class="btn btn-primary w-100">Sign In</button>
-											</div>
-											<div class="text-center">
-												<h6 class="fw-normal text-dark mb-0">Don’t have an account? 
-													<a href="#" class="hover-a"> Create Account</a>
-												</h6>
-											</div>
-										</div>
-                                        <div class="mt-5 pb-4 text-center">
-											<p class="mb-0 text-gray-9">Copyright &copy; {{ date('Y') }} - {{ \App\Helpers\SettingsHelper::appName() }}</p>
-										</div>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
+			<!-- Right Side Form -->
+			<div class="login-form-area">
+				<div class="logo-wrapper">
+					@if(\App\Helpers\SettingsHelper::appLogo())
+						<img src="{{ \App\Helpers\SettingsHelper::appLogo() }}" alt="{{ \App\Helpers\SettingsHelper::appName() }}">
+					@else
+                        <h3 class="fw-bold text-primary">{{ \App\Helpers\SettingsHelper::appName() }}</h3>
+                    @endif
 				</div>
+
+				<h2 class="form-title">Welcome back</h2>
+				<p class="form-subtitle">Please enter your details to sign in.</p>
+
+				@if($errors->any())
+					<div class="alert alert-danger">
+						<ul class="mb-0 small">
+							@foreach($errors->all() as $error)
+								<li>{{ $error }}</li>
+							@endforeach
+						</ul>
+					</div>
+				@endif
+
+				<form action="{{ route('login') }}" method="POST">
+					@csrf
+					<div class="mb-3">
+						<label class="form-label">Email Address</label>
+						<div class="input-group-custom">
+							<input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="example@company.com" required autofocus>
+							<i class="ti ti-mail"></i>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Password</label>
+						<div class="input-group-custom pass-group">
+							<input type="password" name="password" id="password" class="form-control" placeholder="••••••••" required>
+							<i class="ti ti-lock"></i>
+							<span class="ti ti-eye-off toggle-password" id="toggle-pass"></span>
+						</div>
+					</div>
+
+					<div class="mb-4">
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+							<label class="form-check-label small fw-medium" for="remember">
+								Remember Me
+							</label>
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary w-100">Sign In</button>
+				</form>
 			</div>
 		</div>
 	</div>
-	<!-- /Main Wrapper -->
 
 	<!-- jQuery -->
 	<script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
-
-	<!-- Bootstrap Core JS -->
-	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-
-	<!-- Feather Icon JS -->
-	<script src="{{ asset('assets/js/feather.min.js') }}"></script>
-
-	<!-- Custom JS -->
-	<script src="{{ asset('assets/js/script.js') }}"></script>
-
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"d05194593ce14c8fa5c20a9737ff5d07","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+	<script>
+		$(document).ready(function() {
+			$('#toggle-pass').on('click', function() {
+				const passInput = $('#password');
+				const type = passInput.attr('type') === 'password' ? 'text' : 'password';
+				passInput.attr('type', type);
+				$(this).toggleClass('ti-eye-off ti-eye');
+			});
+		});
+	</script>
 </body>
+
 </html>
