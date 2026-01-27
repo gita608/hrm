@@ -13,8 +13,8 @@
 <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/apple-touch-icon.png') }}">
 
 <!-- Favicon -->
-<link rel="icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
-<link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon">
+<link rel="icon" href="{{ \App\Helpers\SettingsHelper::appLogoSmall() }}" type="image/x-icon">
+<link rel="shortcut icon" href="{{ \App\Helpers\SettingsHelper::appLogoSmall() }}" type="image/x-icon">
 
 <!-- Theme Script js -->
 <script src="{{ asset('assets/js/theme-script.js') }}"></script>

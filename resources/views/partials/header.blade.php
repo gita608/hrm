@@ -249,6 +249,51 @@
         background: #e5e7eb;
         border-radius: 10px;
     }
+    /* Responsive Header adjustments */
+    @media (max-width: 991.98px) {
+        .header-search-wrapper {
+            width: 200px !important;
+        }
+        .header-search-wrapper kbd {
+            display: none !important;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .header {
+            padding: 0 10px !important;
+        }
+        .header-user {
+            padding: 0 5px !important;
+        }
+        .header-search-wrapper {
+            display: none !important; /* Hide search on mobile by default */
+        }
+        .btn-menubar.btnFullscreen {
+            display: none !important;
+        }
+        #toggle_btn {
+            display: none !important;
+        }
+        .btn-menubar {
+            margin-right: 5px !important;
+            width: 35px !important;
+            height: 35px !important;
+        }
+        .btn-menubar i {
+            font-size: 18px !important;
+        }
+        .profile-dropdown .avatar {
+            width: 35px !important;
+            height: 35px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header-search-wrapper {
+            display: none !important;
+        }
+    }
 </style>
 
 <div class="header">

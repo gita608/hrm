@@ -66,7 +66,8 @@ class SettingsHelper
         if ($logo) {
             return asset('storage/' . $logo);
         }
-        return null; // No default logo
+        // Fallback to favicon if no small logo is set
+        return asset('assets/img/favicon.png');
     }
 
     /**

@@ -106,11 +106,11 @@
 															@if($appLogoSmall)
 																<img id="small-logo-preview" src="{{ asset('storage/' . $appLogoSmall) }}" alt="Small Logo" class="img-fluid w-100 h-100 object-fit-contain p-2">
 															@else
-																<div id="small-logo-placeholder" class="text-center p-3">
+																<img id="small-logo-preview" src="{{ asset('assets/img/favicon.png') }}" alt="Small Logo" class="img-fluid w-100 h-100 object-fit-contain p-2">
+																<div id="small-logo-placeholder" class="text-center p-3 d-none">
 																	<i class="ti ti-brand-abstract fs-30 text-muted opacity-50"></i>
 																	<p class="mb-0" style="font-size: 8px; color: #999; font-weight: 700;">NO ICON</p>
 																</div>
-																<img id="small-logo-preview" src="#" alt="Small Logo Preview" class="img-fluid w-100 h-100 object-fit-contain p-2 d-none">
 															@endif
 														</div>
 													</div>
