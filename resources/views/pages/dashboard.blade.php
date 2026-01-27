@@ -19,17 +19,33 @@
 <!-- /Breadcrumb -->
 
 <!-- Welcome Wrap -->
-<div class="card border-0">
-	<div class="card-body d-flex align-items-center justify-content-between flex-wrap pb-1">
+<div class="card border-0 shadow-sm mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+	<div class="card-body d-flex align-items-center justify-content-between flex-wrap py-4">
 		<div class="d-flex align-items-center mb-3">
-			<span class="avatar avatar-xl flex-shrink-0">
+			<span class="avatar avatar-xl flex-shrink-0 border border-3 border-white shadow">
 				<img src="{{ asset('assets/img/profiles/avatar-31.jpg') }}" class="rounded-circle" alt="img">
 			</span>
-			<div class="ms-3">
-				<h3 class="mb-2">Welcome Back, {{ Auth::user()->name }} <a href="{{ route('profile.index') }}" class="edit-icon"><i class="ti ti-edit fs-14"></i></a></h3>
-				<p>You have <span class="text-primary text-decoration-underline">{{ $pendingApprovals ?? 0 }}</span> Pending Approvals & <span class="text-primary text-decoration-underline">{{ $leaveRequests ?? 0 }}</span> Leave Requests</p>
+			<div class="ms-3 text-white">
+				<h3 class="mb-2 text-white fw-bold">Welcome Back, {{ Auth::user()->name }} 
+					<a href="{{ route('profile.index') }}" class="text-white opacity-75 ms-2">
+						<i class="ti ti-edit fs-14"></i>
+					</a>
+				</h3>
+				<p class="mb-0 opacity-90">
+					<i class="ti ti-clock me-1"></i>{{ now()->format('l, F j, Y') }}
+				</p>
+			</div>
 		</div>
-	</div>
+		<div class="d-flex gap-3 mb-3">
+			<div class="text-center px-3 py-2 bg-white bg-opacity-25 rounded-3">
+				<h4 class="mb-0 text-white fw-bold">{{ $pendingApprovals ?? 0 }}</h4>
+				<p class="mb-0 text-white opacity-90 fs-13">Pending Approvals</p>
+			</div>
+			<div class="text-center px-3 py-2 bg-white bg-opacity-25 rounded-3">
+				<h4 class="mb-0 text-white fw-bold">{{ $leaveRequests ?? 0 }}</h4>
+				<p class="mb-0 text-white opacity-90 fs-13">Leave Requests</p>
+			</div>
+		</div>
 	</div>
 </div>
 <!-- /Welcome Wrap -->
@@ -48,6 +64,45 @@
 						<h6 class="fs-13 fw-medium text-default mb-1">Attendance Overview</h6>
 						<h3 class="mb-3">{{ $todayAttendance }}/{{ $totalEmployees }} <span class="fs-12 fw-medium text-{{ $attendancePercentage >= 70 ? 'success' : 'danger' }}"><i class="fa-solid fa-caret-{{ $attendancePercentage >= 70 ? 'up' : 'down' }} me-1"></i>{{ $attendancePercentage }}%</span></h3>
 						<a href="{{ route('attendance.admin') }}" class="link-default">View Details</a>
+					</div>
+				</div>
+	</div>
+
+	<div class="col-md-3 d-flex">
+				<div class="card flex-fill">
+					<div class="card-body">
+						<span class="avatar rounded-circle bg-success mb-2">
+							<i class="ti ti-calendar-time fs-16"></i>
+						</span>
+						<h6 class="fs-13 fw-medium text-default mb-1">Leave Requests</h6>
+						<h3 class="mb-3">{{ $pendingLeaves }}/{{ $totalLeaves }} <span class="fs-12 fw-medium text-{{ $leaveProgress >= 50 ? 'success' : 'warning' }}"><i class="fa-solid fa-caret-{{ $leaveProgress >= 50 ? 'up' : 'down' }} me-1"></i>{{ $leaveProgress }}%</span></h3>
+						<a href="{{ route('leaves.index') }}" class="link-default">View Details</a>
+					</div>
+				</div>
+	</div>
+
+	<div class="col-md-3 d-flex">
+				<div class="card flex-fill">
+					<div class="card-body">
+						<span class="avatar rounded-circle bg-warning mb-2">
+							<i class="ti ti-briefcase fs-16"></i>
+						</span>
+						<h6 class="fs-13 fw-medium text-default mb-1">Active Jobs</h6>
+						<h3 class="mb-3">{{ $activeJobs }} <span class="fs-12 fw-medium text-info"><i class="ti ti-users me-1"></i>{{ $totalCandidates }} Candidates</span></h3>
+						<a href="{{ route('jobs.index') }}" class="link-default">View Details</a>
+					</div>
+				</div>
+	</div>
+
+	<div class="col-md-3 d-flex">
+				<div class="card flex-fill">
+					<div class="card-body">
+						<span class="avatar rounded-circle bg-info mb-2">
+							<i class="ti ti-users-group fs-16"></i>
+						</span>
+						<h6 class="fs-13 fw-medium text-default mb-1">New Hires</h6>
+						<h3 class="mb-3">{{ $newHires }} <span class="fs-12 fw-medium text-success"><i class="ti ti-building me-1"></i>{{ $totalDepartments }} Depts</span></h3>
+						<a href="{{ route('employees.index') }}" class="link-default">View Details</a>
 					</div>
 				</div>
 	</div>
