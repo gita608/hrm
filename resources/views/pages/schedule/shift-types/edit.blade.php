@@ -4,78 +4,81 @@
 
 @section('content')
 
-	<!-- Breadcrumb -->
-	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-		<div class="my-auto mb-2">
-			<h2 class="mb-1">Edit Shift Type</h2>
+	<!-- Page Header -->
+	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
+		<div class="my-auto">
+			<h2 class="mb-1 text-dark fw-bold">Edit Shift Type</h2>
+			<p class="text-muted mb-0 fs-13">Modify shift timings and details</p>
 		</div>
-		<div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
-			<a href="{{ route('shift-types.index') }}" class="btn btn-outline-light border">Back to List</a>
+		<div class="d-flex align-items-center gap-2">
+			<a href="{{ route('shift-types.index') }}" class="btn btn-light rounded-pill border shadow-sm">
+				<i class="ti ti-arrow-left me-2"></i>Back to List
+			</a>
 		</div>
 	</div>
-	<!-- /Breadcrumb -->
+	<!-- /Page Header -->
 
-	<div class="card">
-		<div class="card-header">
-			<h5>Shift Type Information</h5>
+	<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+		<div class="card-header bg-transparent border-bottom border-light pt-3 pb-2">
+			<h5 class="mb-0 fw-bold text-dark">Shift Type Information</h5>
 		</div>
-		<div class="card-body">
+		<div class="card-body p-4">
 			<form action="{{ route('shift-types.update', $shiftType->id) }}" method="POST">
 				@csrf
 				@method('PUT')
 				<div class="row">
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Name <span class="text-danger">*</span></label>
-							<input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $shiftType->name) }}" placeholder="e.g., Morning Shift, Night Shift" required>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Name <span class="text-danger">*</span></label>
+							<input type="text" class="form-control rounded-3 border-light shadow-none" name="name" value="{{ old('name', $shiftType->name) }}" placeholder="e.g., Morning Shift, Night Shift" required>
 							@error('name')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Status</label>
-							<select class="form-select @error('is_active') is-invalid @enderror" name="is_active">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Status</label>
+							<select class="form-select rounded-3 border-light shadow-none" name="is_active">
 								<option value="1" {{ old('is_active', $shiftType->is_active) == '1' ? 'selected' : '' }}>Active</option>
 								<option value="0" {{ old('is_active', $shiftType->is_active) == '0' ? 'selected' : '' }}>Inactive</option>
 							</select>
 							@error('is_active')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Start Time <span class="text-danger">*</span></label>
-							<input type="time" class="form-control @error('start_time') is-invalid @enderror" name="start_time" value="{{ old('start_time', date('H:i', strtotime($shiftType->start_time))) }}" required>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Start Time <span class="text-danger">*</span></label>
+							<input type="time" class="form-control rounded-3 border-light shadow-none" name="start_time" value="{{ old('start_time', date('H:i', strtotime($shiftType->start_time))) }}" required>
 							@error('start_time')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">End Time <span class="text-danger">*</span></label>
-							<input type="time" class="form-control @error('end_time') is-invalid @enderror" name="end_time" value="{{ old('end_time', date('H:i', strtotime($shiftType->end_time))) }}" required>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">End Time <span class="text-danger">*</span></label>
+							<input type="time" class="form-control rounded-3 border-light shadow-none" name="end_time" value="{{ old('end_time', date('H:i', strtotime($shiftType->end_time))) }}" required>
 							@error('end_time')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="mb-3">
-							<label class="form-label">Description</label>
-							<textarea class="form-control @error('description') is-invalid @enderror" name="description" rows="3" placeholder="Enter shift type description">{{ old('description', $shiftType->description) }}</textarea>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Description</label>
+							<textarea class="form-control rounded-3 border-light shadow-none" name="description" rows="3" placeholder="Enter shift type description">{{ old('description', $shiftType->description) }}</textarea>
 							@error('description')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 				</div>
-				<div class="d-flex justify-content-end gap-2">
-					<a href="{{ route('shift-types.index') }}" class="btn btn-outline-light border">Cancel</a>
-					<button type="submit" class="btn btn-primary">Update Shift Type</button>
+				<div class="d-flex justify-content-end gap-2 mt-4">
+					<a href="{{ route('shift-types.index') }}" class="btn btn-light rounded-pill px-4">Cancel</a>
+					<button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm">Update Shift Type</button>
 				</div>
 			</form>
 		</div>

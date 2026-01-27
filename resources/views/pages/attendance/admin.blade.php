@@ -62,7 +62,7 @@
 						</select>
 					</div>
 					@if(request()->hasAny(['employee_id', 'date_from', 'date_to', 'status']))
-						<a href="{{ route('attendance.admin') }}" class="btn btn-sm btn-light rounded-pill px-3">Clear</a>
+						<a href="{{ route('attendance.admin') }}" class="btn btn-sm btn-light rounded-pill px-3 shadow-sm border-0">Clear</a>
 					@endif
 				</form>
 			</div>
@@ -85,7 +85,7 @@
 					<tbody>
 						@forelse($attendances as $attendance)
 							<tr class="border-bottom border-light">
-								<td class="ps-3 text-muted">{{ $loop->iteration }}</td>
+								<td class="ps-3 text-muted fs-12">{{ $loop->iteration }}</td>
 								<td>
 									<div class="d-flex align-items-center">
 										@if($attendance->employee->profile_picture)
@@ -98,19 +98,19 @@
 											</a>
 										@endif
 										<div>
-											<h6 class="text-dark mb-0 fw-bold">{{ $attendance->employee->name }}</h6>
-											<span class="fs-11 text-muted">{{ $attendance->employee->email }}</span>
+											<h6 class="text-dark mb-0 fw-bold fs-14">{{ $attendance->employee->name }}</h6>
+											<span class="fs-12 text-muted">{{ $attendance->employee->email }}</span>
 										</div>
 									</div>
 								</td>
-								<td class="text-muted">{{ $attendance->date->format('d M Y') }}</td>
-								<td class="text-dark fw-medium">{{ $attendance->check_in ? substr($attendance->check_in, 0, 5) : '-' }}</td>
-								<td class="text-dark fw-medium">{{ $attendance->check_out ? substr($attendance->check_out, 0, 5) : '-' }}</td>
-								<td class="text-muted">
+								<td class="text-muted fs-13">{{ $attendance->date->format('d M Y') }}</td>
+								<td class="text-dark fw-medium fs-13">{{ $attendance->check_in ? substr($attendance->check_in, 0, 5) : '-' }}</td>
+								<td class="text-dark fw-medium fs-13">{{ $attendance->check_out ? substr($attendance->check_out, 0, 5) : '-' }}</td>
+								<td>
 									@if($attendance->total_hours)
 										<span class="badge bg-light text-dark border rounded-pill">{{ floor($attendance->total_hours / 60) }}h {{ $attendance->total_hours % 60 }}m</span>
 									@else
-										-
+										<span class="text-muted">-</span>
 									@endif
 								</td>
 								<td>

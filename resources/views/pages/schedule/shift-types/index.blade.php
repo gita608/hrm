@@ -5,22 +5,18 @@
 @section('content')
 
 	<!-- Page Header -->
-	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-		<div class="my-auto mb-2">
-			<h2 class="mb-1">Shift Types</h2>
+	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
+		<div class="my-auto">
+			<h2 class="mb-1 text-dark fw-bold">Shift Types</h2>
+			<p class="text-muted mb-0 fs-13">Manage work shifts and timings for employee schedules</p>
 		</div>
-		<div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
-			<div class="mb-2">
-				<a href="{{ route('shift-types.create') }}" class="btn btn-primary d-flex align-items-center me-2"><i class="ti ti-circle-plus me-2"></i>Add Shift Type</a>
-			</div>
-			<div class="mb-2">
-				<a href="{{ route('schedule.index') }}" class="btn btn-outline-primary d-flex align-items-center"><i class="ti ti-arrow-left me-2"></i>Back to Schedule</a>
-			</div>
-			<div class="head-icons ms-2">
-				<a href="javascript:void(0);" class="" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Collapse" id="collapse-header">
-					<i class="ti ti-chevrons-up"></i>
-				</a>
-			</div>
+		<div class="d-flex align-items-center gap-2">
+			<a href="{{ route('schedule.index') }}" class="btn btn-light rounded-pill border shadow-sm me-2">
+				<i class="ti ti-arrow-left me-2"></i>Back to Schedule
+			</a>
+			<a href="{{ route('shift-types.create') }}" class="btn btn-primary rounded-pill shadow-sm py-2 px-3">
+				<i class="ti ti-plus me-2"></i>Add Shift Type
+			</a>
 		</div>
 	</div>
 	<!-- /Page Header -->
@@ -39,28 +35,28 @@
 		</div>
 	@endif
 
-	<div class="card">
-		<div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3">
-			<h5>Shift Types List</h5>
+	<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+		<div class="card-header bg-transparent border-bottom border-light pt-3 pb-2">
+			<h5 class="mb-0 fw-bold text-dark">Shift Types List</h5>
 		</div>
 		<div class="card-body p-0">
-			<div class="custom-datatable-filter table-responsive">
-				<table class="table datatable">
-					<thead class="thead-light">
+			<div class="table-responsive">
+				<table class="table table-hover align-middle mb-0">
+					<thead class="bg-light-50">
 						<tr>
-							<th class="no-sort">
-								<div class="form-check form-check-md">
-									<input class="form-check-input" type="checkbox" id="select-all">
+							<th class="ps-3" style="width: 50px;">
+								<div class="form-check">
+									<input class="form-check-input shadow-none" type="checkbox" id="select-all">
 								</div>
 							</th>
-							<th>#</th>
-							<th>Name</th>
-							<th>Start Time</th>
-							<th>End Time</th>
-							<th>Duration</th>
-							<th>Status</th>
-							<th>Description</th>
-							<th></th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">#</th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Name</th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Start Time</th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">End Time</th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Duration</th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Status</th>
+							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Description</th>
+							<th class="pe-3 border-0 text-end text-muted fs-12 fw-medium text-uppercase">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -70,46 +66,59 @@
 								$end = \Carbon\Carbon::parse($shiftType->end_time);
 								$duration = $start->diffInHours($end);
 							@endphp
-							<tr>
-								<td>
-									<div class="form-check form-check-md">
-										<input class="form-check-input" type="checkbox" value="{{ $shiftType->id }}">
+							<tr class="border-bottom border-light">
+								<td class="ps-3">
+									<div class="form-check">
+										<input class="form-check-input shadow-none" type="checkbox" value="{{ $shiftType->id }}">
 									</div>
 								</td>
-								<td>{{ $loop->iteration }}</td>
+								<td class="text-muted fs-12">{{ $loop->iteration }}</td>
 								<td>
-									<h6 class="fw-medium"><a href="#">{{ $shiftType->name }}</a></h6>
+									<h6 class="mb-0 fw-bold"><a href="{{ route('shift-types.show', $shiftType->id) }}" class="text-dark text-decoration-none hover-text-primary transition-all">{{ $shiftType->name }}</a></h6>
 								</td>
-								<td>{{ date('h:i A', strtotime($shiftType->start_time)) }}</td>
-								<td>{{ date('h:i A', strtotime($shiftType->end_time)) }}</td>
-								<td>{{ $duration }} hrs</td>
+								<td class="text-muted fs-13">{{ date('h:i A', strtotime($shiftType->start_time)) }}</td>
+								<td class="text-muted fs-13">{{ date('h:i A', strtotime($shiftType->end_time)) }}</td>
+								<td class="text-dark fs-13">{{ $duration }} hrs</td>
 								<td>
 									@if($shiftType->is_active)
-										<span class="badge badge-success d-inline-flex align-items-center badge-sm">
-											<i class="ti ti-point-filled me-1"></i>Active
+										<span class="badge bg-success-transparent text-success rounded-pill d-inline-flex align-items-center px-2 py-1">
+											<i class="ti ti-point-filled me-1 fs-10"></i>Active
 										</span>
 									@else
-										<span class="badge badge-danger d-inline-flex align-items-center badge-sm">
-											<i class="ti ti-point-filled me-1"></i>Inactive
+										<span class="badge bg-danger-transparent text-danger rounded-pill d-inline-flex align-items-center px-2 py-1">
+											<i class="ti ti-point-filled me-1 fs-10"></i>Inactive
 										</span>
 									@endif
 								</td>
-								<td>{{ Str::limit($shiftType->description ?? 'N/A', 30) }}</td>
-								<td>
-									<div class="action-icon d-inline-flex">
-										<a href="{{ route('shift-types.show', $shiftType->id) }}" class="me-2" data-bs-toggle="tooltip" title="View"><i class="ti ti-eye"></i></a>
-										<a href="{{ route('shift-types.edit', $shiftType->id) }}" class="me-2" data-bs-toggle="tooltip" title="Edit"><i class="ti ti-edit"></i></a>
-										<form action="{{ route('shift-types.destroy', $shiftType->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this shift type?');">
+								<td class="text-muted fs-13">{{ Str::limit($shiftType->description ?? 'N/A', 30) }}</td>
+								<td class="pe-3 text-end">
+									<div class="d-flex justify-content-end gap-2">
+										<a href="{{ route('shift-types.show', $shiftType->id) }}" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-primary hover-text-white transition-all shadow-sm" data-bs-toggle="tooltip" title="View">
+											<i class="ti ti-eye"></i>
+										</a>
+										<a href="{{ route('shift-types.edit', $shiftType->id) }}" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-primary hover-text-white transition-all shadow-sm" data-bs-toggle="tooltip" title="Edit">
+											<i class="ti ti-edit"></i>
+										</a>
+										<form action="{{ route('shift-types.destroy', $shiftType->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this shift type?');">
 											@csrf
 											@method('DELETE')
-											<button type="submit" class="btn btn-link p-0 text-danger" data-bs-toggle="tooltip" title="Delete"><i class="ti ti-trash"></i></button>
+											<button type="submit" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-danger hover-text-white transition-all shadow-sm" data-bs-toggle="tooltip" title="Delete">
+												<i class="ti ti-trash"></i>
+											</button>
 										</form>
 									</div>
 								</td>
 							</tr>
 						@empty
 							<tr>
-								<td colspan="9" class="text-center">No shift types found.</td>
+								<td colspan="9" class="text-center py-5">
+									<div class="d-flex flex-column align-items-center justify-content-center">
+										<div class="avatar avatar-xxl bg-light-50 rounded-circle mb-3 text-muted">
+											<i class="ti ti-clock-off fs-30"></i>
+										</div>
+										<p class="text-muted mb-0">No shift types found.</p>
+									</div>
+								</td>
 							</tr>
 						@endforelse
 					</tbody>

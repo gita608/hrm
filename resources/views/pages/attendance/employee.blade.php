@@ -64,7 +64,7 @@
 						<input type="date" name="date_to" class="form-control form-control-sm rounded-pill fs-12 border-light-subtle shadow-none" value="{{ request('date_to') }}" placeholder="To Date" onchange="this.form.submit()">
 					</div>
 					@if(request()->hasAny(['date_from', 'date_to']))
-						<a href="{{ route('attendance.employee') }}" class="btn btn-sm btn-light rounded-pill px-3">Clear</a>
+						<a href="{{ route('attendance.employee') }}" class="btn btn-sm btn-light rounded-pill px-3 shadow-sm border-0">Clear</a>
 					@endif
 				</form>
 			</div>
@@ -85,15 +85,15 @@
 					<tbody>
 						@forelse($attendances as $attendance)
 							<tr class="border-bottom border-light">
-								<td class="ps-3 text-muted">{{ $loop->iteration }}</td>
-								<td class="text-dark fw-bold">{{ $attendance->date->format('d M Y') }}</td>
-								<td class="text-muted">{{ $attendance->check_in ? substr($attendance->check_in, 0, 5) : '-' }}</td>
-								<td class="text-muted">{{ $attendance->check_out ? substr($attendance->check_out, 0, 5) : '-' }}</td>
+								<td class="ps-3 text-muted fs-12">{{ $loop->iteration }}</td>
+								<td class="text-dark fw-bold fs-13">{{ $attendance->date->format('d M Y') }}</td>
+								<td class="text-muted fs-13">{{ $attendance->check_in ? substr($attendance->check_in, 0, 5) : '-' }}</td>
+								<td class="text-muted fs-13">{{ $attendance->check_out ? substr($attendance->check_out, 0, 5) : '-' }}</td>
 								<td>
 									@if($attendance->total_hours)
 										<span class="badge bg-light text-dark border rounded-pill">{{ floor($attendance->total_hours / 60) }}h {{ $attendance->total_hours % 60 }}m</span>
 									@else
-										-
+										<span class="text-muted">-</span>
 									@endif
 								</td>
 								<td class="pe-3">
