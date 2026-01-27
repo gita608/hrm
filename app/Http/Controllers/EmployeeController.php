@@ -210,8 +210,32 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function grid()
+    public function grid(Request $request)
     {
-        return view('pages.employees.grid');
+        // Get departments and designations for filters
+        $departments = \App\Models\Department::where('is_active', true)->orderBy('name')->get();
+        $designations = \App\Models\Designation::where('is_active', true)->orderBy('name')->get();
+
+        // Build query for employees (users)
+        $query = \App\Models\User::with('role');
+
+        // Filter by status (email verified = active)
+        if ($request->filled('status')) {
+            if ($request->status == 'active') {
+                $query->whereNotNull('email_verified_at');
+            } elseif ($request->status == 'inactive') {
+                $query->whereNull('email_verified_at');
+            }
+        }
+
+        $employees = $query->orderBy('created_at', 'desc')->get();
+
+        // Calculate statistics
+        $totalEmployees = \App\Models\User::count();
+        $activeEmployees = \App\Models\User::whereNotNull('email_verified_at')->count();
+        $inactiveEmployees = \App\Models\User::whereNull('email_verified_at')->count();
+        $newJoiners = \App\Models\User::where('created_at', '>=', now()->subDays(30))->count();
+
+        return view('pages.employees.grid', compact('departments', 'designations', 'employees', 'totalEmployees', 'activeEmployees', 'inactiveEmployees', 'newJoiners'));
     }
 }
