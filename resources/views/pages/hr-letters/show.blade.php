@@ -4,79 +4,99 @@
 
 @section('content')
 
-	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-		<div class="my-auto mb-2">
-			<h2 class="mb-1">HR Letter Details</h2>
+	<!-- Page Header -->
+	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
+		<div class="my-auto">
+			<h2 class="mb-1 text-dark fw-bold">HR Letter Details</h2>
+			<p class="text-muted mb-0 fs-13">View letter information and content</p>
 		</div>
-		<div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
-			<a href="{{ route('hr-letters.edit', $letter->id) }}" class="btn btn-primary me-2"><i class="ti ti-edit me-2"></i>Edit</a>
-			<a href="{{ route('hr-letters.index') }}" class="btn btn-outline-light border">Back to List</a>
+		<div class="d-flex align-items-center gap-2">
+			<a href="{{ route('hr-letters.index') }}" class="btn btn-light rounded-pill border shadow-sm">
+				<i class="ti ti-arrow-left me-2"></i>Back to List
+			</a>
 		</div>
 	</div>
+	<!-- /Page Header -->
 
-	<div class="card">
-		<div class="card-header">
-			<h5>HR Letter Information</h5>
-		</div>
-		<div class="card-body">
-			<div class="row">
-				<div class="col-md-6 mb-3">
-					<label class="form-label fw-bold">Title</label>
-					<p>{{ $letter->title }}</p>
-				</div>
-				<div class="col-md-6 mb-3">
-					<label class="form-label fw-bold">Letter Number</label>
-					<p>{{ $letter->letter_number ?? 'N/A' }}</p>
-				</div>
-				<div class="col-md-6 mb-3">
-					<label class="form-label fw-bold">Letter Type</label>
-					<p>{{ ucfirst(str_replace('_', ' ', $letter->letter_type ?? 'N/A')) }}</p>
-				</div>
-				<div class="col-md-6 mb-3">
-					<label class="form-label fw-bold">Employee</label>
-					<p>{{ $letter->employee ? $letter->employee->name : 'N/A' }}</p>
-				</div>
-				<div class="col-md-6 mb-3">
-					<label class="form-label fw-bold">Issue Date</label>
-					<p>{{ $letter->issue_date ? $letter->issue_date->format('d M, Y') : 'N/A' }}</p>
-				</div>
-				<div class="col-md-6 mb-3">
-					<label class="form-label fw-bold">Status</label>
-					<p>
-						@if($letter->status == 'draft')
-							<span class="badge badge-secondary">Draft</span>
-						@elseif($letter->status == 'issued')
-							<span class="badge badge-success">Issued</span>
-						@elseif($letter->status == 'cancelled')
-							<span class="badge badge-danger">Cancelled</span>
-						@else
-							<span class="badge badge-info">{{ ucfirst($letter->status) }}</span>
-						@endif
-					</p>
-				</div>
-				<div class="col-md-6 mb-3">
-					<label class="form-label fw-bold">Issued By</label>
-					<p>{{ $letter->issuer ? $letter->issuer->name : 'N/A' }}</p>
-				</div>
-				<div class="col-md-12 mb-3">
-					<label class="form-label fw-bold">Content</label>
-					<p>{{ $letter->content ?? 'N/A' }}</p>
-				</div>
-				<div class="col-md-12 mb-3">
-					<label class="form-label fw-bold">Notes</label>
-					<p>{{ $letter->notes ?? 'N/A' }}</p>
-				</div>
-				@if($letter->file_path)
-					<div class="col-md-12 mb-3">
-						<label class="form-label fw-bold">File</label>
-						<div>
-							<a href="{{ asset('storage/' . $letter->file_path) }}" target="_blank" class="btn btn-primary">
-								<i class="ti ti-download me-2"></i>Download File
-							</a>
-							<span class="ms-2 text-muted">{{ $letter->file_name }}</span>
-						</div>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+				<div class="card-body text-center p-4">
+					<div class="avatar avatar-xxl mb-3 bg-primary-transparent rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 80px; height: 80px;">
+						<i class="ti ti-file-certificate fs-36 text-primary"></i>
 					</div>
-				@endif
+					<h4 class="mb-1 text-dark fw-bold">{{ $letter->title }}</h4>
+					<p class="text-muted mb-4 pt-1">{{ $letter->letter_number ?? 'No Letter Number' }}</p>
+
+					@if($letter->status == 'issued')
+						<span class="badge bg-success-transparent text-success rounded-pill px-3 py-2 mb-4">Issued</span>
+					@elseif($letter->status == 'draft')
+						<span class="badge bg-warning-transparent text-warning rounded-pill px-3 py-2 mb-4">Draft</span>
+					@elseif($letter->status == 'cancelled')
+						<span class="badge bg-danger-transparent text-danger rounded-pill px-3 py-2 mb-4">Cancelled</span>
+					@else
+						<span class="badge bg-info-transparent text-info rounded-pill px-3 py-2 mb-4">{{ ucfirst($letter->status) }}</span>
+					@endif
+
+					<div class="d-flex flex-column gap-2 mt-2">
+						@if($letter->file_path)
+							<a href="{{ asset('storage/' . $letter->file_path) }}" target="_blank" class="btn btn-primary rounded-pill shadow-sm py-2">
+								<i class="ti ti-download me-2"></i>Download Letter
+							</a>
+						@endif
+						<a href="{{ route('hr-letters.edit', $letter->id) }}" class="btn btn-light rounded-pill shadow-sm py-2 border">
+							<i class="ti ti-edit me-2"></i>Edit Letter
+						</a>
+						<form action="{{ route('hr-letters.destroy', $letter->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this letter?');">
+							@csrf
+							@method('DELETE')
+							<button type="submit" class="btn btn-outline-danger rounded-pill w-100 py-2">
+								<i class="ti ti-trash me-2"></i>Delete
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+				<div class="card-header bg-transparent border-bottom border-light pt-3 pb-2">
+					<h5 class="mb-0 fw-bold text-dark">Letter Information</h5>
+				</div>
+				<div class="card-body p-4">
+					<div class="row mb-3 pb-3 border-bottom border-light">
+						<div class="col-md-4 text-muted fs-13 text-uppercase fw-medium">Employee</div>
+						<div class="col-md-8 text-dark fw-medium">{{ $letter->employee ? $letter->employee->name : 'N/A' }}</div>
+					</div>
+					<div class="row mb-3 pb-3 border-bottom border-light">
+						<div class="col-md-4 text-muted fs-13 text-uppercase fw-medium">Letter Type</div>
+						<div class="col-md-8 text-dark">{{ ucfirst(str_replace('_', ' ', $letter->letter_type ?? 'N/A')) }}</div>
+					</div>
+					<div class="row mb-3 pb-3 border-bottom border-light">
+						<div class="col-md-4 text-muted fs-13 text-uppercase fw-medium">Issue Date</div>
+						<div class="col-md-8 text-dark">{{ $letter->issue_date ? $letter->issue_date->format('d M, Y') : 'N/A' }}</div>
+					</div>
+					<div class="row mb-3 pb-3 border-bottom border-light">
+						<div class="col-md-4 text-muted fs-13 text-uppercase fw-medium">Issued By</div>
+						<div class="col-md-8 text-dark">{{ $letter->issuer ? $letter->issuer->name : 'N/A' }}</div>
+					</div>
+					@if($letter->content)
+						<div class="row mb-3 pb-3 border-bottom border-light">
+							<div class="col-md-4 text-muted fs-13 text-uppercase fw-medium">Content</div>
+							<div class="col-md-8 text-dark text-break" style="white-space: pre-line;">{{ $letter->content }}</div>
+						</div>
+					@endif
+					@if($letter->notes)
+						<div class="row mb-3 pb-3 border-bottom border-light">
+							<div class="col-md-4 text-muted fs-13 text-uppercase fw-medium">Notes</div>
+							<div class="col-md-8 text-dark">{{ $letter->notes }}</div>
+						</div>
+					@endif
+					<div class="row">
+						<div class="col-md-4 text-muted fs-13 text-uppercase fw-medium">Created At</div>
+						<div class="col-md-8 text-muted">{{ $letter->created_at->format('M d, Y H:i') }}</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -34,9 +34,9 @@
 				@csrf
 				<div class="row">
 					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Employee <span class="text-danger">*</span></label>
-							<select class="form-select rounded-3 border-light shadow-none" name="employee_id" required>
+						<div class="mb-4">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium ls-1">Employee <span class="text-danger">*</span></label>
+							<select class="form-select rounded-3 border-light shadow-none py-2 @error('employee_id') is-invalid @enderror" name="employee_id" required>
 								<option value="">Select Employee</option>
 								@foreach($employees as $employee)
 									<option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
@@ -48,15 +48,15 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Shift Type <span class="text-danger">*</span></label>
-							<select class="form-select rounded-3 border-light shadow-none" name="shift_type_id" id="shift_type_id" required>
+						<div class="mb-4">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium ls-1">Shift Type <span class="text-danger">*</span></label>
+							<select class="form-select rounded-3 border-light shadow-none py-2 @error('shift_type_id') is-invalid @enderror" name="shift_type_id" id="shift_type_id" required>
 								<option value="">Select Shift Type</option>
 								@foreach($shiftTypes as $shiftType)
 									<option value="{{ $shiftType->id }}" 
 										data-start-time="{{ date('H:i', strtotime($shiftType->start_time)) }}"
 										data-end-time="{{ date('H:i', strtotime($shiftType->end_time)) }}"
-										{{ old('shift_type_id') == $shiftType->id ? 'selected' : '' }}>{{ $shiftType->name }}</option>
+										{{ old('shift_type_id') == $shiftType->id ? 'selected' : '' }}>{{ $shiftType->name }} ({{ date('H:i', strtotime($shiftType->start_time)) }} - {{ date('H:i', strtotime($shiftType->end_time)) }})</option>
 								@endforeach
 							</select>
 							@error('shift_type_id')
@@ -65,18 +65,18 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Date <span class="text-danger">*</span></label>
-							<input type="date" class="form-control rounded-3 border-light shadow-none" name="date" value="{{ old('date', date('Y-m-d')) }}" required>
+						<div class="mb-4">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium ls-1">Schedule Date <span class="text-danger">*</span></label>
+							<input type="date" class="form-control rounded-3 border-light shadow-none py-2 @error('date') is-invalid @enderror" name="date" value="{{ old('date', date('Y-m-d')) }}" required>
 							@error('date')
 								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Status <span class="text-danger">*</span></label>
-							<select class="form-select rounded-3 border-light shadow-none" name="status" required>
+						<div class="mb-4">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium ls-1">Initial Status <span class="text-danger">*</span></label>
+							<select class="form-select rounded-3 border-light shadow-none py-2 @error('status') is-invalid @enderror" name="status" required>
 								<option value="scheduled" {{ old('status', 'scheduled') == 'scheduled' ? 'selected' : '' }}>Scheduled</option>
 								<option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>Completed</option>
 								<option value="cancelled" {{ old('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
@@ -88,36 +88,36 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Start Time <small class="text-muted text-lowercase font-weight-normal">(Default from shift if empty)</small></label>
-							<input type="time" class="form-control rounded-3 border-light shadow-none" name="start_time" id="start_time" value="{{ old('start_time') }}">
+						<div class="mb-4">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium ls-1">Override Start Time <small class="text-muted fw-normal">(Optional)</small></label>
+							<input type="time" class="form-control rounded-3 border-light shadow-none py-2 @error('start_time') is-invalid @enderror" name="start_time" id="start_time" value="{{ old('start_time') }}">
 							@error('start_time')
 								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label text-muted fs-12 text-uppercase fw-medium">End Time <small class="text-muted text-lowercase font-weight-normal">(Default from shift if empty)</small></label>
-							<input type="time" class="form-control rounded-3 border-light shadow-none" name="end_time" id="end_time" value="{{ old('end_time') }}">
+						<div class="mb-4">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium ls-1">Override End Time <small class="text-muted fw-normal">(Optional)</small></label>
+							<input type="time" class="form-control rounded-3 border-light shadow-none py-2 @error('end_time') is-invalid @enderror" name="end_time" id="end_time" value="{{ old('end_time') }}">
 							@error('end_time')
 								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-12">
-						<div class="mb-3">
-							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Notes</label>
-							<textarea class="form-control rounded-3 border-light shadow-none" name="notes" rows="3" placeholder="Additional notes...">{{ old('notes') }}</textarea>
+						<div class="mb-4">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium ls-1">Remarks / Notes</label>
+							<textarea class="form-control rounded-3 border-light shadow-none @error('notes') is-invalid @enderror" name="notes" rows="3" placeholder="Add any specific instructions or notes for this schedule...">{{ old('notes') }}</textarea>
 							@error('notes')
 								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 				</div>
-				<div class="d-flex justify-content-end gap-2 mt-3">
+				<div class="d-flex justify-content-end gap-2 mt-4">
 					<a href="{{ route('schedule.index') }}" class="btn btn-light rounded-pill px-4">Cancel</a>
-					<button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm">Save Schedule</button>
+					<button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm"><i class="ti ti-calendar-check me-1"></i>Save Schedule</button>
 				</div>
 			</form>
 		</div>
