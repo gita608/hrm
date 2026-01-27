@@ -22,13 +22,6 @@
 		@include('partials.sidebar')
 		<!-- /Sidebar -->
 
-		<!-- Horizontal Menu -->
-		@include('partials.horizontal-menu')
-		<!-- /Horizontal Menu -->
-
-		<!-- Stacked Sidebar -->
-		@include('partials.stacked-sidebar')
-		<!-- /Stacked Sidebar -->
 
 		<!-- Page Wrapper -->
 		<div class="page-wrapper">

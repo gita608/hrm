@@ -278,7 +278,6 @@
 					<!-- /Search -->
 				</div>
 
-				@include('partials.header-horizontal-menu')
 
 				<div class="d-flex align-items-center">
 					<div class="me-1">
