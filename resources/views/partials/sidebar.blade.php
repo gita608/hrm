@@ -53,35 +53,45 @@
 		<nav id="sidebar-menu" class="sidebar-menu" aria-label="Main navigation">
 			<ul>
 				@php
-					// Helper function to check if route is active
-					$isActive = function($patterns) {
-						if (empty($patterns) || $patterns === '*') return false;
-						foreach ((array)$patterns as $pattern) {
-							if (request()->is($pattern) || request()->routeIs($pattern)) {
+					// Helper function to check if menu item is active
+					$isActive = function($item) {
+						if (!$item) return false;
+
+						// Check Route
+						if (!empty($item->route)) {
+							// Check for exact route match or wildcard match
+							if (request()->routeIs($item->route) || request()->routeIs($item->route . '*')) {
 								return true;
 							}
 						}
+
+						// Check URL
+						if (!empty($item->url) && $item->url !== '#') {
+							// Determine path for checking
+							$path = trim($item->url, '/');
+							if (request()->is($path) || request()->is($path . '/*')) {
+								return true;
+							}
+						}
+						
 						return false;
 					};
 					
 					// Helper function to get active class
-					$activeClass = function($patterns) use ($isActive) {
-						return $isActive($patterns) ? 'active' : '';
+					$activeClass = function($item) use ($isActive) {
+						return $isActive($item) ? 'active' : '';
 					};
 
                     // Helper to check if a parent menu should be active (by checking children)
                     $isParentActive = function($menuItem) use ($isActive) {
-                         // If parent itself has a route and it's active
-                        if ($menuItem->route && $isActive($menuItem->route . '*')) {
+                         // If parent itself is active
+                        if ($isActive($menuItem)) {
                             return true;
                         }
                         
                         // Check children
                         foreach ($menuItem->children as $child) {
-                             if ($child->route && $isActive($child->route . '*')) {
-                                return true;
-                             }
-                             if ($child->url && request()->is($child->url)) {
+                             if ($isActive($child)) {
                                 return true;
                              }
                         }
@@ -125,7 +135,7 @@
 								<ul style="{{ $displayStyle($menuItem) }}">
 									@foreach($menuItem->children as $child)
 										<li>
-											<a href="{{ $child->url ?? route($child->route) }}" class="{{ $activeClass($child->route . '*') }}">
+											<a href="{{ $child->url ?? route($child->route) }}" class="{{ $activeClass($child) }}">
 												@if($child->icon)
 													<i class="{{ $child->icon }}" aria-hidden="true"></i>
 												@endif
@@ -137,7 +147,7 @@
 							</li>
 						@else
 							<li>
-								<a href="{{ $menuItem->url ?? route($menuItem->route) }}" class="{{ $activeClass($menuItem->route . '*') }}">
+								<a href="{{ $menuItem->url ?? route($menuItem->route) }}" class="{{ $activeClass($menuItem) }}">
 									@if($menuItem->icon)
 										<i class="{{ $menuItem->icon }}" aria-hidden="true"></i>
 									@endif

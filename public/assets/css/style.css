@@ -17653,7 +17653,7 @@ button.swal2-cancel {
   color: #6B7280;
 }
 
-.sidebar .sidebar-menu>ul li .submenu>ul li a:before {
+.sidebar .sidebar-menu>ul li.submenu>ul li a:before {
   content: "";
   width: 2px;
   height: 18px;
@@ -17679,7 +17679,7 @@ button.swal2-cancel {
   color: #FE9F43;
 }
 
-.sidebar .sidebar-menu>ul li .submenu>ul li a.active::before {
+.sidebar .sidebar-menu>ul li.submenu>ul li a.active::before {
   opacity: 1;
   background: #FE9F43;
 }
