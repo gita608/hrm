@@ -34068,3 +34068,50 @@ span.flatpickr-weekday {
 /* End:: swiper js */
 
 /*# sourceMappingURL=style.css.map */
+
+/* Modern Utils */
+.backdrop-blur-md {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.text-white\/80 {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.text-white\/70 {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.min-w-100 {
+  min-width: 100px;
+}
+
+.hover-text-primary:hover {
+  color: #F26522 !important;
+}
+
+.hover-text-success:hover {
+  color: #03C95A !important;
+}
+
+.hover-text-warning:hover {
+  color: #FFC107 !important;
+}
+
+.hover-text-info:hover {
+  color: #1B84FF !important;
+}
+
+.bg-light-50 {
+  background-color: #f8fafc !important;
+}
+
+.hover-bg-white:hover {
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
