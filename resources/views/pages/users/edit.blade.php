@@ -1,306 +1,267 @@
 @extends('layouts.app')
 
-@section('title', 'Edit User')
+@section('title', 'Record Adjustment')
 
 @section('content')
 
-	<!-- Breadcrumb -->
-	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-		<div class="my-auto mb-2">
-			<h2 class="mb-1">Edit User</h2>
+	<!-- Page Header -->
+	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
+		<div class="my-auto">
+			<h2 class="mb-1 text-dark fw-bold">Record Adjustment</h2>
+			<p class="text-muted mb-0 fs-13">Update and refine personnel identity and documentation</p>
 		</div>
-		<div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
-			<a href="{{ route('users.index') }}" class="btn btn-outline-light border">Back to List</a>
+		<div class="d-flex align-items-center gap-2 flex-wrap mt-md-0 mt-3">
+			<a href="{{ route('users.index') }}" class="btn btn-light rounded-pill px-4 shadow-sm border border-light-subtle fw-600 fs-13">
+                <i class="ti ti-arrow-left me-2"></i>Back to Directory
+            </a>
+            <a href="{{ route('users.show', $user->id) }}" class="btn btn-outline-primary rounded-pill px-4 shadow-sm fw-600 fs-13 border-primary-subtle">
+                <i class="ti ti-user-scan me-2"></i>View Profile
+            </a>
 		</div>
 	</div>
-	<!-- /Breadcrumb -->
+	<!-- /Page Header -->
 
-	<div class="card">
-		<div class="card-header">
-			<h5>User Information</h5>
-		</div>
-		<div class="card-body">
+	<div class="row justify-content-center">
+		<div class="col-xl-10">
 			<form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
 				@csrf
 				@method('PUT')
-				<div class="row">
-					<div class="col-md-12">
-						<div class="mb-4">
-							<label class="form-label">Profile Picture</label>
-							<div class="d-flex align-items-center flex-wrap row-gap-3 bg-light w-100 rounded p-3">
-								<div class="d-flex align-items-center justify-content-center avatar avatar-xxl rounded-circle border border-dashed me-2 flex-shrink-0 text-dark frames" id="profile-preview-container">
-									@if($user->profile_picture)
-										<img id="profile-preview" src="{{ asset('storage/' . $user->profile_picture) }}" alt="Profile Preview" class="img-fluid rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
-										<i class="ti ti-photo text-gray-2 fs-16 d-none" id="profile-preview-icon"></i>
-									@else
-										<i class="ti ti-photo text-gray-2 fs-16" id="profile-preview-icon"></i>
-										<img id="profile-preview" src="" alt="Profile Preview" class="img-fluid rounded-circle d-none" style="width: 100%; height: 100%; object-fit: cover;">
-									@endif
-								</div>
-								<div class="profile-upload">
-									<div class="mb-2">
-										<h6 class="mb-1">Upload Profile Image</h6>
-										<p class="fs-12">Image should be below 4 MB (JPG, PNG, GIF)</p>
-									</div>
-									<div class="profile-uploader d-flex align-items-center">
-										<label for="profile_picture" class="btn btn-sm btn-primary me-2 mb-0" style="cursor: pointer;">
-											Upload
-											<input type="file" id="profile_picture" name="profile_picture" class="d-none" accept="image/*" onchange="previewProfilePicture(this)">
-										</label>
-										<button type="button" class="btn btn-light btn-sm" onclick="clearProfilePicture()">Clear</button>
-									</div>
-									@error('profile_picture')
-										<div class="text-danger fs-12 mt-1">{{ $message }}</div>
-									@enderror
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Full Name <span class="text-danger">*</span></label>
-							<input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $user->name) }}" required>
-							@error('name')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Email <span class="text-danger">*</span></label>
-							<input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $user->email) }}" required>
-							@error('email')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Password</label>
-							<div class="pass-group">
-								<input type="password" class="pass-input form-control @error('password') is-invalid @enderror" name="password" placeholder="Leave blank to keep current password">
-								<span class="ti toggle-password ti-eye-off"></span>
-							</div>
-							<small class="text-muted">Leave blank if you don't want to change the password</small>
-							@error('password')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Confirm Password</label>
-							<div class="pass-group">
-								<input type="password" class="pass-input form-control" name="password_confirmation" placeholder="Confirm new password">
-								<span class="ti toggle-password ti-eye-off"></span>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Role <span class="text-danger">*</span></label>
-							<select class="form-select @error('role_id') is-invalid @enderror" name="role_id" required>
-								<option value="">Select Role</option>
-								@foreach($roles as $role)
-									<option value="{{ $role->id }}" {{ old('role_id', $user->role_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
-								@endforeach
-							</select>
-							@error('role_id')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Phone</label>
-							<input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone', $user->phone) }}">
-							@error('phone')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="mb-3">
-							<label class="form-label">Address</label>
-							<textarea class="form-control @error('address') is-invalid @enderror" name="address" rows="3">{{ old('address', $user->address) }}</textarea>
-							@error('address')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-				</div>
+				
+                <!-- Basic Identity Card -->
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+                    <div class="card-header bg-white py-3 border-bottom border-light d-flex align-items-center">
+                        <div class="bg-primary-transparent rounded-3 p-2 me-3">
+                            <i class="ti ti-user-edit fs-18 text-primary"></i>
+                        </div>
+                        <h5 class="mb-0 fw-bold text-dark">Core Personnel Identity</h5>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row g-4">
+                            <!-- Profile Picture Preview -->
+                            <div class="col-12 mb-3">
+                                <label class="form-label text-dark fw-bold fs-13 mb-3">Personnel Portrait</label>
+                                <div class="d-flex align-items-center gap-4 p-4 rounded-4 border border-dashed border-light-subtle bg-light-50">
+                                    <div class="position-relative">
+                                        <div class="avatar-preview-container shadow-sm rounded-circle border border-4 border-white overflow-hidden bg-white d-flex align-items-center justify-content-center" style="width: 100px; height: 100px;">
+                                            @if($user->profile_picture)
+                                                <img id="profile-preview" src="{{ asset('storage/' . $user->profile_picture) }}" alt="User" class="img-fluid rounded-circle w-100 h-100 object-fit-cover">
+                                                <i class="ti ti-photo-circle fs-32 text-muted opacity-50 d-none" id="profile-preview-icon"></i>
+                                            @else
+                                                <i class="ti ti-photo-circle fs-32 text-muted opacity-50" id="profile-preview-icon"></i>
+                                                <img id="profile-preview" src="" alt="Profile Preview" class="img-fluid rounded-circle d-none w-100 h-100 object-fit-cover">
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1 fw-bold fs-14 text-dark">Update Representative Image</h6>
+                                        <p class="text-muted fs-11 mb-3">Choose a current professional portrait. Max 4MB (JPG, PNG)</p>
+                                        <div class="d-flex gap-2">
+                                            <label for="profile_picture" class="btn btn-primary btn-sm rounded-pill px-3 fw-bold">
+                                                <i class="ti ti-camera-rotate me-1"></i>Exchange Image
+                                                <input type="file" id="profile_picture" name="profile_picture" class="d-none" accept="image/*" onchange="previewProfilePicture(this)">
+                                            </label>
+                                            <button type="button" class="btn btn-outline-light btn-sm rounded-pill px-3 border" onclick="clearProfilePicture()">
+                                                <i class="ti ti-refresh me-1"></i>Revert to Original
+                                            </button>
+                                        </div>
+                                        @error('profile_picture')
+                                            <div class="text-danger fs-11 mt-2 fw-medium"><i class="ti ti-alert-circle me-1"></i>{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
 
-				<!-- UAE-Specific Information Section -->
-				<hr class="my-4">
-				<h5 class="mb-3">UAE-Specific Information</h5>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Emirates ID</label>
-							<input type="text" class="form-control @error('emirates_id') is-invalid @enderror" name="emirates_id" value="{{ old('emirates_id', $user->emirates_id) }}" placeholder="e.g., 784-1234-1234567-1">
-							@error('emirates_id')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Nationality</label>
-							<input type="text" class="form-control @error('nationality') is-invalid @enderror" name="nationality" value="{{ old('nationality', $user->nationality) }}">
-							@error('nationality')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Passport Number</label>
-							<input type="text" class="form-control @error('passport_number') is-invalid @enderror" name="passport_number" value="{{ old('passport_number', $user->passport_number) }}">
-							@error('passport_number')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Passport Expiry Date</label>
-							<input type="date" class="form-control @error('passport_expiry_date') is-invalid @enderror" name="passport_expiry_date" value="{{ old('passport_expiry_date', $user->passport_expiry_date?->format('Y-m-d')) }}">
-							@error('passport_expiry_date')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Visa Type</label>
-							<select class="form-select @error('visa_type') is-invalid @enderror" name="visa_type">
-								<option value="">Select Visa Type</option>
-								<option value="employment" {{ old('visa_type', $user->visa_type) == 'employment' ? 'selected' : '' }}>Employment</option>
-								<option value="dependent" {{ old('visa_type', $user->visa_type) == 'dependent' ? 'selected' : '' }}>Dependent</option>
-								<option value="investor" {{ old('visa_type', $user->visa_type) == 'investor' ? 'selected' : '' }}>Investor</option>
-								<option value="student" {{ old('visa_type', $user->visa_type) == 'student' ? 'selected' : '' }}>Student</option>
-								<option value="tourist" {{ old('visa_type', $user->visa_type) == 'tourist' ? 'selected' : '' }}>Tourist</option>
-								<option value="other" {{ old('visa_type', $user->visa_type) == 'other' ? 'selected' : '' }}>Other</option>
-							</select>
-							@error('visa_type')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Visa Number</label>
-							<input type="text" class="form-control @error('visa_number') is-invalid @enderror" name="visa_number" value="{{ old('visa_number', $user->visa_number) }}">
-							@error('visa_number')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Visa Expiry Date</label>
-							<input type="date" class="form-control @error('visa_expiry_date') is-invalid @enderror" name="visa_expiry_date" value="{{ old('visa_expiry_date', $user->visa_expiry_date?->format('Y-m-d')) }}">
-							@error('visa_expiry_date')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Labor Card Number</label>
-							<input type="text" class="form-control @error('labor_card_number') is-invalid @enderror" name="labor_card_number" value="{{ old('labor_card_number', $user->labor_card_number) }}">
-							@error('labor_card_number')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Labor Card Expiry Date</label>
-							<input type="date" class="form-control @error('labor_card_expiry_date') is-invalid @enderror" name="labor_card_expiry_date" value="{{ old('labor_card_expiry_date', $user->labor_card_expiry_date?->format('Y-m-d')) }}">
-							@error('labor_card_expiry_date')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">UAE Emirate</label>
-							<select class="form-select @error('uae_emirate') is-invalid @enderror" name="uae_emirate">
-								<option value="">Select Emirate</option>
-								<option value="Abu Dhabi" {{ old('uae_emirate', $user->uae_emirate) == 'Abu Dhabi' ? 'selected' : '' }}>Abu Dhabi</option>
-								<option value="Dubai" {{ old('uae_emirate', $user->uae_emirate) == 'Dubai' ? 'selected' : '' }}>Dubai</option>
-								<option value="Sharjah" {{ old('uae_emirate', $user->uae_emirate) == 'Sharjah' ? 'selected' : '' }}>Sharjah</option>
-								<option value="Ajman" {{ old('uae_emirate', $user->uae_emirate) == 'Ajman' ? 'selected' : '' }}>Ajman</option>
-								<option value="Umm Al Quwain" {{ old('uae_emirate', $user->uae_emirate) == 'Umm Al Quwain' ? 'selected' : '' }}>Umm Al Quwain</option>
-								<option value="Ras Al Khaimah" {{ old('uae_emirate', $user->uae_emirate) == 'Ras Al Khaimah' ? 'selected' : '' }}>Ras Al Khaimah</option>
-								<option value="Fujairah" {{ old('uae_emirate', $user->uae_emirate) == 'Fujairah' ? 'selected' : '' }}>Fujairah</option>
-							</select>
-							@error('uae_emirate')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">UAE City</label>
-							<input type="text" class="form-control @error('uae_city') is-invalid @enderror" name="uae_city" value="{{ old('uae_city', $user->uae_city) }}">
-							@error('uae_city')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">UAE Area</label>
-							<input type="text" class="form-control @error('uae_area') is-invalid @enderror" name="uae_area" value="{{ old('uae_area', $user->uae_area) }}">
-							@error('uae_area')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Bank Name</label>
-							<input type="text" class="form-control @error('bank_name') is-invalid @enderror" name="bank_name" value="{{ old('bank_name', $user->bank_name) }}" placeholder="e.g., Emirates NBD, ADCB">
-							@error('bank_name')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">IBAN</label>
-							<input type="text" class="form-control @error('iban') is-invalid @enderror" name="iban" value="{{ old('iban', $user->iban) }}" placeholder="AE123456789012345678901">
-							@error('iban')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Emergency Contact Name</label>
-							<input type="text" class="form-control @error('emergency_contact_name') is-invalid @enderror" name="emergency_contact_name" value="{{ old('emergency_contact_name', $user->emergency_contact_name) }}">
-							@error('emergency_contact_name')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Emergency Contact Phone</label>
-							<input type="text" class="form-control @error('emergency_contact_phone') is-invalid @enderror" name="emergency_contact_phone" value="{{ old('emergency_contact_phone', $user->emergency_contact_phone) }}">
-							@error('emergency_contact_phone')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-				</div>
+                            <div class="col-md-6">
+                                <div class="form-group sp-form-group">
+                                    <label class="form-label text-muted fs-12 fw-bold text-uppercase">Full Professional Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control rounded-3 py-2 @error('name') is-invalid @enderror" name="name" value="{{ old('name', $user->name) }}" required>
+                                    @error('name')
+                                        <div class="invalid-feedback fs-11">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
 
-				<div class="card-footer d-flex justify-content-end gap-2">
-					<a href="{{ route('users.index') }}" class="btn btn-outline-light border">Cancel</a>
-					<button type="submit" class="btn btn-primary">Update User</button>
-				</div>
+                            <div class="col-md-6">
+                                <div class="form-group sp-form-group">
+                                    <label class="form-label text-muted fs-12 fw-bold text-uppercase">Registered Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control rounded-3 py-2 @error('email') is-invalid @enderror" name="email" value="{{ old('email', $user->email) }}" required>
+                                    @error('email')
+                                        <div class="invalid-feedback fs-11">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group sp-form-group">
+                                    <label class="form-label text-muted fs-12 fw-bold text-uppercase">Modify Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control rounded-start-3 py-2 border-end-0 @error('password') is-invalid @enderror" name="password" placeholder="Leave empty for no change">
+                                        <span class="input-group-text bg-white border-start-0 rounded-end-3" style="cursor: pointer;">
+                                            <i class="ti ti-eye-off text-muted"></i>
+                                        </span>
+                                    </div>
+                                    @error('password')
+                                        <div class="invalid-feedback d-block fs-11">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group sp-form-group">
+                                    <label class="form-label text-muted fs-12 fw-bold text-uppercase">Assigned Designation <span class="text-danger">*</span></label>
+                                    <select class="form-select rounded-3 py-2 @error('role_id') is-invalid @enderror" name="role_id" required>
+                                        <option value="">Select Company Role</option>
+                                        @foreach($roles as $role)
+                                            <option value="{{ $role->id }}" {{ old('role_id', $user->role_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('role_id')
+                                        <div class="invalid-feedback fs-11">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group sp-form-group">
+                                    <label class="form-label text-muted fs-12 fw-bold text-uppercase">Contact Reach</label>
+                                    <input type="text" class="form-control rounded-3 py-2 @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone', $user->phone) }}">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group sp-form-group">
+                                    <label class="form-label text-muted fs-12 fw-bold text-uppercase">Postal Address</label>
+                                    <textarea class="form-control rounded-3 @error('address') is-invalid @enderror" name="address" rows="3">{{ old('address', $user->address) }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UAE Regional Details -->
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+                    <div class="card-header bg-white py-3 border-bottom border-light d-flex align-items-center">
+                        <div class="bg-success-transparent rounded-3 p-2 me-3">
+                            <i class="ti ti-map-pin fs-18 text-success"></i>
+                        </div>
+                        <h5 class="mb-0 fw-bold text-dark">Regional Documentation Adjustment</h5>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row g-4">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group sp-form-group">
+                                    <label class="form-label text-muted fs-11 fw-bold text-uppercase">Emirates Identity</label>
+                                    <input type="text" class="form-control @error('emirates_id') is-invalid @enderror" name="emirates_id" value="{{ old('emirates_id', $user->emirates_id) }}">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group sp-form-group">
+                                    <label class="form-label text-muted fs-11 fw-bold text-uppercase">Personnel Nationality</label>
+                                    <input type="text" class="form-control @error('nationality') is-invalid @enderror" name="nationality" value="{{ old('nationality', $user->nationality) }}">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group sp-form-group">
+                                    <label class="form-label text-muted fs-11 fw-bold text-uppercase">Passport Summary</label>
+                                    <input type="text" class="form-control @error('passport_number') is-invalid @enderror" name="passport_number" value="{{ old('passport_number', $user->passport_number) }}">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group sp-form-group">
+                                    <label class="form-label text-muted fs-11 fw-bold text-uppercase">Visa Classification</label>
+                                    <select class="form-select @error('visa_type') is-invalid @enderror" name="visa_type">
+                                        <option value="">Select Category</option>
+                                        <option value="employment" {{ old('visa_type', $user->visa_type) == 'employment' ? 'selected' : '' }}>Employment</option>
+                                        <option value="dependent" {{ old('visa_type', $user->visa_type) == 'dependent' ? 'selected' : '' }}>Dependent</option>
+                                        <option value="investor" {{ old('visa_type', $user->visa_type) == 'investor' ? 'selected' : '' }}>Investor</option>
+                                        <option value="student" {{ old('visa_type', $user->visa_type) == 'student' ? 'selected' : '' }}>Student</option>
+                                        <option value="tourist" {{ old('visa_type', $user->visa_type) == 'tourist' ? 'selected' : '' }}>Tourist</option>
+                                        <option value="other" {{ old('visa_type', $user->visa_type) == 'other' ? 'selected' : '' }}>Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group sp-form-group">
+                                    <label class="form-label text-muted fs-11 fw-bold text-uppercase">Residency Emirate</label>
+                                    <select class="form-select @error('uae_emirate') is-invalid @enderror" name="uae_emirate">
+                                        <option value="">Select Emirate</option>
+                                        <option value="Abu Dhabi" {{ old('uae_emirate', $user->uae_emirate) == 'Abu Dhabi' ? 'selected' : '' }}>Abu Dhabi</option>
+                                        <option value="Dubai" {{ old('uae_emirate', $user->uae_emirate) == 'Dubai' ? 'selected' : '' }}>Dubai</option>
+                                        <option value="Sharjah" {{ old('uae_emirate', $user->uae_emirate) == 'Sharjah' ? 'selected' : '' }}>Sharjah</option>
+                                        <option value="Ajman" {{ old('uae_emirate', $user->uae_emirate) == 'Ajman' ? 'selected' : '' }}>Ajman</option>
+                                        <option value="Umm Al Quwain" {{ old('uae_emirate', $user->uae_emirate) == 'Umm Al Quwain' ? 'selected' : '' }}>Umm Al Quwain</option>
+                                        <option value="Ras Al Khaimah" {{ old('uae_emirate', $user->uae_emirate) == 'Ras Al Khaimah' ? 'selected' : '' }}>Ras Al Khaimah</option>
+                                        <option value="Fujairah" {{ old('uae_emirate', $user->uae_emirate) == 'Fujairah' ? 'selected' : '' }}>Fujairah</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group sp-form-group">
+                                    <label class="form-label text-muted fs-11 fw-bold text-uppercase">Assigned City</label>
+                                    <input type="text" class="form-control @error('uae_city') is-invalid @enderror" name="uae_city" value="{{ old('uae_city', $user->uae_city) }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financial Section -->
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
+                    <div class="card-header bg-white py-3 border-bottom border-light d-flex align-items-center">
+                        <div class="bg-warning-transparent rounded-3 p-2 me-3">
+                            <i class="ti ti-building-bank fs-18 text-warning"></i>
+                        </div>
+                        <h5 class="mb-0 fw-bold text-dark">Banking & Emergency Data Sync</h5>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row g-4">
+                            <div class="col-md-12 col-lg-6">
+                                <div class="row g-4">
+                                    <div class="col-12">
+                                        <div class="form-group sp-form-group">
+                                            <label class="form-label text-muted fs-11 fw-bold text-uppercase">Primary Bank Association</label>
+                                            <input type="text" class="form-control" name="bank_name" value="{{ old('bank_name', $user->bank_name) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group sp-form-group">
+                                            <label class="form-label text-muted fs-11 fw-bold text-uppercase">Verified IBAN</label>
+                                            <input type="text" class="form-control" name="iban" value="{{ old('iban', $user->iban) }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-lg-6">
+                                <div class="row g-4">
+                                    <div class="col-12">
+                                        <div class="form-group sp-form-group">
+                                            <label class="form-label text-muted fs-11 fw-bold text-uppercase">Safety Liaison Name</label>
+                                            <input type="text" class="form-control" name="emergency_contact_name" value="{{ old('emergency_contact_name', $user->emergency_contact_name) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group sp-form-group">
+                                            <label class="form-label text-muted fs-11 fw-bold text-uppercase">Emergency Liaison Phone</label>
+                                            <input type="text" class="form-control" name="emergency_contact_phone" value="{{ old('emergency_contact_phone', $user->emergency_contact_phone) }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-light-50 py-4 px-4 d-flex justify-content-end gap-3 border-0">
+                        <a href="{{ route('users.index') }}" class="btn btn-light rounded-pill px-4 py-2 border fw-bold text-muted fs-13">Cancel Changes</a>
+                        <button type="submit" class="btn btn-primary rounded-pill px-5 py-2 fw-bold shadow-sm fs-13">
+                            <i class="ti ti-rotate me-2"></i>Synchronize Protocol
+                        </button>
+                    </div>
+                </div>
 			</form>
 		</div>
 	</div>
@@ -312,7 +273,7 @@
 				reader.onload = function(e) {
 					document.getElementById('profile-preview').src = e.target.result;
 					document.getElementById('profile-preview').classList.remove('d-none');
-					document.getElementById('profile-preview-icon').classList.add('d-none');
+					document.getElementById('profile-preview-icon').classList.add('none');
 				}
 				reader.readAsDataURL(input.files[0]);
 			}
@@ -330,6 +291,45 @@
 				document.getElementById('profile-preview-icon').classList.remove('d-none');
 			@endif
 		}
+
+        // Toggle password visibility
+        document.querySelectorAll('.ti-eye-off').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const input = this.closest('.input-group').querySelector('input');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.classList.replace('ti-eye-off', 'ti-eye');
+                } else {
+                    input.type = 'password';
+                    this.classList.replace('ti-eye', 'ti-eye-off');
+                }
+            });
+        });
 	</script>
+
+    <style>
+        .fs-11 { font-size: 11px; }
+        .fs-12 { font-size: 12px; }
+        .fs-13 { font-size: 13.5px; }
+        .fw-600 { font-weight: 600; }
+        .bg-light-50 { background-color: #f9fafb; }
+        .bg-primary-transparent { background-color: rgba(242, 101, 34, 0.08); }
+        .bg-success-transparent { background-color: rgba(30, 190, 165, 0.08); }
+        .bg-warning-transparent { background-color: rgba(255, 152, 0, 0.08); }
+        
+        .sp-form-group .form-control, .sp-form-group .form-select {
+            border-color: #e5e7eb;
+            transition: all 0.2s ease;
+        }
+        .sp-form-group .form-control:focus, .sp-form-group .form-select:focus {
+            border-color: #f26522;
+            box-shadow: 0 0 0 4px rgba(242, 101, 34, 0.1);
+            background-color: white;
+        }
+        .object-fit-cover { object-fit: cover; }
+        .border-dashed { border-style: dashed !important; }
+        .tracking-wider { letter-spacing: 0.8px; }
+        .hover-danger-bg:hover { background-color: #ef4444 !important; color: white !important; }
+    </style>
 
 @endsection
