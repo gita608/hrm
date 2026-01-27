@@ -63,11 +63,23 @@ class RoleSeeder extends Seeder
             ],
         ];
 
+        $createdCount = 0;
+        $skippedCount = 0;
+
         foreach ($roles as $role) {
-            Role::create($role);
+            if (!Role::where('name', $role['name'])->exists()) {
+                Role::create($role);
+                $createdCount++;
+            } else {
+                $skippedCount++;
+            }
         }
 
-        $this->command->info('Roles created successfully!');
-        $this->command->info('Created '.count($roles).' roles.');
+        if ($createdCount > 0) {
+            $this->command->info("Created {$createdCount} new roles.");
+        }
+        if ($skippedCount > 0) {
+            $this->command->info("Skipped {$skippedCount} existing roles.");
+        }
     }
 }

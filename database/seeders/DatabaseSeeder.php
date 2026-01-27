@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             DepartmentSeeder::class,
             DesignationSeeder::class,
+            MenuItemSeeder::class,
         ]);
     }
 }
