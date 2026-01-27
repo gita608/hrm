@@ -4,267 +4,230 @@
 
 @section('content')
 
-		<!-- Breadcrumb -->
-		<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-			<div class="my-auto mb-2">
-			<h2 class="mb-1">Employee</h2>
-
+		<!-- Page Header -->
+		<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
+			<div class="my-auto">
+				<h2 class="mb-1 text-dark fw-bold">Employees</h2>
+				<p class="text-muted mb-0 fs-13">Manage your workforce</p>
 			</div>
-			<div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
-			<div class="me-2 mb-2">
-				<div class="d-flex align-items-center border bg-white rounded p-1 me-2 icon-list">
-					<a href="{{ url("/employees") }}" class="btn btn-icon btn-sm active bg-primary text-white me-1"><i class="ti ti-list-tree"></i></a>
-					<a href="{{ url("/employees/grid") }}" class="btn btn-icon btn-sm"><i class="ti ti-layout-grid"></i></a>
+			<div class="d-flex align-items-center gap-2">
+				<div class="d-flex align-items-center bg-white rounded-pill p-1 shadow-sm border border-light">
+					<a href="{{ url("/employees") }}" class="btn btn-primary rounded-circle btn-icon btn-sm"><i class="ti ti-list-tree fs-14"></i></a>
+					<a href="{{ url("/employees/grid") }}" class="btn btn-light rounded-circle btn-icon btn-sm text-muted hover-text-primary"><i class="ti ti-layout-grid fs-14"></i></a>
 				</div>
-			</div>
-			<div class="me-2 mb-2">
-				<div class="dropdown">
-					<a href="javascript:void(0);" class="dropdown-toggle btn btn-white d-inline-flex align-items-center" data-bs-toggle="dropdown">
-						<i class="ti ti-file-export me-1"></i>Export
-					</a>
-					<ul class="dropdown-menu  dropdown-menu-end p-3">
-						<li>
-							<a href="javascript:void(0);" class="dropdown-item rounded-1"><i class="ti ti-file-type-pdf me-1"></i>Export as PDF</a>
-						</li>
-						<li>
-							<a href="javascript:void(0);" class="dropdown-item rounded-1"><i class="ti ti-file-type-xls me-1"></i>Export as Excel </a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="mb-2">
-				<a href="{{ route('employees.create') }}" class="btn btn-primary d-flex align-items-center"><i class="ti ti-circle-plus me-2"></i>Add Employee</a>
-			</div>
-			<div class="head-icons ms-2">
-				<a href="javascript:void(0);" class="" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Collapse" id="collapse-header">
-					<i class="ti ti-chevrons-up"></i>
+				<a href="{{ route('employees.create') }}" class="btn btn-primary rounded-pill shadow-sm py-2 px-3">
+					<i class="ti ti-plus me-1"></i>Add Employee
 				</a>
 			</div>
-			</div>
 		</div>
-		<!-- /Breadcrumb -->
+		<!-- /Page Header -->
 
-		<div class="row">
-
-			<!-- Total Plans -->
-			<div class="col-lg-3 col-md-6 d-flex">
-			<div class="card flex-fill">
-				<div class="card-body d-flex align-items-center justify-content-between">
-					<div class="d-flex align-items-center overflow-hidden">
-						<div>
-							<span class="avatar avatar-lg bg-dark rounded-circle"><i class="ti ti-users"></i></span>
-						</div>
-						<div class="ms-2 overflow-hidden">
-							<p class="fs-12 fw-medium mb-1 text-truncate">Total Employee</p>
-							<h4>{{ $totalEmployees ?? 0 }}</h4>
+		<div class="row mb-4">
+			<!-- Total Employee -->
+			<div class="col-xl-3 col-md-6 d-flex">
+				<div class="card flex-fill border-0 shadow-sm rounded-4 overflow-hidden">
+					<div class="card-body p-4">
+						<div class="d-flex align-items-center justify-content-between">
+							<div>
+								<p class="text-muted fw-medium mb-1 fs-13">Total Employees</p>
+								<h3 class="mb-0 fw-bold text-dark">{{ $totalEmployees ?? 0 }}</h3>
+							</div>
+							<div class="avatar avatar-lg bg-dark-transparent text-dark rounded-circle">
+								<i class="ti ti-users fs-24"></i>
+							</div>
 						</div>
 					</div>
-					<div>                                    
-						<span class="badge badge-soft-purple badge-sm fw-normal">
-							<i class="ti ti-users"></i>
-						</span>
-                                </div>
 				</div>
 			</div>
-			</div>
-			<!-- /Total Plans -->
+			<!-- /Total Employee -->
 
-			<!-- Total Plans -->
-			<div class="col-lg-3 col-md-6 d-flex">
-			<div class="card flex-fill">
-				<div class="card-body d-flex align-items-center justify-content-between">
-					<div class="d-flex align-items-center overflow-hidden">
-						<div>
-							<span class="avatar avatar-lg bg-success rounded-circle"><i class="ti ti-user-share"></i></span>
-						</div>
-						<div class="ms-2 overflow-hidden">
-							<p class="fs-12 fw-medium mb-1 text-truncate">Active</p>
-							<h4>{{ $activeEmployees ?? 0 }}</h4>
+			<!-- Active -->
+			<div class="col-xl-3 col-md-6 d-flex">
+				<div class="card flex-fill border-0 shadow-sm rounded-4 overflow-hidden">
+					<div class="card-body p-4">
+						<div class="d-flex align-items-center justify-content-between">
+							<div>
+								<p class="text-muted fw-medium mb-1 fs-13">Active</p>
+								<h3 class="mb-0 fw-bold text-dark">{{ $activeEmployees ?? 0 }}</h3>
+							</div>
+							<div class="avatar avatar-lg bg-success-transparent text-success rounded-circle">
+								<i class="ti ti-user-check fs-24"></i>
+							</div>
 						</div>
 					</div>
-					<div>                                    
-						<span class="badge badge-soft-primary badge-sm fw-normal">
-							<i class="ti ti-user-share"></i>
-						</span>
-                                </div>
 				</div>
 			</div>
-			</div>
-			<!-- /Total Plans -->
+			<!-- /Active -->
 
-			<!-- Inactive Plans -->
-			<div class="col-lg-3 col-md-6 d-flex">
-			<div class="card flex-fill">
-				<div class="card-body d-flex align-items-center justify-content-between">
-					<div class="d-flex align-items-center overflow-hidden">
-						<div>
-							<span class="avatar avatar-lg bg-danger rounded-circle"><i class="ti ti-user-pause"></i></span>
-						</div>
-						<div class="ms-2 overflow-hidden">
-							<p class="fs-12 fw-medium mb-1 text-truncate">InActive</p>
-							<h4>{{ $inactiveEmployees ?? 0 }}</h4>
+			<!-- Inactive -->
+			<div class="col-xl-3 col-md-6 d-flex">
+				<div class="card flex-fill border-0 shadow-sm rounded-4 overflow-hidden">
+					<div class="card-body p-4">
+						<div class="d-flex align-items-center justify-content-between">
+							<div>
+								<p class="text-muted fw-medium mb-1 fs-13">Inactive</p>
+								<h3 class="mb-0 fw-bold text-dark">{{ $inactiveEmployees ?? 0 }}</h3>
+							</div>
+							<div class="avatar avatar-lg bg-danger-transparent text-danger rounded-circle">
+								<i class="ti ti-user-x fs-24"></i>
+							</div>
 						</div>
 					</div>
-					<div>                                    
-						<span class="badge badge-soft-dark badge-sm fw-normal">
-							<i class="ti ti-user-pause"></i>
-						</span>
-                                </div>
 				</div>
 			</div>
-			</div>
-			<!-- /Inactive Companies -->
+			<!-- /Inactive -->
 
-			<!-- No of Plans  -->
-			<div class="col-lg-3 col-md-6 d-flex">
-			<div class="card flex-fill">
-				<div class="card-body d-flex align-items-center justify-content-between">
-					<div class="d-flex align-items-center overflow-hidden">
-						<div>
-							<span class="avatar avatar-lg bg-info rounded-circle"><i class="ti ti-user-plus"></i></span>
-						</div>
-						<div class="ms-2 overflow-hidden">
-							<p class="fs-12 fw-medium mb-1 text-truncate">New Joiners</p>
-							<h4>{{ $newJoiners ?? 0 }}</h4>
+			<!-- New Joiners -->
+			<div class="col-xl-3 col-md-6 d-flex">
+				<div class="card flex-fill border-0 shadow-sm rounded-4 overflow-hidden">
+					<div class="card-body p-4">
+						<div class="d-flex align-items-center justify-content-between">
+							<div>
+								<p class="text-muted fw-medium mb-1 fs-13">New Joiners</p>
+								<h3 class="mb-0 fw-bold text-dark">{{ $newJoiners ?? 0 }}</h3>
+							</div>
+							<div class="avatar avatar-lg bg-info-transparent text-info rounded-circle">
+								<i class="ti ti-user-plus fs-24"></i>
+							</div>
 						</div>
 					</div>
-					<div>                                    
-						<span class="badge badge-soft-secondary badge-sm fw-normal">
-							<i class="ti ti-user-plus"></i>
-						</span>
-                                </div>
 				</div>
 			</div>
-			</div>
-			<!-- /No of Plans -->
-
+			<!-- /New Joiners -->
 		</div>
 
-		<div class="card">
-			<div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3">
-			<h5>Employee List</h5>
-			<div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
-				<form method="GET" action="{{ route('employees.index') }}" class="d-flex align-items-center gap-2 flex-wrap">
-					<div>
-						<select name="department_id" class="form-select form-select-sm">
-							<option value="">All Departments</option>
-							@foreach($departments as $dept)
-								<option value="{{ $dept->id }}" {{ request('department_id') == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
-							@endforeach
-						</select>
-					</div>
-					<div>
-						<select name="designation_id" class="form-select form-select-sm">
-							<option value="">All Designations</option>
-							@foreach($designations as $desig)
-								<option value="{{ $desig->id }}" {{ request('designation_id') == $desig->id ? 'selected' : '' }}>{{ $desig->name }}</option>
-							@endforeach
-						</select>
-					</div>
-					<div>
-						<select name="status" class="form-select form-select-sm">
-							<option value="">All Status</option>
-							<option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
-							<option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-						</select>
-					</div>
-					<div>
-						<button type="submit" class="btn btn-sm btn-primary">Filter</button>
-						@if(request()->hasAny(['department_id', 'designation_id', 'status']))
-							<a href="{{ route('employees.index') }}" class="btn btn-sm btn-outline-light border">Clear</a>
-						@endif
-					</div>
-				</form>
-			</div>
+		<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+			<div class="card-header bg-transparent border-bottom border-light pt-3 pb-2 d-flex align-items-center justify-content-between flex-wrap row-gap-3">
+				<h5 class="mb-0 fw-bold text-dark">Employee List</h5>
+				<div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+					<form method="GET" action="{{ route('employees.index') }}" class="d-flex align-items-center gap-2 flex-wrap">
+						<div>
+							<select name="department_id" class="form-select form-select-sm rounded-pill fs-12 border-light-subtle shadow-none">
+								<option value="">All Departments</option>
+								@foreach($departments as $dept)
+									<option value="{{ $dept->id }}" {{ request('department_id') == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
+								@endforeach
+							</select>
+						</div>
+						<div>
+							<select name="designation_id" class="form-select form-select-sm rounded-pill fs-12 border-light-subtle shadow-none">
+								<option value="">All Designations</option>
+								@foreach($designations as $desig)
+									<option value="{{ $desig->id }}" {{ request('designation_id') == $desig->id ? 'selected' : '' }}>{{ $desig->name }}</option>
+								@endforeach
+							</select>
+						</div>
+						<div>
+							<select name="status" class="form-select form-select-sm rounded-pill fs-12 border-light-subtle shadow-none">
+								<option value="">All Status</option>
+								<option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+								<option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+							</select>
+						</div>
+						<div>
+							<button type="submit" class="btn btn-sm btn-primary rounded-pill px-3">Filter</button>
+							@if(request()->hasAny(['department_id', 'designation_id', 'status']))
+								<a href="{{ route('employees.index') }}" class="btn btn-sm btn-light rounded-pill px-3">Clear</a>
+							@endif
+						</div>
+					</form>
+				</div>
 			</div>
 			<div class="card-body p-0">
-			<div class="custom-datatable-filter table-responsive">
-				<table class="table datatable">
-					<thead class="thead-light">
-						<tr>
-							<th class="no-sort">
-								<div class="form-check form-check-md">
-									<input class="form-check-input" type="checkbox" id="select-all">
-								</div>
-							</th>
-							<th>#</th>
-							<th>Emp ID</th>
-							<th>Name</th>
-							<th>Email</th>
-							<th>Phone</th>
-							<th>Designation</th>
-							<th>Joining Date</th>
-							<th>Status</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						@forelse($employees ?? [] as $index => $employee)
-						<tr>
-							<td>
-								<div class="form-check form-check-md">
-									<input class="form-check-input" type="checkbox" value="{{ $employee->id }}">
-								</div>
-							</td>
-							<td>{{ $index + 1 }}</td>
-							<td><a href="{{ route('employees.show', $employee->id) }}">EMP-{{ str_pad($employee->id, 3, '0', STR_PAD_LEFT) }}</a></td>
-							<td>
-								<div class="d-flex align-items-center">
-									@if($employee->profile_picture)
-										<a href="{{ route('employees.show', $employee->id) }}" class="avatar avatar-md">
-											<img src="{{ asset('storage/' . $employee->profile_picture) }}" class="img-fluid rounded-circle" alt="img" style="width: 100%; height: 100%; object-fit: cover;">
-										</a>
-									@else
-										<a href="{{ route('employees.show', $employee->id) }}" class="avatar avatar-md bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="text-decoration: none;">
-											<span style="font-size: 0.875rem; font-weight: 600;">{{ strtoupper(substr($employee->name, 0, 1)) }}</span>
-										</a>
-									@endif
-									<div class="ms-2">
-										<p class="text-dark mb-0"><a href="{{ route('employees.show', $employee->id) }}">{{ $employee->name }}</a></p>
-										@if($employee->role)
-											<span class="fs-12">{{ $employee->role->name }}</span>
-										@endif
+				<div class="table-responsive">
+					<table class="table table-hover align-middle mb-0">
+						<thead class="bg-light-50">
+							<tr>
+								<th class="ps-3 border-0 text-muted fs-12 fw-medium text-uppercase" style="width: 50px;">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" id="select-all">
 									</div>
-								</div>
-							</td>
-							<td><a href="mailto:{{ $employee->email }}">{{ $employee->email }}</a></td>
-							<td>{{ $employee->phone ?? 'N/A' }}</td>
-							<td>
-								@if($employee->role)
-									<span class="badge badge-soft-primary">{{ $employee->role->name }}</span>
-								@else
-									<span class="text-muted">N/A</span>
-								@endif
-							</td>
-							<td>{{ $employee->created_at ? $employee->created_at->format('d M Y') : 'N/A' }}</td>
-							<td>
-								@if($employee->email_verified_at)
-									<span class="badge badge-success d-inline-flex align-items-center badge-xs">
-										<i class="ti ti-point-filled me-1"></i>Active
-									</span>
-								@else
-									<span class="badge badge-danger d-inline-flex align-items-center badge-xs">
-										<i class="ti ti-point-filled me-1"></i>Inactive
-									</span>
-								@endif
-							</td>
-							<td>
-								<div class="action-icon d-inline-flex">
-									<a href="{{ route('employees.edit', $employee->id) }}" class="me-2"><i class="ti ti-edit"></i></a>
-									<a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal" onclick="setDeleteEmployeeId({{ $employee->id }})"><i class="ti ti-trash"></i></a>
-								</div>
-							</td>
-						</tr>
-						@empty
-						<tr>
-							<td colspan="9" class="text-center py-4">
-								<p class="text-muted mb-0">No employees found.</p>
-							</td>
-						</tr>
-						@endforelse
-					</tbody>
-				</table>
-			</div>
+								</th>
+								<th class="border-0 text-muted fs-12 fw-medium text-uppercase">#</th>
+								<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Emp ID</th>
+								<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Name</th>
+								<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Email</th>
+								<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Phone</th>
+								<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Role</th>
+								<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Joining Date</th>
+								<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Status</th>
+								<th class="pe-3 border-0 text-end text-muted fs-12 fw-medium text-uppercase">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							@forelse($employees ?? [] as $index => $employee)
+							<tr class="border-bottom border-light">
+								<td class="ps-3">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" value="{{ $employee->id }}">
+									</div>
+								</td>
+								<td class="text-muted">{{ $index + 1 }}</td>
+								<td><a href="{{ route('employees.show', $employee->id) }}" class="text-primary fw-medium">EMP-{{ str_pad($employee->id, 3, '0', STR_PAD_LEFT) }}</a></td>
+								<td>
+									<div class="d-flex align-items-center">
+										@if($employee->profile_picture)
+											<a href="{{ route('employees.show', $employee->id) }}" class="avatar avatar-md rounded-circle me-2 overflow-hidden shadow-sm border border-2 border-white">
+												<img src="{{ asset('storage/' . $employee->profile_picture) }}" class="img-fluid" alt="img" style="object-fit: cover;">
+											</a>
+										@else
+											<a href="{{ route('employees.show', $employee->id) }}" class="avatar avatar-md bg-primary-transparent text-primary rounded-circle d-flex align-items-center justify-content-center me-2 fw-bold shadow-sm" style="text-decoration: none;">
+												{{ strtoupper(substr($employee->name, 0, 1)) }}
+											</a>
+										@endif
+										<div>
+											<h6 class="text-dark mb-0 fw-bold"><a href="{{ route('employees.show', $employee->id) }}" class="text-dark">{{ $employee->name }}</a></h6>
+											@if($employee->designation)
+												<span class="fs-11 text-muted">{{ $employee->designation->name }}</span>
+											@elseif($employee->role)
+												<span class="fs-11 text-muted">{{ $employee->role->name }}</span>
+											@endif
+										</div>
+									</div>
+								</td>
+								<td class="text-muted">{{ $employee->email }}</td>
+								<td class="text-muted">{{ $employee->phone ?? 'N/A' }}</td>
+								<td>
+									@if($employee->role)
+										<span class="badge bg-light text-dark border border-light-subtle rounded-pill px-2 py-1 fw-normal">{{ $employee->role->name }}</span>
+									@else
+										<span class="text-muted">N/A</span>
+									@endif
+								</td>
+								<td class="text-muted">{{ $employee->created_at ? $employee->created_at->format('d M Y') : 'N/A' }}</td>
+								<td>
+									@if($employee->email_verified_at || $employee->status === 'active')
+										<span class="badge bg-success-transparent text-success rounded-pill d-inline-flex align-items-center px-2 py-1">
+											<i class="ti ti-point-filled me-1 fs-10"></i>Active
+										</span>
+									@else
+										<span class="badge bg-danger-transparent text-danger rounded-pill d-inline-flex align-items-center px-2 py-1">
+											<i class="ti ti-point-filled me-1 fs-10"></i>Inactive
+										</span>
+									@endif
+								</td>
+								<td class="pe-3 text-end">
+									<div class="d-flex justify-content-end gap-2">
+										<a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-info hover-text-white transition-all"><i class="ti ti-edit"></i></a>
+										<a href="#" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-danger hover-text-white transition-all" data-bs-toggle="modal" data-bs-target="#delete_modal" onclick="setDeleteEmployeeId({{ $employee->id }})"><i class="ti ti-trash"></i></a>
+									</div>
+								</td>
+							</tr>
+							@empty
+							<tr>
+								<td colspan="10" class="text-center py-5">
+									<div class="d-flex flex-column align-items-center">
+										<div class="avatar avatar-xxl bg-light-50 rounded-circle mb-3 text-muted">
+											<i class="ti ti-users-minus fs-30"></i>
+										</div>
+										<h6 class="text-muted mb-0">No employees found</h6>
+									</div>
+								</td>
+							</tr>
+							@endforelse
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 

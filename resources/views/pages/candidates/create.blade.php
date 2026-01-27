@@ -4,106 +4,109 @@
 
 @section('content')
 
-	<!-- Breadcrumb -->
-	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-		<div class="my-auto mb-2">
-			<h2 class="mb-1">Add Candidate</h2>
+	<!-- Page Header -->
+	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
+		<div class="my-auto">
+			<h2 class="mb-1 text-dark fw-bold">Add Candidate</h2>
+			<p class="text-muted mb-0 fs-13">Create a new candidate profile</p>
 		</div>
-		<div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
-			<a href="{{ route('candidates.index') }}" class="btn btn-outline-light border">Back to List</a>
+		<div class="d-flex align-items-center gap-2">
+			<a href="{{ route('candidates.index') }}" class="btn btn-light rounded-pill border shadow-sm">
+				<i class="ti ti-arrow-left me-2"></i>Back to List
+			</a>
 		</div>
 	</div>
-	<!-- /Breadcrumb -->
+	<!-- /Page Header -->
 
-	<div class="card">
-		<div class="card-header">
-			<h5>Candidate Information</h5>
+	<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+		<div class="card-header bg-transparent border-bottom border-light pt-3 pb-2">
+			<h5 class="mb-0 fw-bold text-dark">Candidate Information</h5>
 		</div>
-		<div class="card-body">
+		<div class="card-body p-4">
 			<form action="{{ route('candidates.store') }}" method="POST">
 				@csrf
 				<div class="row">
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Candidate Code</label>
-							<input type="text" class="form-control @error('candidate_code') is-invalid @enderror" name="candidate_code" value="{{ old('candidate_code') }}">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Candidate Code</label>
+							<input type="text" class="form-control rounded-3 border-light shadow-none" name="candidate_code" value="{{ old('candidate_code') }}" placeholder="Auto-generated or Enter Code">
 							@error('candidate_code')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Job Posting</label>
-							<select class="form-select @error('job_posting_id') is-invalid @enderror" name="job_posting_id">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Job Posting</label>
+							<select class="form-select rounded-3 border-light shadow-none" name="job_posting_id">
 								<option value="">Select Job</option>
 								@foreach($jobPostings as $job)
 									<option value="{{ $job->id }}" {{ old('job_posting_id', $jobPostingId ?? null) == $job->id ? 'selected' : '' }}>{{ $job->title }}</option>
 								@endforeach
 							</select>
 							@error('job_posting_id')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">First Name <span class="text-danger">*</span></label>
-							<input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" value="{{ old('first_name') }}" required>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">First Name <span class="text-danger">*</span></label>
+							<input type="text" class="form-control rounded-3 border-light shadow-none" name="first_name" value="{{ old('first_name') }}" required>
 							@error('first_name')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Last Name <span class="text-danger">*</span></label>
-							<input type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" required>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Last Name <span class="text-danger">*</span></label>
+							<input type="text" class="form-control rounded-3 border-light shadow-none" name="last_name" value="{{ old('last_name') }}" required>
 							@error('last_name')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Email <span class="text-danger">*</span></label>
-							<input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Email <span class="text-danger">*</span></label>
+							<input type="email" class="form-control rounded-3 border-light shadow-none" name="email" value="{{ old('email') }}" required>
 							@error('email')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Phone</label>
-							<input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Phone</label>
+							<input type="text" class="form-control rounded-3 border-light shadow-none" name="phone" value="{{ old('phone') }}">
 							@error('phone')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Applied Role</label>
-							<input type="text" class="form-control @error('applied_role') is-invalid @enderror" name="applied_role" value="{{ old('applied_role') }}" placeholder="e.g., Software Developer">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Applied Role</label>
+							<input type="text" class="form-control rounded-3 border-light shadow-none" name="applied_role" value="{{ old('applied_role') }}" placeholder="e.g., Software Developer">
 							@error('applied_role')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Applied Date <span class="text-danger">*</span></label>
-							<input type="date" class="form-control @error('applied_date') is-invalid @enderror" name="applied_date" value="{{ old('applied_date', date('Y-m-d')) }}" required>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Applied Date <span class="text-danger">*</span></label>
+							<input type="date" class="form-control rounded-3 border-light shadow-none" name="applied_date" value="{{ old('applied_date', date('Y-m-d')) }}" required>
 							@error('applied_date')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Status <span class="text-danger">*</span></label>
-							<select class="form-select @error('status') is-invalid @enderror" name="status" required>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Status <span class="text-danger">*</span></label>
+							<select class="form-select rounded-3 border-light shadow-none" name="status" required>
 								<option value="app_received" {{ old('status', 'app_received') == 'app_received' ? 'selected' : '' }}>App Received</option>
 								<option value="screening" {{ old('status') == 'screening' ? 'selected' : '' }}>Screening</option>
 								<option value="scheduled" {{ old('status') == 'scheduled' ? 'selected' : '' }}>Scheduled</option>
@@ -114,101 +117,101 @@
 								<option value="withdrawn" {{ old('status') == 'withdrawn' ? 'selected' : '' }}>Withdrawn</option>
 							</select>
 							@error('status')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="mb-3">
-							<label class="form-label">Resume Path</label>
-							<input type="text" class="form-control @error('resume_path') is-invalid @enderror" name="resume_path" value="{{ old('resume_path') }}" placeholder="Path to resume file">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Resume Path</label>
+							<input type="text" class="form-control rounded-3 border-light shadow-none" name="resume_path" value="{{ old('resume_path') }}" placeholder="Path to resume file">
 							@error('resume_path')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="mb-3">
-							<label class="form-label">Cover Letter</label>
-							<textarea class="form-control @error('cover_letter') is-invalid @enderror" name="cover_letter" rows="3">{{ old('cover_letter') }}</textarea>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Cover Letter</label>
+							<textarea class="form-control rounded-3 border-light shadow-none" name="cover_letter" rows="3">{{ old('cover_letter') }}</textarea>
 							@error('cover_letter')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="mb-3">
-							<label class="form-label">Experience Summary</label>
-							<textarea class="form-control @error('experience_summary') is-invalid @enderror" name="experience_summary" rows="3">{{ old('experience_summary') }}</textarea>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Experience Summary</label>
+							<textarea class="form-control rounded-3 border-light shadow-none" name="experience_summary" rows="3">{{ old('experience_summary') }}</textarea>
 							@error('experience_summary')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="mb-3">
-							<label class="form-label">Education</label>
-							<textarea class="form-control @error('education') is-invalid @enderror" name="education" rows="2">{{ old('education') }}</textarea>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Education</label>
+							<textarea class="form-control rounded-3 border-light shadow-none" name="education" rows="2">{{ old('education') }}</textarea>
 							@error('education')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="mb-3">
-							<label class="form-label">Skills</label>
-							<textarea class="form-control @error('skills') is-invalid @enderror" name="skills" rows="2" placeholder="Comma-separated skills">{{ old('skills') }}</textarea>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Skills</label>
+							<textarea class="form-control rounded-3 border-light shadow-none" name="skills" rows="2" placeholder="Comma-separated skills">{{ old('skills') }}</textarea>
 							@error('skills')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="mb-3">
-							<label class="form-label">Notes</label>
-							<textarea class="form-control @error('notes') is-invalid @enderror" name="notes" rows="2">{{ old('notes') }}</textarea>
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Notes</label>
+							<textarea class="form-control rounded-3 border-light shadow-none" name="notes" rows="2">{{ old('notes') }}</textarea>
 							@error('notes')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 				</div>
 
 				<!-- UAE-Specific Information Section -->
-				<hr class="my-4">
-				<h5 class="mb-3">UAE-Specific Information</h5>
+				<hr class="my-4 border-light">
+				<h5 class="mb-3 fw-bold text-dark">UAE-Specific Information</h5>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Emirates ID</label>
-							<input type="text" class="form-control @error('emirates_id') is-invalid @enderror" name="emirates_id" value="{{ old('emirates_id') }}" placeholder="e.g., 784-1234-1234567-1">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Emirates ID</label>
+							<input type="text" class="form-control rounded-3 border-light shadow-none" name="emirates_id" value="{{ old('emirates_id') }}" placeholder="e.g., 784-1234-1234567-1">
 							@error('emirates_id')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Passport Number</label>
-							<input type="text" class="form-control @error('passport_number') is-invalid @enderror" name="passport_number" value="{{ old('passport_number') }}">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Passport Number</label>
+							<input type="text" class="form-control rounded-3 border-light shadow-none" name="passport_number" value="{{ old('passport_number') }}">
 							@error('passport_number')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Nationality</label>
-							<input type="text" class="form-control @error('nationality') is-invalid @enderror" name="nationality" value="{{ old('nationality') }}">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Nationality</label>
+							<input type="text" class="form-control rounded-3 border-light shadow-none" name="nationality" value="{{ old('nationality') }}">
 							@error('nationality')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Visa Status</label>
-							<select class="form-select @error('visa_status') is-invalid @enderror" name="visa_status">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Visa Status</label>
+							<select class="form-select rounded-3 border-light shadow-none" name="visa_status">
 								<option value="">Select Visa Status</option>
 								<option value="valid" {{ old('visa_status') == 'valid' ? 'selected' : '' }}>Valid</option>
 								<option value="expired" {{ old('visa_status') == 'expired' ? 'selected' : '' }}>Expired</option>
@@ -216,14 +219,14 @@
 								<option value="pending" {{ old('visa_status') == 'pending' ? 'selected' : '' }}>Pending</option>
 							</select>
 							@error('visa_status')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Current Location - Emirate</label>
-							<select class="form-select @error('current_location_emirate') is-invalid @enderror" name="current_location_emirate">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Current Location - Emirate</label>
+							<select class="form-select rounded-3 border-light shadow-none" name="current_location_emirate">
 								<option value="">Select Emirate</option>
 								<option value="Abu Dhabi" {{ old('current_location_emirate') == 'Abu Dhabi' ? 'selected' : '' }}>Abu Dhabi</option>
 								<option value="Dubai" {{ old('current_location_emirate') == 'Dubai' ? 'selected' : '' }}>Dubai</option>
@@ -235,23 +238,23 @@
 								<option value="Outside UAE" {{ old('current_location_emirate') == 'Outside UAE' ? 'selected' : '' }}>Outside UAE</option>
 							</select>
 							@error('current_location_emirate')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="mb-3">
-							<label class="form-label">Current Location - City</label>
-							<input type="text" class="form-control @error('current_location_city') is-invalid @enderror" name="current_location_city" value="{{ old('current_location_city') }}">
+							<label class="form-label text-muted fs-12 text-uppercase fw-medium">Current Location - City</label>
+							<input type="text" class="form-control rounded-3 border-light shadow-none" name="current_location_city" value="{{ old('current_location_city') }}">
 							@error('current_location_city')
-								<div class="invalid-feedback">{{ $message }}</div>
+								<div class="invalid-feedback d-block">{{ $message }}</div>
 							@enderror
 						</div>
 					</div>
 				</div>
-				<div class="d-flex justify-content-end gap-2">
-					<a href="{{ route('candidates.index') }}" class="btn btn-outline-light border">Cancel</a>
-					<button type="submit" class="btn btn-primary">Save Candidate</button>
+				<div class="d-flex justify-content-end gap-2 mt-4">
+					<a href="{{ route('candidates.index') }}" class="btn btn-light rounded-pill px-4">Cancel</a>
+					<button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm">Save Candidate</button>
 				</div>
 			</form>
 		</div>
