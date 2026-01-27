@@ -8,7 +8,7 @@
 	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
 		<div class="my-auto">
 			<h2 class="mb-1 text-dark fw-bold">Candidates</h2>
-			<p class="text-muted mb-0 fs-13">Manage job applications and candidate pipeline</p>
+			<p class="text-muted mb-0 fs-13">Manage job applications and pipeline</p>
 		</div>
 		<div class="d-flex align-items-center gap-2">
 			<a href="{{ route('candidates.create') }}" class="btn btn-primary rounded-pill shadow-sm py-2 px-3">
@@ -92,7 +92,7 @@
 											{{ substr($candidate->first_name, 0, 1) }}{{ substr($candidate->last_name, 0, 1) }}
 										</div>
 										<div>
-											<h6 class="mb-0 fw-bold"><a href="{{ route('candidates.show', $candidate->id) }}" class="text-dark text-decoration-none hover-text-primary transition-all">{{ $candidate->first_name }} {{ $candidate->last_name }}</a></h6>
+											<h6 class="mb-0 fw-bold fs-14"><a href="{{ route('candidates.show', $candidate->id) }}" class="text-dark text-decoration-none hover-text-primary transition-all">{{ $candidate->first_name }} {{ $candidate->last_name }}</a></h6>
 											<span class="fs-11 text-muted">{{ $candidate->email }}</span>
 										</div>
 									</div>

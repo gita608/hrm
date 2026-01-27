@@ -87,24 +87,23 @@
 			<div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
 				<form method="GET" action="{{ route('designations.index') }}" class="d-flex align-items-center gap-2 flex-wrap">
 					<div>
-						<select name="status" class="form-select form-select-sm rounded-pill fs-12 border-light-subtle shadow-none">
+						<select name="status" class="form-select form-select-sm rounded-pill fs-12 border-light-subtle shadow-none" onchange="this.form.submit()">
 							<option value="">All Status</option>
 							<option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
 							<option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
 						</select>
 					</div>
 					<div>
-						<select name="department_id" class="form-select form-select-sm rounded-pill fs-12 border-light-subtle shadow-none">
+						<select name="department_id" class="form-select form-select-sm rounded-pill fs-12 border-light-subtle shadow-none" onchange="this.form.submit()">
 							<option value="">All Departments</option>
 							@foreach($departments as $dept)
 								<option value="{{ $dept->id }}" {{ request('department_id') == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
 							@endforeach
 						</select>
 					</div>
-					<div class="d-flex gap-2">
-						<button type="submit" class="btn btn-sm btn-primary rounded-pill px-3">Filter</button>
+					<div>
 						@if(request()->hasAny(['status', 'department_id']))
-							<a href="{{ route('designations.index') }}" class="btn btn-sm btn-light rounded-pill px-3">Clear</a>
+							<a href="{{ route('designations.index') }}" class="btn btn-sm btn-light rounded-pill px-3 shadow-none">Clear</a>
 						@endif
 					</div>
 				</form>
