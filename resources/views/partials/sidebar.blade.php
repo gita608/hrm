@@ -110,17 +110,25 @@
     /* Child Menu Items */
     #sidebar .sidebar-menu ul ul {
         background: transparent !important;
-        margin: 5px 0 !important;
-        padding: 0 !important;
+        margin: 2px 0 5px 23px !important;
+        padding: 5px 0 !important;
+        border-left: 1px solid rgba(242, 101, 34, 0.15) !important;
     }
 
     #sidebar .sidebar-menu ul ul li a {
-        padding: 8px 14px 8px 48px !important;
+        padding: 8px 14px 8px 25px !important;
         font-size: 13px !important;
-        margin: 1px 12px !important;
+        margin: 1px 12px 1px 0 !important;
         color: #6b7280 !important;
         background: transparent !important;
         position: relative !important;
+        transition: all 0.2s ease;
+    }
+
+    #sidebar .sidebar-menu ul ul li a:hover {
+        color: #f26522 !important;
+        background: transparent !important;
+        padding-left: 28px !important;
     }
 
     /* Active Child Item */
@@ -133,13 +141,13 @@
     #sidebar .sidebar-menu ul ul li a.active::before {
         content: "";
         position: absolute;
-        left: 28px;
+        left: -1px;
         top: 50%;
         transform: translateY(-50%);
-        width: 6px;
-        height: 6px;
+        width: 3px;
+        height: 14px;
         background: #f26522;
-        border-radius: 50%;
+        border-radius: 0 4px 4px 0;
     }
 
     #sidebar .sidebar-menu ul ul li a i {
@@ -157,12 +165,25 @@
 
     #sidebar .menu-arrow {
         margin-left: auto !important;
-        font-size: 10px !important;
-        transition: transform 0.2s !important;
+        font-size: 11px !important;
+        transition: transform 0.3s ease, opacity 0.3s ease !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 20px !important;
+        height: 20px !important;
+        opacity: 0.6 !important;
+        pointer-events: none !important;
     }
 
     #sidebar .subdrop .menu-arrow {
         transform: rotate(90deg) !important;
+        opacity: 1 !important;
+    }
+    
+    #sidebar .sidebar-menu > ul > li.submenu.active > a .menu-arrow {
+        opacity: 1 !important;
+        color: #f26522 !important;
     }
 
     #sidebar .notification-status-dot {
@@ -206,17 +227,17 @@
 
 						// Check Route
 						if (!empty($item->route)) {
-							// Check for exact route match or wildcard match
-							if (request()->routeIs($item->route) || request()->routeIs($item->route . '*')) {
+							// Exact match or sub-route match (e.g. users.index and users.create)
+							if (request()->routeIs($item->route) || request()->routeIs($item->route . '.*')) {
 								return true;
 							}
 						}
 
 						// Check URL
 						if (!empty($item->url) && $item->url !== '#') {
-							// Determine path for checking
 							$path = trim($item->url, '/');
-							if (request()->is($path) || request()->is($path . '/*')) {
+							// Exact match or sub-path match
+							if (request()->is($path) || ($path !== '' && request()->is($path . '/*'))) {
 								return true;
 							}
 						}
@@ -231,18 +252,17 @@
 
                     // Helper to check if a parent menu should be active (by checking children)
                     $isParentActive = function($menuItem) use ($isActive) {
-                         // If parent itself is active
-                        if ($isActive($menuItem)) {
-                            return true;
+                        // Check children first
+                        if ($menuItem->children && $menuItem->children->count() > 0) {
+                            foreach ($menuItem->children as $child) {
+                                 if ($isActive($child)) {
+                                     return true;
+                                 }
+                            }
                         }
                         
-                        // Check children
-                        foreach ($menuItem->children as $child) {
-                             if ($isActive($child)) {
-                                 return true;
-                             }
-                        }
-                        return false;
+                        // Then check parent itself
+                        return $isActive($menuItem);
                     };
 					
 					// Helper function to get submenu active class

@@ -303,7 +303,10 @@ Template Name: Smarthr - Bootstrap Admin Template
 				}
 			}
 		});
-		$('.sidebar-menu ul li.submenu a.active').parents('li:last').children('a:first').addClass('active').trigger('click');
+		$('.sidebar-menu ul li.submenu a.active').parents('li:last').children('a:first').addClass('active');
+		if (!$('.sidebar-menu ul li.submenu a.active').parents('li:last').children('a:first').hasClass('subdrop')) {
+			$('.sidebar-menu ul li.submenu a.active').parents('li:last').children('a:first').trigger('click');
+		}
 	}
 
 	
@@ -345,7 +348,10 @@ Template Name: Smarthr - Bootstrap Admin Template
 				$(this).next('ul').slideUp(350);
 			}
 		});
-		$('.sidebar-right ul li.submenu a.active').parents('li:last').children('a:first').addClass('active').trigger('click');
+		$('.sidebar-right ul li.submenu a.active').parents('li:last').children('a:first').addClass('active');
+		if (!$('.sidebar-right ul li.submenu a.active').parents('li:last').children('a:first').hasClass('subdrop')) {
+			$('.sidebar-right ul li.submenu a.active').parents('li:last').children('a:first').trigger('click');
+		}
 	}
 	colinit();
 
