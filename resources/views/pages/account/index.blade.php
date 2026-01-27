@@ -4,16 +4,19 @@
 
 @section('content')
 
-	<!-- Breadcrumb -->
-	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-		<div class="my-auto mb-2">
-			<h2 class="mb-1">My Account</h2>
+	<!-- Page Header -->
+	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
+		<div class="my-auto">
+			<h2 class="mb-1 text-dark fw-bold">Account Preference</h2>
+			<p class="text-muted mb-0 fs-13">Manage your account security, notifications and preferences</p>
 		</div>
-		<div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
-			<a href="{{ route('dashboard') }}" class="btn btn-outline-light border">Back to Dashboard</a>
+		<div class="d-flex align-items-center gap-2">
+			<a href="{{ route('dashboard') }}" class="btn btn-light rounded-pill border shadow-sm px-3">
+				<i class="ti ti-arrow-left me-2"></i>Dashboard
+			</a>
 		</div>
 	</div>
-	<!-- /Breadcrumb -->
+	<!-- /Page Header -->
 
 	@if(session('success'))
 		<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -29,134 +32,172 @@
 		</div>
 	@endif
 
-	<div class="row">
+	<div class="row g-4">
 		<!-- Account Overview -->
-		<div class="col-xl-3 col-lg-4 col-md-12 mb-3">
-			<div class="card">
-				<div class="card-body text-center">
-					<div class="avatar avatar-xxl mb-3">
-						<img src="{{ asset('assets/img/profiles/avatar-12.jpg') }}" alt="Account" class="img-fluid rounded-circle">
+		<div class="col-xl-4 col-lg-5">
+			<div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+				<div class="card-body p-4 text-center">
+					<div class="position-relative d-inline-block mb-3">
+						<div class="avatar avatar-xxxl rounded-circle border border-4 border-light-50 shadow-sm overflow-hidden bg-light" style="width: 120px; height: 120px;">
+							<img src="{{ asset('assets/img/profiles/avatar-12.jpg') }}" alt="Account" class="img-fluid w-100 h-100 object-fit-cover">
+						</div>
+						<span class="position-absolute bottom-0 end-0 bg-success border border-white border-3 rounded-circle" style="width: 25px; height: 25px;"></span>
 					</div>
-					<h4 class="mb-1">{{ Auth::user()->name }}</h4>
-					<p class="text-muted mb-2">{{ Auth::user()->role->name ?? 'N/A' }}</p>
-					<p class="text-muted mb-3">{{ Auth::user()->email }}</p>
-					<div class="d-flex flex-column gap-2">
-						<a href="{{ route('profile.index') }}" class="btn btn-primary btn-sm">
-							<i class="ti ti-user-circle me-2"></i>View Profile
+					<h4 class="mb-1 fw-bold text-dark">{{ Auth::user()->name }}</h4>
+					<p class="text-primary fw-bold mb-3 fs-13 text-uppercase ls-1">{{ Auth::user()->role->name ?? 'System User' }}</p>
+					
+					<div class="list-group list-group-flush text-start border-top border-light-subtle pt-3">
+						<div class="list-group-item bg-transparent px-0 py-3 border-0 d-flex justify-content-between align-items-center">
+							<span class="text-muted fs-13"><i class="ti ti-activity me-2"></i>Account Status</span>
+							<span class="badge bg-success-subtle text-success rounded-pill px-3 py-1">Active</span>
+						</div>
+						<div class="list-group-item bg-transparent px-0 py-3 border-0 d-flex justify-content-between align-items-center">
+							<span class="text-muted fs-13"><i class="ti ti-mail me-2"></i>Primary Email</span>
+							<span class="text-dark fw-bold fs-13">{{ Str::limit(Auth::user()->email, 20) }}</span>
+						</div>
+						<div class="list-group-item bg-transparent px-0 py-3 border-0 d-flex justify-content-between align-items-center">
+							<span class="text-muted fs-13"><i class="ti ti-calendar-event me-2"></i>Member Since</span>
+							<span class="text-dark fw-bold fs-13">{{ Auth::user()->created_at->format('M Y') }}</span>
+						</div>
+					</div>
+
+					<div class="d-grid gap-2 mt-4">
+						<a href="{{ route('profile.index') }}" class="btn btn-primary rounded-pill py-2 shadow-sm">
+							<i class="ti ti-user-edit me-2"></i>Update Profile
 						</a>
-						<a href="{{ url('/settings') }}" class="btn btn-outline-light border btn-sm">
-							<i class="ti ti-settings me-2"></i>Settings
+						<a href="{{ url('/settings') }}" class="btn btn-outline-dark rounded-pill py-2">
+							<i class="ti ti-settings-cog me-2"></i>General Settings
 						</a>
 					</div>
 				</div>
 			</div>
 
-			<div class="card">
-				<div class="card-header">
-					<h5>Account Status</h5>
+			<div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 bg-dark text-white">
+				<div class="card-header bg-transparent py-3 border-bottom border-white-10">
+					<h5 class="mb-0 fw-bold fs-15 text-white"><i class="ti ti-shield-check me-2 text-warning"></i>Security Checkup</h5>
 				</div>
-				<div class="card-body">
-					<div class="mb-3">
-						<label class="form-label text-muted mb-1">Status</label>
-						<p class="mb-0">
-							<span class="badge badge-success">Active</span>
-						</p>
-					</div>
-					<div class="mb-3">
-						<label class="form-label text-muted mb-1">Member Since</label>
-						<p class="mb-0">{{ Auth::user()->created_at->format('M d, Y') }}</p>
-					</div>
-					<div class="mb-3">
-						<label class="form-label text-muted mb-1">Last Login</label>
-						<p class="mb-0">{{ Auth::user()->updated_at->format('M d, Y H:i') }}</p>
-					</div>
-					<div class="mb-0">
-						<label class="form-label text-muted mb-1">Email Verified</label>
+				<div class="card-body p-4">
+					<div class="mb-4">
+						<label class="form-label text-white-50 fs-11 text-uppercase fw-bold mb-1 lh-1">Verification Status</label>
 						<p class="mb-0">
 							@if(Auth::user()->email_verified_at)
-								<span class="badge badge-success">Verified</span>
+								<span class="badge bg-success border border-success rounded-pill px-3 py-1 text-white">Identity Verified <i class="ti ti-discount-check-filled ms-1"></i></span>
 							@else
-								<span class="badge badge-warning">Not Verified</span>
+								<span class="badge bg-warning text-dark border border-warning rounded-pill px-3 py-1">Action Required</span>
 							@endif
 						</p>
+					</div>
+					<div class="mb-0">
+						<label class="form-label text-white-50 fs-11 text-uppercase fw-bold mb-1">Last Security Login</label>
+						<div class="d-flex align-items-center">
+							<i class="ti ti-device-laptop me-2 text-info"></i>
+							<p class="mb-0 text-white fw-medium fs-13">{{ Auth::user()->updated_at->format('M d, Y H:i') }}</p>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- /Account Overview -->
 
-		<div class="col-xl-9 col-lg-8 col-md-12">
+		<div class="col-xl-8 col-lg-7">
 			<!-- Account Information -->
-			<div class="card mb-3">
-				<div class="card-header">
-					<h5>Account Information</h5>
+			<div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+				<div class="card-header bg-white py-3 border-bottom border-light d-flex justify-content-between align-items-center">
+					<h5 class="mb-0 fw-bold text-dark"><i class="ti ti-id me-2 text-primary"></i>Identity Foundations</h5>
+					<a href="{{ route('profile.index') }}" class="btn btn-sm btn-light border rounded-pill px-3 shadow-none">Manage Data</a>
 				</div>
-				<div class="card-body">
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<label class="form-label text-muted mb-1">Full Name</label>
-							<p class="mb-0 fw-medium">{{ Auth::user()->name }}</p>
+				<div class="card-body p-4">
+					<div class="row g-4">
+						<div class="col-md-6">
+							<div class="p-3 bg-light rounded-4 border border-light-subtle">
+								<label class="form-label text-muted fs-11 text-uppercase fw-bold mb-2">Display Identity</label>
+								<div class="d-flex align-items-center text-dark">
+									<i class="ti ti-user-circle fs-18 me-2 text-primary opacity-50"></i>
+									<h6 class="mb-0 fw-bold fs-15">{{ Auth::user()->name }}</h6>
+								</div>
+							</div>
 						</div>
-						<div class="col-md-6 mb-3">
-							<label class="form-label text-muted mb-1">Email Address</label>
-							<p class="mb-0 fw-medium">{{ Auth::user()->email }}</p>
+						<div class="col-md-6">
+							<div class="p-3 bg-light rounded-4 border border-light-subtle">
+								<label class="form-label text-muted fs-11 text-uppercase fw-bold mb-2">Communication Hub</label>
+								<div class="d-flex align-items-center text-dark">
+									<i class="ti ti-mail-bolt fs-18 me-2 text-primary opacity-50"></i>
+									<h6 class="mb-0 fw-bold fs-15">{{ Auth::user()->email }}</h6>
+								</div>
+							</div>
 						</div>
-						<div class="col-md-6 mb-3">
-							<label class="form-label text-muted mb-1">Phone Number</label>
-							<p class="mb-0 fw-medium">{{ Auth::user()->phone ?? 'N/A' }}</p>
+						<div class="col-md-6">
+							<div class="p-3 bg-light rounded-4 border border-light-subtle">
+								<label class="form-label text-muted fs-11 text-uppercase fw-bold mb-2">Tele-Verification</label>
+								<div class="d-flex align-items-center text-dark">
+									<i class="ti ti-phone-check fs-18 me-2 text-primary opacity-50"></i>
+									<h6 class="mb-0 fw-bold fs-15">{{ Auth::user()->phone ?? 'Contact Pending' }}</h6>
+								</div>
+							</div>
 						</div>
-						<div class="col-md-6 mb-3">
-							<label class="form-label text-muted mb-1">Role</label>
-							<p class="mb-0 fw-medium">{{ Auth::user()->role->name ?? 'N/A' }}</p>
+						<div class="col-md-6">
+							<div class="p-3 bg-light rounded-4 border border-light-subtle">
+								<label class="form-label text-muted fs-11 text-uppercase fw-bold mb-2">Internal Role</label>
+								<div class="d-flex align-items-center text-dark">
+									<i class="ti ti-hierarchy-2 fs-18 me-2 text-primary opacity-50"></i>
+									<h6 class="mb-0 fw-bold fs-15">{{ Auth::user()->role->name ?? 'N/A' }}</h6>
+								</div>
+							</div>
 						</div>
-						<div class="col-md-12 mb-0">
-							<label class="form-label text-muted mb-1">Address</label>
-							<p class="mb-0 fw-medium">{{ Auth::user()->address ?? 'N/A' }}</p>
-						</div>
-					</div>
-					<div class="mt-3">
-						<a href="{{ route('profile.index') }}" class="btn btn-primary btn-sm">
-							<i class="ti ti-edit me-2"></i>Edit Account Information
-						</a>
 					</div>
 				</div>
 			</div>
 			<!-- /Account Information -->
 
 			<!-- Security Settings -->
-			<div class="card mb-3">
-				<div class="card-header">
-					<h5>Security Settings</h5>
+			<div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+				<div class="card-header bg-white py-3 border-bottom border-light">
+					<h5 class="mb-0 fw-bold text-dark"><i class="ti ti-shield-lock me-2 text-warning"></i>Security Matrix</h5>
 				</div>
-				<div class="card-body">
-					<div class="d-flex justify-content-between align-items-center mb-3">
-						<div>
-							<h6 class="mb-1">Password</h6>
-							<p class="text-muted mb-0">Last changed: {{ Auth::user()->updated_at->format('M d, Y') }}</p>
+				<div class="card-body p-4">
+					<div class="d-flex justify-content-between align-items-center mb-4">
+						<div class="d-flex align-items-start">
+							<div class="bg-warning-subtle p-2 rounded-3 me-3 text-warning">
+								<i class="ti ti-key fs-20"></i>
+							</div>
+							<div>
+								<h6 class="mb-1 fw-bold text-dark">Credential Access</h6>
+								<p class="text-muted mb-0 fs-13">Manage your authentication password.</p>
+								<small class="text-muted">Last changed: {{ Auth::user()->updated_at->format('M d, Y') }}</small>
+							</div>
 						</div>
-						<a href="{{ route('profile.index') }}" class="btn btn-outline-primary btn-sm">
-							<i class="ti ti-key me-2"></i>Change Password
+						<a href="{{ route('profile.index') }}" class="btn btn-outline-dark rounded-pill px-4 btn-sm">
+							<i class="ti ti-rotate me-1"></i>Reset
 						</a>
 					</div>
-					<hr>
-					<div class="d-flex justify-content-between align-items-center mb-3">
-						<div>
-							<h6 class="mb-1">Two-Factor Authentication</h6>
-							<p class="text-muted mb-0">Add an extra layer of security to your account</p>
+					<hr class="border-light-subtle my-4">
+					<div class="d-flex justify-content-between align-items-center mb-4">
+						<div class="d-flex align-items-start opacity-75">
+							<div class="bg-success-subtle p-2 rounded-3 me-3 text-success">
+								<i class="ti ti-fingerprint fs-20"></i>
+							</div>
+							<div>
+								<h6 class="mb-1 fw-bold text-dark">Multi-Factor Auth (MFA)</h6>
+								<p class="text-muted mb-0 fs-13 lh-base">Shield your workspace with a second biometric layer.</p>
+							</div>
 						</div>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="twoFactorAuth" disabled>
-							<label class="form-check-label" for="twoFactorAuth">Disabled</label>
+						<div class="form-check form-switch shadow-none">
+							<input class="form-check-input shadow-none" type="checkbox" id="twoFactorAuth" disabled>
 						</div>
 					</div>
-					<hr>
+					<hr class="border-light-subtle my-4">
 					<div class="d-flex justify-content-between align-items-center mb-0">
-						<div>
-							<h6 class="mb-1">Login Sessions</h6>
-							<p class="text-muted mb-0">Manage your active login sessions</p>
+						<div class="d-flex align-items-start">
+							<div class="bg-info-subtle p-2 rounded-3 me-3 text-info">
+								<i class="ti ti-devices fs-20"></i>
+							</div>
+							<div>
+								<h6 class="mb-1 fw-bold text-dark">Hardware Audit</h6>
+								<p class="text-muted mb-0 fs-13 lh-base">Monitor and terminate active hardware sessions.</p>
+							</div>
 						</div>
-						<a href="{{ url('/settings/security') }}" class="btn btn-outline-primary btn-sm">
-							<i class="ti ti-device-desktop me-2"></i>Manage Sessions
+						<a href="{{ url('/settings/security') }}" class="btn btn-light border rounded-pill px-4 btn-sm shadow-none">
+							<i class="ti ti-history me-1"></i>Review
 						</a>
 					</div>
 				</div>
@@ -164,77 +205,81 @@
 			<!-- /Security Settings -->
 
 			<!-- Account Preferences -->
-			<div class="card mb-3">
-				<div class="card-header">
-					<h5>Account Preferences</h5>
+			<div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+				<div class="card-header bg-white py-3 border-bottom border-light">
+					<h5 class="mb-0 fw-bold text-dark"><i class="ti ti-adjustments-alt me-2 text-info"></i>Workspace Matrix</h5>
 				</div>
-				<div class="card-body">
-					<div class="d-flex justify-content-between align-items-center mb-3">
-						<div>
-							<h6 class="mb-1">Email Notifications</h6>
-							<p class="text-muted mb-0">Receive email notifications for important updates</p>
+				<div class="card-body p-4">
+					<div class="d-flex justify-content-between align-items-center mb-4 text-dark">
+						<div class="d-flex align-items-center">
+							<div class="bg-blue-subtle p-2 rounded-3 me-3 text-primary"><i class="ti ti-notification fs-20"></i></div>
+							<div>
+								<h6 class="mb-0 fw-bold">System Alerts</h6>
+								<p class="text-muted mb-0 fs-12">Broadcast updates and mentioned flags.</p>
+							</div>
 						</div>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="emailNotifications" checked>
-							<label class="form-check-label" for="emailNotifications">Enabled</label>
-						</div>
-					</div>
-					<hr>
-					<div class="d-flex justify-content-between align-items-center mb-3">
-						<div>
-							<h6 class="mb-1">SMS Notifications</h6>
-							<p class="text-muted mb-0">Receive SMS notifications for important updates</p>
-						</div>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="smsNotifications">
-							<label class="form-check-label" for="smsNotifications">Disabled</label>
+						<div class="form-check form-switch shadow-none">
+							<input class="form-check-input shadow-none" type="checkbox" id="emailNotifications" checked>
 						</div>
 					</div>
-					<hr>
+					<hr class="border-light-subtle my-4">
 					<div class="d-flex justify-content-between align-items-center mb-0">
-						<div>
-							<h6 class="mb-1">Language</h6>
-							<p class="text-muted mb-0">Choose your preferred language</p>
+						<div class="d-flex align-items-center">
+							<div class="bg-purple-subtle p-2 rounded-3 me-3 text-purple"><i class="ti ti-world fs-20"></i></div>
+							<div>
+								<h6 class="mb-0 fw-bold">Localized Experience</h6>
+								<p class="text-muted mb-0 fs-12">Interface language and date formatting.</p>
+							</div>
 						</div>
-						<select class="form-select form-select-sm" style="width: auto;">
-							<option selected>English</option>
-							<option>Spanish</option>
+						<select class="form-select form-select-sm border-light-subtle rounded-3 shadow-none w-auto">
+							<option selected>English (Default)</option>
+							<option>Arabic (العربية)</option>
 							<option>French</option>
-							<option>German</option>
 						</select>
 					</div>
 				</div>
 			</div>
 			<!-- /Account Preferences -->
 
-			<!-- Danger Zone -->
-			<div class="card border-danger">
-				<div class="card-header bg-danger text-white">
-					<h5 class="mb-0 text-white">Danger Zone</h5>
-				</div>
-				<div class="card-body">
-					<div class="d-flex justify-content-between align-items-center mb-3">
+			<!-- Sensitive Zone -->
+			<div class="card border-0 shadow-sm rounded-4 overflow-hidden border-start border-danger border-4">
+				<div class="card-body p-4">
+					<div class="d-flex align-items-center mb-4">
+						<div class="bg-danger-subtle p-2 rounded-3 me-3 text-danger"><i class="ti ti-alert-circle fs-24"></i></div>
 						<div>
-							<h6 class="mb-1">Deactivate Account</h6>
-							<p class="text-muted mb-0">Temporarily disable your account. You can reactivate it anytime.</p>
+							<h5 class="mb-0 fw-bold text-danger">Data Governance</h5>
+							<p class="text-muted mb-0 fs-13 lh-sm">High-risk actions related to profile lifecycle management.</p>
 						</div>
-						<button type="button" class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#deactivateModal">
-							<i class="ti ti-user-off me-2"></i>Deactivate Account
-						</button>
 					</div>
-					<hr>
-					<div class="d-flex justify-content-between align-items-center mb-0">
-						<div>
-							<h6 class="mb-1">Delete Account</h6>
-							<p class="text-muted mb-0">Permanently delete your account and all associated data. This action cannot be undone.</p>
+					
+					<div class="row g-3">
+						<div class="col-md-6">
+							<div class="p-3 border border-light-subtle rounded-4 h-100 d-flex flex-column justify-content-between">
+								<div>
+									<h6 class="fw-bold text-dark mb-2 fs-14">Suspend Access</h6>
+									<p class="text-muted fs-11 mb-3">Temporarily offline your data hub. Fully reversible.</p>
+								</div>
+								<button type="button" class="btn btn-outline-warning rounded-pill btn-sm w-100 py-2 border-2 fw-bold" data-bs-toggle="modal" data-bs-target="#deactivateModal">
+									<i class="ti ti-user-pause me-2"></i>Go Dark
+								</button>
+							</div>
 						</div>
-						<button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
-							<i class="ti ti-trash me-2"></i>Delete Account
-						</button>
+						<div class="col-md-6">
+							<div class="p-3 border border-danger-subtle bg-danger-transparent rounded-4 h-100 d-flex flex-column justify-content-between">
+								<div>
+									<h6 class="fw-bold text-danger mb-2 fs-14">Permanent Purge</h6>
+									<p class="text-muted fs-11 mb-3">Irreversible deletion of all workspace identities.</p>
+								</div>
+								<button type="button" class="btn btn-danger rounded-pill btn-sm w-100 py-2 shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#deleteModal">
+									<i class="ti ti-trash-x me-2"></i>Purge Data
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<!-- /Danger Zone -->
+			<!-- /Sensitive Zone -->
+		</div>
 		</div>
 	</div>
 
