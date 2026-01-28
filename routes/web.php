@@ -96,7 +96,7 @@ Route::middleware(['auth', 'permission'])->group(function () {
     Route::put('/permissions/{role}', [RolePermissionController::class, 'updatePermissions'])->name('permissions.update');
 
     // Asset Routes
-    Route::prefix('assets')->group(function () {
+    Route::prefix('inventory')->group(function () {
         // Categories routes must come first to avoid conflicts with assets/{id} route
         Route::get('/categories', [AssetCategoryController::class, 'index'])->name('assets.categories.index');
         Route::get('/categories/create', [AssetCategoryController::class, 'create'])->name('assets.categories.create');
