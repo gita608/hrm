@@ -9,8 +9,21 @@
 <meta name="author" content="Dreams Technologies">
 <meta name="robots" content="index, follow">
 
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="@yield('title', 'Dashboard') | {{ \App\Helpers\SettingsHelper::appName() }}">
+<meta property="og:description" content="{{ \App\Helpers\SettingsHelper::appName() }} - An advanced Bootstrap 5 admin dashboard template for HRM and CRM.">
+<meta property="og:image" content="{{ \App\Helpers\SettingsHelper::appLogo() ?? \App\Helpers\SettingsHelper::appLogoSmall() }}">
+<meta property="og:url" content="{{ url()->current() }}">
+<meta property="og:type" content="website">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="@yield('title', 'Dashboard') | {{ \App\Helpers\SettingsHelper::appName() }}">
+<meta name="twitter:description" content="{{ \App\Helpers\SettingsHelper::appName() }} - An advanced Bootstrap 5 admin dashboard template for HRM and CRM.">
+<meta name="twitter:image" content="{{ \App\Helpers\SettingsHelper::appLogo() ?? \App\Helpers\SettingsHelper::appLogoSmall() }}">
+
 <!-- Apple Touch Icon -->
-<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/apple-touch-icon.png') }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ \App\Helpers\SettingsHelper::appLogoSmall() }}">
 
 <!-- Favicon -->
 <link rel="icon" href="{{ \App\Helpers\SettingsHelper::appLogoSmall() }}" type="image/x-icon">

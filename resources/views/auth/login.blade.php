@@ -5,10 +5,25 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="{{ \App\Helpers\SettingsHelper::appName() }} - HRM System">
+	
+	<!-- Open Graph Meta Tags -->
+	<meta property="og:title" content="Login | {{ \App\Helpers\SettingsHelper::appName() }}">
+	<meta property="og:description" content="Access your {{ \App\Helpers\SettingsHelper::appName() }} dashboard to manage your workforce efficiently.">
+	<meta property="og:image" content="{{ \App\Helpers\SettingsHelper::appLogo() ?? \App\Helpers\SettingsHelper::appLogoSmall() }}">
+	<meta property="og:url" content="{{ url()->current() }}">
+	<meta property="og:type" content="website">
+
+	<!-- Twitter Meta Tags -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Login | {{ \App\Helpers\SettingsHelper::appName() }}">
+	<meta name="twitter:description" content="Access your {{ \App\Helpers\SettingsHelper::appName() }} dashboard to manage your workforce efficiently.">
+	<meta name="twitter:image" content="{{ \App\Helpers\SettingsHelper::appLogo() ?? \App\Helpers\SettingsHelper::appLogoSmall() }}">
+
 	<title>Login | {{ \App\Helpers\SettingsHelper::appName() }}</title>
 
 	<!-- Favicon -->
-	<link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.png') }}">
+	<link rel="icon" href="{{ \App\Helpers\SettingsHelper::appLogoSmall() }}" type="image/x-icon">
+	<link rel="shortcut icon" href="{{ \App\Helpers\SettingsHelper::appLogoSmall() }}" type="image/x-icon">
 
 	<!-- Google Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
