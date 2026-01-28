@@ -1,157 +1,285 @@
 @extends('layouts.app')
 
-@section('title', 'HR Letters')
+@section('title', 'Corporate Correspondence')
 
 @section('content')
 
-	<!-- Page Header -->
-	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
-		<div class="my-auto">
-			<h2 class="mb-1 text-dark fw-bold">HR Letters</h2>
-			<p class="text-muted mb-0 fs-13">Generate and manage employee letters and certificates</p>
-		</div>
-		<div class="d-flex align-items-center gap-2">
-			<a href="{{ route('hr-letters.create') }}" class="btn btn-primary d-flex align-items-center rounded-pill shadow-sm">
-				<i class="ti ti-circle-plus me-2"></i>Add HR Letter
-			</a>
-		</div>
-	</div>
-	<!-- /Page Header -->
+@php
+    function getLetterTheme($type) {
+        $themes = [
+            'offer' => ['icon' => 'ti-user-plus', 'color' => 'primary', 'bg' => 'rgba(13, 110, 253, 0.1)'],
+            'appointment' => ['icon' => 'ti-briefcase', 'color' => 'success', 'bg' => 'rgba(25, 135, 84, 0.1)'],
+            'experience' => ['icon' => 'ti-certificate', 'color' => 'info', 'bg' => 'rgba(13, 202, 240, 0.1)'],
+            'relieving' => ['icon' => 'ti-logout', 'color' => 'secondary', 'bg' => 'rgba(108, 117, 125, 0.1)'],
+            'warning' => ['icon' => 'ti-alert-triangle', 'color' => 'danger', 'bg' => 'rgba(220, 53, 69, 0.1)'],
+            'appreciation' => ['icon' => 'ti-award', 'color' => 'warning', 'bg' => 'rgba(255, 193, 7, 0.1)'],
+            'promotion' => ['icon' => 'ti-trending-up', 'color' => 'purple', 'bg' => 'rgba(111, 66, 193, 0.1)'],
+            'transfer' => ['icon' => 'ti-arrows-transfer-down', 'color' => 'orange', 'bg' => 'rgba(253, 126, 20, 0.1)'],
+            'other' => ['icon' => 'ti-file-text', 'color' => 'dark', 'bg' => 'rgba(33, 37, 41, 0.1)'],
+        ];
+        return $themes[$type] ?? $themes['other'];
+    }
+@endphp
 
-	@if(session('success'))
-		<div class="alert alert-success alert-dismissible fade show" role="alert">
-			{{ session('success') }}
-			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-		</div>
-	@endif
+<style>
+    .letter-card {
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        border: none;
+        background: #fff;
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+    .letter-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+    }
+    .letter-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        transition: all 0.3s ease;
+    }
+    .letter-card.theme-primary::before { background: #0d6efd; }
+    .letter-card.theme-success::before { background: #198754; }
+    .letter-card.theme-danger::before { background: #dc3545; }
+    .letter-card.theme-warning::before { background: #ffc107; }
+    .letter-card.theme-info::before { background: #0dcaf0; }
+    .letter-card.theme-secondary::before { background: #6c757d; }
+    .letter-card.theme-purple::before { background: #6f42c1; }
+    .letter-card.theme-orange::before { background: #fd7e14; }
+    .letter-card.theme-dark::before { background: #212529; }
 
-	<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-		<div class="card-header bg-transparent border-0 d-flex align-items-center justify-content-between pt-3 pb-2 flex-wrap row-gap-3">
-			<h5 class="mb-0 fw-bold text-dark">HR Letter List</h5>
-			<div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
-				<form method="GET" action="{{ route('hr-letters.index') }}" class="d-flex align-items-center gap-2 flex-wrap">
-					<div class="input-group input-group-sm rounded-pill overflow-hidden border-light-subtle" style="min-width: 250px;">
-						<span class="input-group-text bg-white border-0 ps-3"><i class="ti ti-search text-muted"></i></span>
-						<input type="text" name="q" class="form-control border-0 shadow-none ps-1" placeholder="Search by title or letter number..." value="{{ request('q') }}" onchange="this.form.submit()">
-					</div>
-					<div>
-						<select name="letter_type" class="form-select form-select-sm rounded-pill fs-12 border-light-subtle shadow-none" onchange="this.form.submit()">
-							<option value="">All Letter Types</option>
-							<option value="offer" {{ request('letter_type') == 'offer' ? 'selected' : '' }}>Offer Letter</option>
-							<option value="appointment" {{ request('letter_type') == 'appointment' ? 'selected' : '' }}>Appointment Letter</option>
-							<option value="experience" {{ request('letter_type') == 'experience' ? 'selected' : '' }}>Experience Certificate</option>
-							<option value="relieving" {{ request('letter_type') == 'relieving' ? 'selected' : '' }}>Relieving Letter</option>
-							<option value="warning" {{ request('letter_type') == 'warning' ? 'selected' : '' }}>Warning Letter</option>
-							<option value="appreciation" {{ request('letter_type') == 'appreciation' ? 'selected' : '' }}>Appreciation Letter</option>
-							<option value="promotion" {{ request('letter_type') == 'promotion' ? 'selected' : '' }}>Promotion Letter</option>
-							<option value="transfer" {{ request('letter_type') == 'transfer' ? 'selected' : '' }}>Transfer Letter</option>
-							<option value="other" {{ request('letter_type') == 'other' ? 'selected' : '' }}>Other</option>
-						</select>
-					</div>
-					<div>
-						<select name="status" class="form-select form-select-sm rounded-pill fs-12 border-light-subtle shadow-none" onchange="this.form.submit()">
-							<option value="">All Status</option>
-							<option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
-							<option value="issued" {{ request('status') == 'issued' ? 'selected' : '' }}>Issued</option>
-							<option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-						</select>
-					</div>
-					<div>
-						<select name="employee_id" class="form-select form-select-sm rounded-pill fs-12 border-light-subtle shadow-none" onchange="this.form.submit()">
-							<option value="">All Employees</option>
-							@foreach($employees as $employee)
-								<option value="{{ $employee->id }}" {{ request('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
-							@endforeach
-						</select>
-					</div>
-					<div>
-						@if(request()->hasAny(['q', 'status', 'employee_id', 'letter_type']))
-							<a href="{{ route('hr-letters.index') }}" class="btn btn-sm btn-light rounded-pill px-3 shadow-none">Clear</a>
-						@endif
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="card-body p-0">
-			<div class="table-responsive">
-				<table class="table table-hover align-middle mb-0">
-					<thead class="bg-light-50">
-						<tr>
-							<th class="ps-3 border-0 text-muted fs-12 fw-medium text-uppercase">#</th>
-							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Letter Number</th>
-							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Title</th>
-							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Type</th>
-							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Employee</th>
-							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Issue Date</th>
-							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Status</th>
-							<th class="pe-3 border-0 text-end text-muted fs-12 fw-medium text-uppercase">Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						@forelse($letters as $letter)
-							<tr class="border-bottom border-light">
-								<td class="ps-3 text-muted">{{ $loop->iteration }}</td>
-								<td><strong class="text-dark fw-bold">{{ $letter->letter_number }}</strong></td>
-								<td><span class="text-dark">{{ $letter->title }}</span></td>
-								<td><span class="badge bg-info-transparent text-info rounded-pill px-2 py-1 fs-11">{{ ucfirst($letter->letter_type) }}</span></td>
-								<td>
-									<div class="d-flex align-items-center">
-										@if($letter->employee->profile_picture)
-											<span class="avatar avatar-sm me-2">
-												<img src="{{ asset('storage/' . $letter->employee->profile_picture) }}" alt="{{ $letter->employee->name }}" class="rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
-											</span>
-										@else
-											<div class="avatar avatar-sm bg-primary-transparent text-primary rounded-circle me-2 fw-bold d-flex align-items-center justify-content-center" style="font-size: 0.75rem;">
-												{{ strtoupper(substr($letter->employee->name, 0, 1)) }}
-											</div>
-										@endif
-										<span class="text-dark fw-medium">{{ $letter->employee->name }}</span>
-									</div>
-								</td>
-								<td class="text-muted">{{ $letter->issue_date->format('d M, Y') }}</td>
-								<td>
-									@if($letter->status == 'issued')
-										<span class="badge bg-success-transparent text-success rounded-pill d-inline-flex align-items-center px-2 py-1">
-											<i class="ti ti-check me-1 fs-10"></i>Issued
-										</span>
-									@elseif($letter->status == 'draft')
-										<span class="badge bg-warning-transparent text-warning rounded-pill d-inline-flex align-items-center px-2 py-1">
-											<i class="ti ti-file-pencil me-1 fs-10"></i>Draft
-										</span>
-									@else
-										<span class="badge bg-danger-transparent text-danger rounded-pill d-inline-flex align-items-center px-2 py-1">
-											<i class="ti ti-x me-1 fs-10"></i>Cancelled
-										</span>
-									@endif
-								</td>
-								<td class="pe-3 text-end">
-									<div class="d-flex justify-content-end gap-2">
-										<a href="{{ route('hr-letters.show', $letter->id) }}" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-primary hover-text-white transition-all" data-bs-toggle="tooltip" title="View"><i class="ti ti-eye"></i></a>
-										<a href="{{ route('hr-letters.edit', $letter->id) }}" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-info hover-text-white transition-all" data-bs-toggle="tooltip" title="Edit"><i class="ti ti-edit"></i></a>
-										<form action="{{ route('hr-letters.destroy', $letter->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this letter?');">
-											@csrf
-											@method('DELETE')
-											<button type="submit" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-danger hover-text-white transition-all" data-bs-toggle="tooltip" title="Delete"><i class="ti ti-trash"></i></button>
-										</form>
-									</div>
-								</td>
-							</tr>
-						@empty
-							<tr>
-								<td colspan="8" class="text-center py-5">
-									<div class="d-flex flex-column align-items-center">
-										<div class="avatar avatar-xxl bg-light-50 rounded-circle mb-3 text-muted">
-											<i class="ti ti-file-off fs-30"></i>
-										</div>
-										<h6 class="text-muted mb-0">No HR letters found</h6>
-									</div>
-								</td>
-							</tr>
-						@endforelse
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 24px;
+    }
+    .letter-icon-box {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    .stamp-badge {
+        position: absolute;
+        top: 20px;
+        right: -35px;
+        transform: rotate(45deg);
+        width: 120px;
+        text-align: center;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 4px 0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .search-input-fancy {
+        background: #f8f9fa;
+        border: none;
+        border-radius: 15px;
+        padding: 12px 20px 12px 45px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+    .search-input-fancy:focus {
+        background: #fff;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    .stat-mini-card {
+        padding: 20px;
+        border-radius: 20px;
+        background: #fff;
+        border: 1px solid rgba(0,0,0,0.02);
+    }
+    .avatar-stack .avatar {
+        border: 2px solid #fff;
+        margin-left: -10px;
+        transition: all 0.2s ease;
+    }
+    .avatar-stack .avatar:first-child { margin-left: 0; }
+    .avatar-stack .avatar:hover { transform: translateY(-5px); z-index: 10; }
+</style>
+
+<div class="row g-4">
+    <!-- Sidebar Filters -->
+    <div class="col-xl-3">
+        <div class="glass-panel p-4 h-100 position-sticky" style="top: 100px;">
+            <div class="mb-4">
+                <h5 class="fw-bold text-dark mb-1">Correspondence</h5>
+                <p class="text-muted fs-13">HR Official Communications</p>
+            </div>
+
+            <form action="{{ route('hr-letters.index') }}" method="GET">
+                <div class="mb-3 position-relative">
+                    <i class="ti ti-search position-absolute text-muted" style="left: 15px; top: 15px;"></i>
+                    <input type="text" name="q" value="{{ request('q') }}" class="form-control search-input-fancy shadow-none" placeholder="Search reference or title...">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fs-12 fw-bold text-uppercase text-muted ls-1">Filter by Employee</label>
+                    <select name="employee_id" class="form-select rounded-3 border-light shadow-none fs-13" onchange="this.form.submit()">
+                        <option value="">Search employee...</option>
+                        @foreach($employees as $employee)
+                            <option value="{{ $employee->id }}" {{ request('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fs-12 fw-bold text-uppercase text-muted ls-1">Status</label>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="status" id="statusAll" value="" {{ !request('status') ? 'checked' : '' }} onchange="this.form.submit()">
+                        <label class="form-check-label fs-13 text-dark" for="statusAll">All Statuses</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input text-success" type="radio" name="status" id="statusIssued" value="issued" {{ request('status') == 'issued' ? 'checked' : '' }} onchange="this.form.submit()">
+                        <label class="form-check-label fs-13 text-dark" for="statusIssued">Issued Letter</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input text-warning" type="radio" name="status" id="statusDraft" value="draft" {{ request('status') == 'draft' ? 'checked' : '' }} onchange="this.form.submit()">
+                        <label class="form-check-label fs-13 text-dark" for="statusDraft">Draft Pending</label>
+                    </div>
+                </div>
+
+                @if(request()->hasAny(['q', 'status', 'employee_id', 'letter_type']))
+                    <a href="{{ route('hr-letters.index') }}" class="btn btn-light w-100 rounded-pill fs-13 fw-bold">Reset Filters</a>
+                @endif
+            </form>
+
+            <div class="mt-5 p-4 bg-primary rounded-4 text-white text-center position-relative overflow-hidden">
+                <i class="ti ti-mail-fast position-absolute" style="font-size: 80px; opacity: 0.1; right: -20px; bottom: -20px;"></i>
+                <h6 class="fw-bold mb-2">Create New Letter</h6>
+                <p class="fs-11 opacity-75 mb-3">Generate official correspondence in seconds with templates.</p>
+                <a href="{{ route('hr-letters.create') }}" class="btn btn-white btn-sm px-4 rounded-pill fw-bold text-primary">Add New</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="col-xl-9">
+        <!-- Stats Bar -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="stat-mini-card shadow-sm d-flex align-items-center">
+                    <div class="avatar avatar-lg bg-primary-transparent text-primary rounded-circle me-3">
+                        <i class="ti ti-mail-opened"></i>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0">{{ $letters->where('status', 'issued')->count() }}</h4>
+                        <p class="text-muted fs-12 mb-0">Issued Letters</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-mini-card shadow-sm d-flex align-items-center">
+                    <div class="avatar avatar-lg bg-warning-transparent text-warning rounded-circle me-3">
+                        <i class="ti ti-edit"></i>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0">{{ $letters->where('status', 'draft')->count() }}</h4>
+                        <p class="text-muted fs-12 mb-0">Pending Drafts</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-mini-card shadow-sm d-flex align-items-center">
+                    <div class="avatar-stack d-flex me-3">
+                        @foreach($letters->take(3) as $l)
+                            <div class="avatar avatar-sm rounded-circle">
+                                <img src="{{ $l->employee->profile_picture ? asset('storage/' . $l->employee->profile_picture) : 'https://ui-avatars.com/api/?name='.urlencode($l->employee->name) }}" alt="">
+                            </div>
+                        @endforeach
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0">{{ $letters->groupBy('employee_id')->count() }}</h4>
+                        <p class="text-muted fs-12 mb-0">Employees Reached</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Letters Grid -->
+        <div class="row g-4">
+            @forelse($letters as $letter)
+                @php $theme = getLetterTheme($letter->letter_type); @endphp
+                <div class="col-md-6 col-lg-4">
+                    <div class="card letter-card shadow-sm h-100 theme-{{ $theme['color'] }}">
+                        @if($letter->status == 'issued')
+                            <div class="stamp-badge bg-success text-white">Issued</div>
+                        @elseif($letter->status == 'draft')
+                            <div class="stamp-badge bg-warning text-dark">Draft</div>
+                        @else
+                            <div class="stamp-badge bg-danger text-white">X Cancelled</div>
+                        @endif
+
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="letter-icon-box" style="background: {{ $theme['bg'] }}; color: var(--bs-{{ $theme['color'] }});">
+                                    <i class="ti {{ $theme['icon'] }}"></i>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-icon btn-sm btn-light border-0 rounded-circle" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical"></i></button>
+                                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg rounded-3">
+                                        <li><a class="dropdown-item py-2" href="{{ route('hr-letters.show', $letter->id) }}"><i class="ti ti-eye me-2"></i>View Letter</a></li>
+                                        <li><a class="dropdown-item py-2" href="{{ route('hr-letters.edit', $letter->id) }}"><i class="ti ti-edit me-2"></i>Edit Details</a></li>
+                                        <li><hr class="dropdown-divider opacity-50"></li>
+                                        <li>
+                                            <form action="{{ route('hr-letters.destroy', $letter->id) }}" method="POST" onsubmit="return confirm('Delete this record?');">
+                                                @csrf @method('DELETE')
+                                                <button class="dropdown-item py-2 text-danger"><i class="ti ti-trash me-2"></i>Delete Forever</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <p class="text-muted fs-11 mb-1 fw-bold text-uppercase ls-1">REF: {{ $letter->letter_number }}</p>
+                            <h6 class="fw-bold text-dark mb-3 text-truncate-2" style="min-height: 44px;">{{ $letter->title }}</h6>
+                            
+                            <div class="d-flex align-items-center p-3 bg-light-50 rounded-4 mb-3">
+                                <div class="avatar avatar-md rounded-circle me-3 border border-2 border-white">
+                                    <img src="{{ $letter->employee->profile_picture ? asset('storage/' . $letter->employee->profile_picture) : 'https://ui-avatars.com/api/?name='.urlencode($letter->employee->name) }}" alt="">
+                                </div>
+                                <div>
+                                    <h6 class="fs-13 fw-bold text-dark mb-0">{{ $letter->employee->name }}</h6>
+                                    <span class="fs-11 text-muted">{{ ucfirst($letter->letter_type) }} Letter</span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center text-muted fs-11">
+                                    <i class="ti ti-calendar-event me-1"></i>
+                                    {{ $letter->issue_date->format('d M, Y') }}
+                                </div>
+                                <div class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" title="Issuer: {{ $letter->issuer->name }}">
+                                    <img src="{{ $letter->issuer->profile_picture ? asset('storage/' . $letter->issuer->profile_picture) : 'https://ui-avatars.com/api/?name='.urlencode($letter->issuer->name) }}" class="rounded-circle" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-12 py-5 text-center">
+                    <div class="avatar avatar-xxl bg-light-50 rounded-circle mb-4 mx-auto text-muted">
+                        <i class="ti ti-mail-off fs-40"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark">No correspondence found</h5>
+                    <p class="text-muted">No official letters have been issued matching your current filters.</p>
+                    <a href="{{ route('hr-letters.create') }}" class="btn btn-primary rounded-pill px-5 mt-3 shadow-sm">Generate First Letter</a>
+                </div>
+            @endforelse
+        </div>
+    </div>
+</div>
 
 @endsection
