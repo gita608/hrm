@@ -23,6 +23,17 @@ class CheckMenuPermission
             return $next($request);
         }
 
+        // Check if role is active
+        if ($user->role && !$user->role->is_active) {
+            auth()->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            
+            return redirect()->route('login')->withErrors([
+                'email' => 'Your account role has been deactivated. Please contact support.'
+            ]);
+        }
+
         // Super admins have access to everything
         if ($user->role && $user->role->slug === 'super-admin') {
             return $next($request);

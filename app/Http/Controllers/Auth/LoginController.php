@@ -36,6 +36,19 @@ class LoginController extends Controller
         $remember = $request->filled('remember');
 
         if (Auth::attempt($request->only('email', 'password'), $remember)) {
+            $user = Auth::user();
+            
+            // Check if role is active
+            if ($user->role && !$user->role->is_active) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                
+                throw ValidationException::withMessages([
+                    'email' => __('Your account role is currently inactive. Please contact support.'),
+                ]);
+            }
+
             $request->session()->regenerate();
 
             return redirect()->intended(route('dashboard'));
