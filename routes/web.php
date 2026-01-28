@@ -41,6 +41,7 @@ use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\TrainingTypeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RolePermissionController;
 use Illuminate\Support\Facades\Route;
 
 // Authentication Routes
@@ -88,6 +89,11 @@ Route::middleware('auth')->group(function () {
     // User Management Routes
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
+
+    // Permission Management Routes
+    Route::get('/permissions', [RolePermissionController::class, 'index'])->name('permissions.index');
+    Route::get('/permissions/{role}', [RolePermissionController::class, 'permissions'])->name('permissions.edit');
+    Route::put('/permissions/{role}', [RolePermissionController::class, 'updatePermissions'])->name('permissions.update');
 
     // Asset Routes
     Route::prefix('assets')->group(function () {

@@ -139,6 +139,24 @@
 					</form>
 				</div>
 			</div>
+
+            <!-- Permission Management Quick Link -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mt-4">
+                <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-warning-transparent rounded-3 p-2 me-3">
+                            <i class="ti ti-shield-lock fs-20 text-warning"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1 fw-bold text-dark">Menu & Access Control</h6>
+                            <p class="text-muted mb-0 fs-12">Manage which roles can see specific menu items</p>
+                        </div>
+                    </div>
+                    <a href="{{ route('permissions.index') }}" class="btn btn-warning text-white rounded-pill px-4 shadow-sm">
+                        Configure Permissions
+                    </a>
+                </div>
+            </div>
 		</div>
 	</div>
 

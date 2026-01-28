@@ -38,4 +38,12 @@ class Role extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    /**
+     * The menu items that belong to the role.
+     */
+    public function menuItems()
+    {
+        return $this->belongsToMany(MenuItem::class, 'role_menu_item');
+    }
 }

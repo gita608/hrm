@@ -9,10 +9,32 @@ class MenuItemController extends Controller
 {
     public function getMenu()
     {
-        // Get all root menu items with their children
+        $user = auth()->user();
+        if (!$user || !$user->role) {
+            return collect();
+        }
+
+        $role = $user->role;
+
+        // If super-admin, show all active menus
+        if ($role->slug === 'super-admin') {
+            return MenuItem::root()
+                ->with(['children' => function ($query) {
+                    $query->active();
+                }])
+                ->active()
+                ->get();
+        }
+
+        // Get root menu items assigned to this role, with their assigned children
         $menuItems = MenuItem::root()
-            ->with(['children' => function ($query) {
-                $query->active();
+            ->whereHas('roles', function ($query) use ($role) {
+                $query->where('roles.id', $role->id);
+            })
+            ->with(['children' => function ($query) use ($role) {
+                $query->whereHas('roles', function ($q) use ($role) {
+                    $q->where('roles.id', $role->id);
+                })->active()->orderBy('order');
             }])
             ->active()
             ->get();

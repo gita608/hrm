@@ -43,4 +43,10 @@ class MenuItem extends Model
     {
         return $query->whereNull('parent_id')->orderBy('order');
     }
+
+    // The roles that belong to the menu item
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_menu_item');
+    }
 }

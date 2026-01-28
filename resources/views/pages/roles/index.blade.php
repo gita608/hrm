@@ -143,6 +143,9 @@
 								</td>
 								<td class="pe-3 text-end">
 									<div class="d-flex justify-content-end gap-2">
+										<a href="{{ route('permissions.edit', $role->id) }}" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-warning hover-text-white transition-all shadow-sm" data-bs-toggle="tooltip" title="Manage Permissions">
+											<i class="ti ti-shield-lock"></i>
+										</a>
 										<a href="{{ route('roles.show', $role->id) }}" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-primary hover-text-white transition-all shadow-sm" data-bs-toggle="tooltip" title="View">
 											<i class="ti ti-eye"></i>
 										</a>
