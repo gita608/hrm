@@ -33,39 +33,67 @@
             
             <div class="card-body p-4">
                 <div class="row">
-                    @foreach($menuItems as $menuItem)
-                        <div class="col-md-6 col-lg-4 mb-4">
-                            <div class="permission-card p-3 border rounded-3 bg-light-50 h-100">
-                                <div class="form-check d-flex align-items-center mb-3">
-                                    <input class="form-check-input parent-checkbox me-2" type="checkbox" 
-                                           name="menu_items[]" value="{{ $menuItem->id }}" 
-                                           id="menu_{{ $menuItem->id }}"
-                                           {{ in_array($menuItem->id, $roleMenuItems) ? 'checked' : '' }}>
-                                    <label class="form-check-label fw-bold text-dark fs-15" for="menu_{{ $menuItem->id }}">
-                                        @if($menuItem->icon) <i class="{{ $menuItem->icon }} me-1 text-primary"></i> @endif
-                                        {{ $menuItem->name }}
-                                        <span class="badge bg-light text-muted fw-normal ms-2 fs-11">{{ $menuItem->type }}</span>
-                                    </label>
+                    @php
+                        $currentTitle = null;
+                        $groupedItems = [];
+                        foreach($menuItems as $item) {
+                            if($item->type === 'title') {
+                                $currentTitle = $item->name;
+                            }
+                            // Store the item under its title or 'General'
+                            $groupedItems[$currentTitle ?? 'General'][] = $item;
+                        }
+                    @endphp
+
+                    @foreach($groupedItems as $title => $items)
+                        <div class="col-12 mb-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary-transparent rounded-circle p-2 me-2">
+                                    <i class="ti ti-layout-sidebar text-primary"></i>
                                 </div>
-                                
-                                <div class="ps-4 border-start ms-2">
-                                    @if($menuItem->children->count() > 0)
-                                        @foreach($menuItem->children as $child)
-                                            <div class="form-check d-flex align-items-center mb-2">
-                                                <input class="form-check-input child-checkbox me-2" type="checkbox" 
-                                                       name="menu_items[]" value="{{ $child->id }}" 
-                                                       id="menu_{{ $child->id }}"
-                                                       data-parent="menu_{{ $menuItem->id }}"
-                                                       {{ in_array($child->id, $roleMenuItems) ? 'checked' : '' }}>
-                                                <label class="form-check-label text-muted fs-14" for="menu_{{ $child->id }}">
-                                                    {{ $child->name }}
-                                                </label>
+                                <h5 class="mb-0 fw-bold text-dark text-uppercase ls-1 fs-13">{{ $title }}</h5>
+                            </div>
+                            <div class="row">
+                                @foreach($items as $menuItem)
+                                    @if($menuItem->type !== 'title')
+                                        <div class="col-md-6 col-lg-4 mb-3">
+                                            <div class="permission-card p-3 border rounded-3 bg-light-50 h-100">
+                                                <div class="form-check d-flex align-items-center mb-0">
+                                                    <input class="form-check-input parent-checkbox me-2" type="checkbox" 
+                                                           name="menu_items[]" value="{{ $menuItem->id }}" 
+                                                           id="menu_{{ $menuItem->id }}"
+                                                           {{ ($menuItem->id == 2 || in_array($menuItem->id, $roleMenuItems)) ? 'checked' : '' }}
+                                                           {{ $menuItem->id == 2 ? 'disabled' : '' }}>
+                                                    @if($menuItem->id == 2)
+                                                        <input type="hidden" name="menu_items[]" value="2">
+                                                    @endif
+                                                    <label class="form-check-label fw-bold text-dark fs-14" for="menu_{{ $menuItem->id }}">
+                                                        @if($menuItem->icon) <i class="{{ $menuItem->icon }} me-1 text-primary"></i> @endif
+                                                        {{ $menuItem->name }}
+                                                        @if($menuItem->id == 2) <span class="badge bg-soft-info text-info fs-10 ms-1">Required</span> @endif
+                                                    </label>
+                                                </div>
+                                                
+                                                @if($menuItem->children->count() > 0)
+                                                    <div class="ps-4 border-start ms-2 mt-3">
+                                                        @foreach($menuItem->children as $child)
+                                                            <div class="form-check d-flex align-items-center mb-2">
+                                                                <input class="form-check-input child-checkbox me-2" type="checkbox" 
+                                                                       name="menu_items[]" value="{{ $child->id }}" 
+                                                                       id="menu_{{ $child->id }}"
+                                                                       data-parent="menu_{{ $menuItem->id }}"
+                                                                       {{ in_array($child->id, $roleMenuItems) ? 'checked' : '' }}>
+                                                                <label class="form-check-label text-muted fs-13" for="menu_{{ $child->id }}">
+                                                                    {{ $child->name }}
+                                                                </label>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
                                             </div>
-                                        @endforeach
-                                    @else
-                                        <p class="text-muted fs-12 mb-0 italic">No sub-menus</p>
+                                        </div>
                                     @endif
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     @endforeach

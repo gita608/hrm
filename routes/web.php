@@ -50,7 +50,7 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Protected Routes
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'permission'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // Employee Routes

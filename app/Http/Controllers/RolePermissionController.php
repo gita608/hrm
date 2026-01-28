@@ -48,6 +48,32 @@ class RolePermissionController extends Controller
 
         $menuItemIds = $request->input('menu_items', []);
         
+        // Always include Dashboard (ID 2) by default for all roles
+        if (!in_array(2, $menuItemIds)) {
+            $menuItemIds[] = 2;
+        }
+        
+        if (!empty($menuItemIds)) {
+            // Automatically find and add Titles associated with these items
+            $selectedItems = MenuItem::whereIn('id', $menuItemIds)->get();
+            $allTitles = MenuItem::where('type', 'title')->orderBy('order')->get();
+            
+            $additionalIds = [];
+            foreach ($selectedItems as $item) {
+                // Find the nearest title with an order less than or equal to this item
+                $nearestTitle = MenuItem::where('type', 'title')
+                    ->where('order', '<=', $item->order)
+                    ->orderBy('order', 'desc')
+                    ->first();
+                
+                if ($nearestTitle) {
+                    $additionalIds[] = $nearestTitle->id;
+                }
+            }
+            
+            $menuItemIds = array_unique(array_merge($menuItemIds, $additionalIds));
+        }
+        
         // Sync the menu items with the role
         $role->menuItems()->sync($menuItemIds);
 
