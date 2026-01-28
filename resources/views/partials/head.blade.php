@@ -56,4 +56,11 @@
 <!-- Main CSS -->
 <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
+<!-- Global Fixes -->
+<style>
+    :root {
+        --bs-breadcrumb-divider: "/";
+    }
+</style>
+
 @stack('styles')

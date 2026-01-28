@@ -60,7 +60,9 @@
 							<select class="form-select rounded-3 border-light shadow-none py-2 @error('employee_id') is-invalid @enderror" name="employee_id" required>
 								<option value="">Select Employee</option>
 								@foreach($employees as $employee)
-									<option value="{{ $employee->id }}" {{ old('employee_id', $document->employee_id) == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
+									<option value="{{ $employee->id }}" {{ old('employee_id', $document->employee_id) == $employee->id ? 'selected' : '' }}>
+                                        {{ $employee->name }} {{ $employee->employee_id ? '(' . $employee->employee_id . ')' : '' }}
+                                    </option>
 								@endforeach
 							</select>
 							@error('employee_id')
