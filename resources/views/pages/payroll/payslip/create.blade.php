@@ -1,240 +1,256 @@
 @extends('layouts.app')
 
-@section('title', 'Create Payslip')
+@section('title', 'Generate Payment Voucher')
 
 @section('content')
 
-	<!-- Breadcrumb -->
-	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-		<div class="my-auto mb-2">
-			<h2 class="mb-1">Create Payslip</h2>
-		</div>
-		<div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
-			<a href="{{ route('payroll.payslip.index') }}" class="btn btn-outline-light border">Back to List</a>
-		</div>
-	</div>
-	<!-- /Breadcrumb -->
+<style>
+    .payslip-wizard-card {
+        border: none;
+        border-radius: 24px;
+        background: #fff;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    }
+    .finance-input-group {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 20px;
+        border: 1px solid #f1f5f9;
+        transition: all 0.2s ease;
+    }
+    .finance-input-group:focus-within {
+        border-color: #6366f1;
+        background: #fff;
+    }
+    .summary-widget {
+        background: #0f172a;
+        color: #fff;
+        border-radius: 24px;
+        padding: 30px;
+        position: sticky;
+        top: 100px;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    .summary-title {
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #94a3b8;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+    }
+    .val-line {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        font-size: 14px;
+        color: #cbd5e1;
+    }
+    .val-highlight {
+        color: #fff;
+        font-weight: 700;
+    }
+    .big-check {
+        font-size: 32px;
+        font-weight: 800;
+        color: #10b981;
+    }
+</style>
 
-	<div class="card">
-		<div class="card-header">
-			<h5>Payslip Information</h5>
-		</div>
-		<div class="card-body">
-			<form action="{{ route('payroll.payslip.store') }}" method="POST" id="payslipForm">
-				@csrf
-				<div class="row">
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Employee <span class="text-danger">*</span></label>
-							<select class="form-select @error('employee_id') is-invalid @enderror" name="employee_id" id="employee_id" required>
-								<option value="">Select Employee</option>
-								@foreach($employees as $employee)
-									<option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
-								@endforeach
-							</select>
-							@error('employee_id')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Salary Record</label>
-							<select class="form-select @error('salary_id') is-invalid @enderror" name="salary_id" id="salary_id">
-								<option value="">Select Salary Record</option>
-								@foreach($salaries as $salary)
-									<option value="{{ $salary->id }}" data-employee="{{ $salary->employee_id }}" data-basic="{{ $salary->basic_salary }}" data-allowances="{{ $salary->total_allowances }}" data-tax="{{ $salary->tax_deduction }}" data-pf="{{ $salary->provident_fund }}">{{ $salary->employee->name ?? 'N/A' }} - {{ number_format($salary->net_salary, 2) }}</option>
-								@endforeach
-							</select>
-							@error('salary_id')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Pay Period Start <span class="text-danger">*</span></label>
-							<input type="date" class="form-control @error('pay_period_start') is-invalid @enderror" name="pay_period_start" value="{{ old('pay_period_start', date('Y-m-01')) }}" required>
-							@error('pay_period_start')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Pay Period End <span class="text-danger">*</span></label>
-							<input type="date" class="form-control @error('pay_period_end') is-invalid @enderror" name="pay_period_end" value="{{ old('pay_period_end', date('Y-m-t')) }}" required>
-							@error('pay_period_end')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Payment Date <span class="text-danger">*</span></label>
-							<input type="date" class="form-control @error('payment_date') is-invalid @enderror" name="payment_date" value="{{ old('payment_date', date('Y-m-d')) }}" required>
-							@error('payment_date')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Status <span class="text-danger">*</span></label>
-							<select class="form-select @error('status') is-invalid @enderror" name="status" required>
-								<option value="draft" {{ old('status', 'draft') == 'draft' ? 'selected' : '' }}>Draft</option>
-								<option value="approved" {{ old('status') == 'approved' ? 'selected' : '' }}>Approved</option>
-								<option value="paid" {{ old('status') == 'paid' ? 'selected' : '' }}>Paid</option>
-							</select>
-							@error('status')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Basic Salary <span class="text-danger">*</span></label>
-							<input type="number" step="0.01" class="form-control @error('basic_salary') is-invalid @enderror" name="basic_salary" id="basic_salary" value="{{ old('basic_salary') }}" required>
-							@error('basic_salary')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Allowances</label>
-							<input type="number" step="0.01" class="form-control @error('allowances') is-invalid @enderror" name="allowances" id="allowances" value="{{ old('allowances', 0) }}">
-							@error('allowances')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Overtime</label>
-							<input type="number" step="0.01" class="form-control @error('overtime') is-invalid @enderror" name="overtime" id="overtime" value="{{ old('overtime', 0) }}">
-							@error('overtime')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Bonuses</label>
-							<input type="number" step="0.01" class="form-control @error('bonuses') is-invalid @enderror" name="bonuses" id="bonuses" value="{{ old('bonuses', 0) }}">
-							@error('bonuses')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Tax Deduction</label>
-							<input type="number" step="0.01" class="form-control @error('tax_deduction') is-invalid @enderror" name="tax_deduction" id="tax_deduction" value="{{ old('tax_deduction', 0) }}">
-							@error('tax_deduction')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Provident Fund</label>
-							<input type="number" step="0.01" class="form-control @error('provident_fund') is-invalid @enderror" name="provident_fund" id="provident_fund" value="{{ old('provident_fund', 0) }}">
-							@error('provident_fund')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Other Deductions</label>
-							<input type="number" step="0.01" class="form-control @error('other_deductions') is-invalid @enderror" name="other_deductions" id="other_deductions" value="{{ old('other_deductions', 0) }}">
-							@error('other_deductions')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Working Days</label>
-							<input type="number" class="form-control @error('working_days') is-invalid @enderror" name="working_days" value="{{ old('working_days', 0) }}">
-							@error('working_days')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">Present Days</label>
-							<input type="number" class="form-control @error('present_days') is-invalid @enderror" name="present_days" value="{{ old('present_days', 0) }}">
-							@error('present_days')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="mb-3">
-							<label class="form-label">Notes</label>
-							<textarea class="form-control @error('notes') is-invalid @enderror" name="notes" rows="3">{{ old('notes') }}</textarea>
-							@error('notes')
-								<div class="invalid-feedback">{{ $message }}</div>
-							@enderror
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="alert alert-info">
-							<h6>Summary:</h6>
-							<p class="mb-1">Gross Salary: <strong id="gross_salary">0.00</strong></p>
-							<p class="mb-1">Total Deductions: <strong id="total_deductions">0.00</strong></p>
-							<p class="mb-0">Net Salary: <strong id="net_salary">0.00</strong></p>
-						</div>
-					</div>
-				</div>
-				<div class="d-flex justify-content-end gap-2">
-					<a href="{{ route('payroll.payslip.index') }}" class="btn btn-outline-light border">Cancel</a>
-					<button type="submit" class="btn btn-primary">Generate Payslip</button>
-				</div>
-			</form>
-		</div>
-	</div>
+<!-- Page Header -->
+<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
+    <div class="my-auto">
+        <h2 class="mb-1 text-dark fw-bold">Manual Payroll Entry</h2>
+        <p class="text-muted mb-0 fs-13">Initiate a specific disbursement for an individual staff member</p>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+        <a href="{{ route('payroll.payslip.index') }}" class="btn btn-light rounded-pill px-4">Exit Entry Mode</a>
+    </div>
+</div>
 
-	<script>
-		function calculatePayslip() {
-			const basic = parseFloat(document.getElementById('basic_salary').value) || 0;
-			const allowances = parseFloat(document.getElementById('allowances').value) || 0;
-			const overtime = parseFloat(document.getElementById('overtime').value) || 0;
-			const bonuses = parseFloat(document.getElementById('bonuses').value) || 0;
-			const tax = parseFloat(document.getElementById('tax_deduction').value) || 0;
-			const pf = parseFloat(document.getElementById('provident_fund').value) || 0;
-			const otherDed = parseFloat(document.getElementById('other_deductions').value) || 0;
+<form action="{{ route('payroll.payslip.store') }}" method="POST" id="payslipForm">
+    @csrf
+    <div class="row g-4">
+        <div class="col-xl-8">
+            <div class="card payslip-wizard-card">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <!-- Section 1: Template Selection -->
+                    <div class="mb-5">
+                        <h6 class="fw-bold text-dark mb-4 d-flex align-items-center">
+                            <i class="ti ti-template me-2 text-primary"></i> 
+                            Standard Entry Profile
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label fs-11 fw-bold text-muted text-uppercase">Import from Salary Structure</label>
+                                <select class="form-select finance-input-group border-0" name="salary_id" id="salary_id">
+                                    <option value="">Manual Entry (No Profile)</option>
+                                    @foreach($salaries as $salary)
+                                        <option value="{{ $salary->id }}" 
+                                                data-employee="{{ $salary->employee_id }}" 
+                                                data-basic="{{ $salary->basic_salary }}" 
+                                                data-allowances="{{ $salary->total_allowances }}" 
+                                                data-tax="{{ $salary->tax_deduction }}" 
+                                                data-pf="{{ $salary->provident_fund }}">
+                                            {{ $salary->employee->name ?? 'N/A' }} — Monthly Package: AED {{ number_format($salary->net_salary, 0) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
-			const grossSalary = basic + allowances + overtime + bonuses;
-			const totalDeductions = tax + pf + otherDed;
-			const netSalary = grossSalary - totalDeductions;
+                    <!-- Section 2: Recipient & Period -->
+                    <div class="mb-5">
+                        <h6 class="fw-bold text-dark mb-4 d-flex align-items-center">
+                            <i class="ti ti-calendar-time me-2 text-primary"></i> 
+                            Service Period & Recipient
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fs-11 fw-bold text-muted text-uppercase">Beneficiary</label>
+                                <select class="form-select finance-input-group border-0 @error('employee_id') is-invalid @enderror" name="employee_id" id="employee_id" required>
+                                    <option value="">Select Target Employee</option>
+                                    @foreach($employees as $employee)
+                                        <option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fs-11 fw-bold text-muted text-uppercase">Start Cycle</label>
+                                <input type="date" class="form-control finance-input-group border-0" name="pay_period_start" value="{{ old('pay_period_start', date('Y-m-01')) }}" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fs-11 fw-bold text-muted text-uppercase">End Cycle</label>
+                                <input type="date" class="form-control finance-input-group border-0" name="pay_period_end" value="{{ old('pay_period_end', date('Y-m-t')) }}" required>
+                            </div>
+                        </div>
+                    </div>
 
-			document.getElementById('gross_salary').textContent = grossSalary.toFixed(2);
-			document.getElementById('total_deductions').textContent = totalDeductions.toFixed(2);
-			document.getElementById('net_salary').textContent = netSalary.toFixed(2);
-		}
+                    <!-- Section 3: Financial Components -->
+                    <div class="mb-5">
+                        <h6 class="fw-bold text-dark mb-4 d-flex align-items-center">
+                            <i class="ti ti-coins me-2 text-primary"></i> 
+                            Earnings & Adjustments
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fs-11 fw-bold text-muted">Base Earnings</label>
+                                <input type="number" step="0.01" class="form-control finance-input-group border-0 fw-bold" name="basic_salary" id="basic_salary" placeholder="0.00" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fs-11 fw-bold text-muted">Package Allowances</label>
+                                <input type="number" step="0.01" class="form-control finance-input-group border-0 text-success" name="allowances" id="allowances" value="0.00">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label fs-11 fw-bold text-muted">Overtime</label>
+                                <input type="number" step="0.01" class="form-control finance-input-group border-0 text-success" name="overtime" id="overtime" value="0.00">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label fs-11 fw-bold text-muted">Bonus</label>
+                                <input type="number" step="0.01" class="form-control finance-input-group border-0 text-success" name="bonuses" id="bonuses" value="0.00">
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <label class="form-label fs-11 fw-bold text-muted">Income Tax</label>
+                                <input type="number" step="0.01" class="form-control finance-input-group border-0 text-danger" name="tax_deduction" id="tax_deduction" value="0.00">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fs-11 fw-bold text-muted">Provident Fund</label>
+                                <input type="number" step="0.01" class="form-control finance-input-group border-0 text-danger" name="provident_fund" id="provident_fund" value="0.00">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fs-11 fw-bold text-muted">Other Deductions</label>
+                                <input type="number" step="0.01" class="form-control finance-input-group border-0 text-danger" name="other_deductions" id="other_deductions" value="0.00">
+                            </div>
+                        </div>
+                    </div>
 
-		// Auto-fill from salary record
-		document.getElementById('salary_id').addEventListener('change', function() {
-			const selectedOption = this.options[this.selectedIndex];
-			if (selectedOption.value) {
-				document.getElementById('employee_id').value = selectedOption.getAttribute('data-employee');
-				document.getElementById('basic_salary').value = selectedOption.getAttribute('data-basic');
-				document.getElementById('allowances').value = selectedOption.getAttribute('data-allowances');
-				document.getElementById('tax_deduction').value = selectedOption.getAttribute('data-tax');
-				document.getElementById('provident_fund').value = selectedOption.getAttribute('data-pf');
-				calculatePayslip();
-			}
-		});
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label fs-11 fw-bold text-muted">Disbursement Date</label>
+                            <input type="date" class="form-control finance-input-group border-0" name="payment_date" value="{{ date('Y-m-d') }}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fs-11 fw-bold text-muted">Control Status</label>
+                            <select class="form-select finance-input-group border-0 fw-bold" name="status" required>
+                                <option value="draft">Review Pattern (Draft)</option>
+                                <option value="approved">Authorize (Approved)</option>
+                                <option value="paid" selected>Executed (Paid)</option>
+                            </select>
+                        </div>
+                    </div>
 
-		['basic_salary', 'allowances', 'overtime', 'bonuses', 'tax_deduction', 'provident_fund', 'other_deductions'].forEach(id => {
-			document.getElementById(id).addEventListener('input', calculatePayslip);
-		});
+                    <div class="mt-5">
+                        <button type="submit" class="btn btn-dark rounded-pill px-5 py-3 fw-bold shadow">Authorize Disbursement</button>
+                    </div>
 
-		calculatePayslip();
-	</script>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Totals -->
+        <div class="col-xl-4">
+            <div class="summary-widget shadow-lg">
+                <div class="summary-title">Disbursement Summary</div>
+                
+                <div class="val-line">
+                    <span>Gross Earnings</span>
+                    <span class="val-highlight" id="sum_gross">AED 0.00</span>
+                </div>
+                <div class="val-line">
+                    <span>Total Retentions</span>
+                    <span class="val-highlight text-danger" id="sum_deduction">AED 0.00</span>
+                </div>
+
+                <hr class="opacity-10 my-4">
+
+                <div class="text-center">
+                    <p class="fs-12 text-muted fw-bold text-uppercase mb-2">Net Payable Amount</p>
+                    <div class="big-check" id="sum_net">AED 0.00</div>
+                </div>
+
+                <div class="mt-5 pt-5 opacity-25 text-center">
+                    <i class="ti ti-lock fs-50"></i>
+                    <p class="fs-10 mt-3">Immutable payroll record. Authorized transactions are logged for compliance audits.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    function calculate() {
+        const v = (id) => parseFloat(document.getElementById(id).value) || 0;
+        
+        const earnings = v('basic_salary') + v('allowances') + v('overtime') + v('bonuses');
+        const retentions = v('tax_deduction') + v('provident_fund') + v('other_deductions');
+        const net = earnings - retentions;
+
+        document.getElementById('sum_gross').textContent = 'AED ' + earnings.toLocaleString(undefined, {minimumFractionDigits: 2});
+        document.getElementById('sum_deduction').textContent = 'AED ' + retentions.toLocaleString(undefined, {minimumFractionDigits: 2});
+        document.getElementById('sum_net').textContent = 'AED ' + net.toLocaleString(undefined, {minimumFractionDigits: 2});
+    }
+
+    // Auto-fill from salary choice
+    document.getElementById('salary_id').addEventListener('change', function() {
+        const opt = this.options[this.selectedIndex];
+        if (opt.value) {
+            document.getElementById('employee_id').value = opt.dataset.employee;
+            document.getElementById('basic_salary').value = opt.dataset.basic;
+            document.getElementById('allowances').value = opt.dataset.allowances;
+            document.getElementById('tax_deduction').value = opt.dataset.tax;
+            document.getElementById('provident_fund').value = opt.dataset.pf;
+            calculate();
+        }
+    });
+
+    ['basic_salary', 'allowances', 'overtime', 'bonuses', 'tax_deduction', 'provident_fund', 'other_deductions'].forEach(id => {
+        document.getElementById(id).addEventListener('input', calculate);
+    });
+
+    calculate();
+</script>
 
 @endsection

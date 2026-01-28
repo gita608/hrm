@@ -1,118 +1,185 @@
 @extends('layouts.app')
 
-@section('title', 'Payroll Items')
+@section('title', 'Payroll Components')
 
 @section('content')
 
-	<!-- Page Header -->
-	<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
-		<div class="my-auto">
-			<h2 class="mb-1 text-dark fw-bold">Payroll Items</h2>
-			<p class="text-muted mb-0 fs-13">Manage additions, deductions and other payroll components</p>
-		</div>
-		<div class="d-flex align-items-center gap-2">
-			<a href="{{ route('payroll.items.create') }}" class="btn btn-primary d-flex align-items-center rounded-pill shadow-sm">
-				<i class="ti ti-plus me-2"></i>Add Item
-			</a>
-		</div>
-	</div>
-	<!-- /Page Header -->
+<style>
+    .component-card {
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 20px;
+        background: #fff;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .component-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
+    }
+    .icon-box {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+    .calc-pill {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 4px 10px;
+        border-radius: 6px;
+        background: #f1f5f9;
+        color: #475569;
+    }
+    .value-display {
+        font-size: 24px;
+        font-weight: 800;
+        color: #1e293b;
+    }
+</style>
 
-	@if(session('success'))
-		<div class="alert alert-success alert-dismissible fade show" role="alert">
-			{{ session('success') }}
-			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-		</div>
-	@endif
+<!-- Page Header -->
+<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
+    <div class="my-auto">
+        <h2 class="mb-1 text-dark fw-bold">Payroll Components</h2>
+        <p class="text-muted mb-0 fs-13">Configure additions, deductions, and statutory payment rules</p>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+        <a href="{{ route('payroll.items.create') }}" class="btn btn-primary d-flex align-items-center rounded-pill shadow-sm px-4">
+            <i class="ti ti-plus me-2"></i>New Component
+        </a>
+    </div>
+</div>
 
-	<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-		<div class="card-header bg-transparent border-0 d-flex align-items-center justify-content-between pt-3 pb-2">
-			<h5 class="mb-0 fw-bold text-dark">Payroll Items List</h5>
-		</div>
-		<div class="card-body p-0">
-			<div class="table-responsive">
-				<table class="table table-hover align-middle mb-0">
-					<thead class="bg-light-50">
-						<tr>
-							<th class="ps-3 border-0 text-muted fs-12 fw-medium text-uppercase">#</th>
-							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Name</th>
-							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Type</th>
-							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Calculation</th>
-							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Amount/Perc</th>
-							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Taxable</th>
-							<th class="border-0 text-muted fs-12 fw-medium text-uppercase">Status</th>
-							<th class="pe-3 border-0 text-end text-muted fs-12 fw-medium text-uppercase">Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						@forelse($payrollItems as $item)
-							<tr class="border-bottom border-light">
-								<td class="ps-3 text-muted">{{ $loop->iteration }}</td>
-								<td>
-									<span class="text-dark fw-medium">{{ $item->name }}</span>
-								</td>
-								<td>
-									<span class="badge bg-info-transparent text-info rounded-pill border border-info-transparent">{{ ucfirst($item->type) }}</span>
-								</td>
-								<td class="text-muted">{{ ucfirst(str_replace('_', ' ', $item->calculation_type)) }}</td>
-								<td class="fw-medium text-dark">
-									@if($item->calculation_type == 'percentage')
-										{{ number_format($item->percentage, 2) }}%
-									@else
-										{{ number_format($item->amount ?? 0, 2) }}
-									@endif
-								</td>
-								<td>
-									@if($item->is_taxable)
-										<div class="d-flex align-items-center">
-											<i class="ti ti-check text-success me-1"></i>
-											<span class="text-success fs-13">Yes</span>
-										</div>
-									@else
-										<div class="d-flex align-items-center">
-											<i class="ti ti-x text-muted me-1"></i>
-											<span class="text-muted fs-13">No</span>
-										</div>
-									@endif
-								</td>
-								<td>
-									@if($item->is_active)
-										<span class="badge bg-success-transparent text-success rounded-pill d-inline-flex align-items-center px-2 py-1">
-											<i class="ti ti-point-filled me-1 fs-10"></i>Active
-										</span>
-									@else
-										<span class="badge bg-danger-transparent text-danger rounded-pill d-inline-flex align-items-center px-2 py-1">
-											<i class="ti ti-point-filled me-1 fs-10"></i>Inactive
-										</span>
-									@endif
-								</td>
-								<td class="pe-3 text-end">
-									<div class="d-flex justify-content-end gap-2">
-										<a href="{{ route('payroll.items.show', $item->id) }}" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-primary hover-text-white transition-all" data-bs-toggle="tooltip" title="View">
-											<i class="ti ti-eye"></i>
-										</a>
-										<a href="{{ route('payroll.items.edit', $item->id) }}" class="btn btn-sm btn-icon btn-light rounded-circle hover-bg-info hover-text-white transition-all" data-bs-toggle="tooltip" title="Edit">
-											<i class="ti ti-edit"></i>
-										</a>
-									</div>
-								</td>
-							</tr>
-						@empty
-							<tr>
-								<td colspan="8" class="text-center py-5">
-									<div class="d-flex flex-column align-items-center">
-										<div class="avatar avatar-xxl bg-light-50 rounded-circle mb-3 text-muted">
-											<i class="ti ti-files fs-30"></i>
-										</div>
-										<h6 class="text-muted mb-0">No payroll items found</h6>
-									</div>
-								</td>
-							</tr>
-						@endforelse
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+<div class="row g-4">
+    @php
+        $additions = $payrollItems->where('type', 'addition');
+        $deductions = $payrollItems->where('type', 'deduction');
+    @endphp
+
+    <!-- Additions Column -->
+    <div class="col-lg-6">
+        <div class="d-flex align-items-center mb-3">
+            <div class="avatar avatar-sm bg-success-transparent text-success rounded-circle me-2">
+                <i class="ti ti-trending-up"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-0">Allowances & Additions</h5>
+        </div>
+        <div class="row g-3">
+            @forelse($additions as $item)
+                <div class="col-md-6">
+                    <div class="card component-card shadow-sm border-start border-4 border-success">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="icon-box bg-success-transparent text-success">
+                                    <i class="ti {{ $item->calculation_type == 'percentage' ? 'ti-percentage' : 'ti-cash' }}"></i>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-icon btn-sm btn-light border-0 rounded-circle" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical"></i></button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
+                                        <li><a class="dropdown-item py-2" href="{{ route('payroll.items.edit', $item->id) }}"><i class="ti ti-edit me-2"></i>Configure</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item py-2 text-danger" href="#"><i class="ti ti-trash me-2"></i>Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <h6 class="fw-bold text-dark mb-1">{{ $item->name }}</h6>
+                            <div class="calc-pill d-inline-block mb-3">{{ str_replace('_', ' ', $item->calculation_type) }}</div>
+                            
+                            <div class="value-display mt-auto">
+                                @if($item->calculation_type == 'percentage')
+                                    {{ number_format($item->percentage, 1) }}%
+                                @else
+                                    <span class="fs-14 fw-bold text-muted me-1">AED</span>{{ number_format($item->amount ?? 0, 0) }}
+                                @endif
+                            </div>
+                            
+                            <div class="d-flex align-items-center mt-3 justify-content-between">
+                                <span class="fs-11 {{ $item->is_taxable ? 'text-info fw-bold' : 'text-muted' }}">
+                                    <i class="ti {{ $item->is_taxable ? 'ti-receipt-tax' : 'ti-receipt-off' }} me-1"></i>
+                                    {{ $item->is_taxable ? 'Taxable' : 'Non-Taxable' }}
+                                </span>
+                                @if(!$item->is_active)
+                                    <span class="badge bg-danger-transparent text-danger fs-10">Inactive</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-12">
+                    <div class="p-4 bg-light-50 rounded-4 text-center border border-dashed">
+                        <p class="text-muted fs-13 mb-0">No allowance components defined.</p>
+                    </div>
+                </div>
+            @endforelse
+        </div>
+    </div>
+
+    <!-- Deductions Column -->
+    <div class="col-lg-6">
+        <div class="d-flex align-items-center mb-3">
+            <div class="avatar avatar-sm bg-danger-transparent text-danger rounded-circle me-2">
+                <i class="ti ti-trending-down"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-0">Deductions & Statutory</h5>
+        </div>
+        <div class="row g-3">
+            @forelse($deductions as $item)
+                <div class="col-md-6">
+                    <div class="card component-card shadow-sm border-start border-4 border-danger">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="icon-box bg-danger-transparent text-danger">
+                                    <i class="ti {{ $item->calculation_type == 'percentage' ? 'ti-percentage' : 'ti-wallet-off' }}"></i>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-icon btn-sm btn-light border-0 rounded-circle" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical"></i></button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
+                                        <li><a class="dropdown-item py-2" href="{{ route('payroll.items.edit', $item->id) }}"><i class="ti ti-edit me-2"></i>Configure</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item py-2 text-danger" href="#"><i class="ti ti-trash me-2"></i>Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <h6 class="fw-bold text-dark mb-1">{{ $item->name }}</h6>
+                            <div class="calc-pill d-inline-block mb-3">{{ str_replace('_', ' ', $item->calculation_type) }}</div>
+                            
+                            <div class="value-display mt-auto">
+                                @if($item->calculation_type == 'percentage')
+                                    {{ number_format($item->percentage, 1) }}%
+                                @else
+                                    <span class="fs-14 fw-bold text-muted me-1">AED</span>{{ number_format($item->amount ?? 0, 0) }}
+                                @endif
+                            </div>
+
+                            <div class="d-flex align-items-center mt-3 justify-content-between">
+                                <span class="fs-11 {{ $item->is_taxable ? 'text-info fw-bold' : 'text-muted' }}">
+                                    <i class="ti {{ $item->is_taxable ? 'ti-receipt-tax' : 'ti-receipt-off' }} me-1"></i>
+                                    {{ $item->is_taxable ? 'Impacts Tax' : 'Post-Tax' }}
+                                </span>
+                                @if(!$item->is_active)
+                                    <span class="badge bg-danger-transparent text-danger fs-10">Inactive</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-12">
+                    <div class="p-4 bg-light-50 rounded-4 text-center border border-dashed">
+                        <p class="text-muted fs-13 mb-0">No deduction components defined.</p>
+                    </div>
+                </div>
+            @endforelse
+        </div>
+    </div>
+</div>
 
 @endsection
