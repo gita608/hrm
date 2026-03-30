@@ -19,7 +19,18 @@ class SettingsController extends Controller
         $appLogo = SettingsHelper::get('app_logo');
         $appLogoSmall = SettingsHelper::get('app_logo_small');
 
-        return view('pages.settings.index', compact('appName', 'appLogo', 'appLogoSmall'));
+        $quickbooksClientId = SettingsHelper::get('quickbooks_client_id');
+        $quickbooksClientSecret = SettingsHelper::get('quickbooks_client_secret');
+        $isQuickBooksConnected = !empty(SettingsHelper::get('quickbooks_access_token'));
+
+        return view('pages.settings.index', compact(
+            'appName', 
+            'appLogo', 
+            'appLogoSmall', 
+            'quickbooksClientId', 
+            'quickbooksClientSecret', 
+            'isQuickBooksConnected'
+        ));
     }
 
     /**
@@ -31,6 +42,8 @@ class SettingsController extends Controller
             'app_name' => 'required|string|max:255',
             'app_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'app_logo_small' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'quickbooks_client_id' => 'nullable|string|max:255',
+            'quickbooks_client_secret' => 'nullable|string|max:255',
         ]);
 
         // Update app name
@@ -86,6 +99,21 @@ class SettingsController extends Controller
             DB::table('settings')->updateOrInsert(
                 ['key' => 'app_logo_small'],
                 ['value' => $smallLogoPath, 'updated_at' => now()]
+            );
+        }
+
+        // Update QuickBooks Credentials
+        if ($request->has('quickbooks_client_id')) {
+            DB::table('settings')->updateOrInsert(
+                ['key' => 'quickbooks_client_id'],
+                ['value' => $validated['quickbooks_client_id'], 'updated_at' => now()]
+            );
+        }
+
+        if ($request->has('quickbooks_client_secret')) {
+            DB::table('settings')->updateOrInsert(
+                ['key' => 'quickbooks_client_secret'],
+                ['value' => $validated['quickbooks_client_secret'], 'updated_at' => now()]
             );
         }
 

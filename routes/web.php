@@ -249,4 +249,12 @@ Route::middleware(['auth', 'permission'])->group(function () {
 
     // Certificate Routes
     Route::resource('certificates', CertificateController::class);
+
+    // QuickBooks Routes
+    Route::prefix('quickbooks')->name('quickbooks.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\QuickBooksController::class, 'index'])->name('index');
+        Route::get('/connect', [\App\Http\Controllers\QuickBooksController::class, 'connect'])->name('connect');
+        Route::get('/callback', [\App\Http\Controllers\QuickBooksController::class, 'callback'])->name('callback');
+        Route::post('/disconnect', [\App\Http\Controllers\QuickBooksController::class, 'disconnect'])->name('disconnect');
+    });
 });
